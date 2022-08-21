@@ -120,6 +120,7 @@ class ComposerStaticInit19cee2b460902135a1a57057e41a7f9f
         'M' => 
         array (
             'Monolog\\' => 8,
+            'Monarobase\\CountryList\\' => 23,
         ),
         'L' => 
         array (
@@ -422,6 +423,10 @@ class ComposerStaticInit19cee2b460902135a1a57057e41a7f9f
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Monarobase\\CountryList\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monarobase/country-list/src',
+        ),
         'League\\Uri\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/uri/src',
@@ -611,6 +616,7 @@ class ComposerStaticInit19cee2b460902135a1a57057e41a7f9f
         'App\\Http\\Controllers\\Api\\CategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/CategoryController.php',
         'App\\Http\\Controllers\\Api\\PermissionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PermissionController.php',
         'App\\Http\\Controllers\\Api\\RolesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/RolesController.php',
+        'App\\Http\\Controllers\\Api\\ServiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ServiceController.php',
         'App\\Http\\Controllers\\Api\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/UserController.php',
         'App\\Http\\Controllers\\Auth\\AuthenticatedSessionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AuthenticatedSessionController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmablePasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmablePasswordController.php',
@@ -621,6 +627,7 @@ class ComposerStaticInit19cee2b460902135a1a57057e41a7f9f
         'App\\Http\\Controllers\\Auth\\RegisteredUserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisteredUserController.php',
         'App\\Http\\Controllers\\Auth\\VerifyEmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerifyEmailController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\CountryController' => __DIR__ . '/../..' . '/app/Http/Controllers/CountryController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\ChangeLang' => __DIR__ . '/../..' . '/app/Http/Middleware/ChangeLang.php',
@@ -643,9 +650,11 @@ class ComposerStaticInit19cee2b460902135a1a57057e41a7f9f
         'App\\Http\\Requests\\ServiceRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ServiceRequest.php',
         'App\\Http\\Requests\\UserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UserRequest.php',
         'App\\Http\\Resources\\CategoryResource' => __DIR__ . '/../..' . '/app/Http/Resources/CategoryResource.php',
+        'App\\Http\\Resources\\ServiceResource' => __DIR__ . '/../..' . '/app/Http/Resources/ServiceResource.php',
         'App\\Http\\Resources\\SupplierResource' => __DIR__ . '/../..' . '/app/Http/Resources/SupplierResource.php',
         'App\\Http\\Resources\\UserResource' => __DIR__ . '/../..' . '/app/Http/Resources/UserResource.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
+        'App\\Models\\Country' => __DIR__ . '/../..' . '/app/Models/Country.php',
         'App\\Models\\Service' => __DIR__ . '/../..' . '/app/Models/Service.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -766,9 +775,11 @@ class ComposerStaticInit19cee2b460902135a1a57057e41a7f9f
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\CategorySeeder' => __DIR__ . '/../..' . '/database/seeders/CategorySeeder.php',
+        'Database\\Seeders\\CountrySeeder' => __DIR__ . '/../..' . '/database/seeders/CountrySeeder.php',
         'Database\\Seeders\\PermissionSeeder' => __DIR__ . '/../..' . '/database/seeders/PermissionSeeder.php',
         'Database\\Seeders\\RolePermissionSeeder' => __DIR__ . '/../..' . '/database/seeders/RolePermissionSeeder.php',
         'Database\\Seeders\\RoleSeeder' => __DIR__ . '/../..' . '/database/seeders/RoleSeeder.php',
+        'Database\\Seeders\\ServiceSeeder' => __DIR__ . '/../..' . '/database/seeders/ServiceSeeder.php',
         'Database\\Seeders\\SupplierSeeder' => __DIR__ . '/../..' . '/database/seeders/SupplierSeeder.php',
         'Database\\Seeders\\UserSeeder' => __DIR__ . '/../..' . '/database/seeders/UserSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
@@ -3473,6 +3484,10 @@ class ComposerStaticInit19cee2b460902135a1a57057e41a7f9f
         'Mockery\\Undefined' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Undefined.php',
         'Mockery\\VerificationDirector' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/VerificationDirector.php',
         'Mockery\\VerificationExpectation' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/VerificationExpectation.php',
+        'Monarobase\\CountryList\\CountryList' => __DIR__ . '/..' . '/monarobase/country-list/src/CountryList.php',
+        'Monarobase\\CountryList\\CountryListFacade' => __DIR__ . '/..' . '/monarobase/country-list/src/CountryListFacade.php',
+        'Monarobase\\CountryList\\CountryListServiceProvider' => __DIR__ . '/..' . '/monarobase/country-list/src/CountryListServiceProvider.php',
+        'Monarobase\\CountryList\\CountryNotFoundException' => __DIR__ . '/..' . '/monarobase/country-list/src/CountryNotFoundException.php',
         'Monolog\\Attribute\\AsMonologProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Attribute/AsMonologProcessor.php',
         'Monolog\\DateTimeImmutable' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/DateTimeImmutable.php',
         'Monolog\\ErrorHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/ErrorHandler.php',

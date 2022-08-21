@@ -33,7 +33,7 @@ class UserRequest extends FormRequest
             'name' => 'required | string ',
             'email' => 'required|email|unique:users',
             'password' => 'required ',
-            'phone' => 'required ',
+            'phone' => 'required|unique:users',
         ];
     }
     protected function failedValidation(Validator $validator)

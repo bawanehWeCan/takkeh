@@ -67,7 +67,6 @@ trait ResponseTrait
             'status' => false,
             'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
             'msg' => __('Please check the following errors'),
-            'errors' => $validator->errors()->messages(),
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
