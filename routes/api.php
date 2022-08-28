@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\PermissionController;
@@ -65,6 +66,15 @@ Route::get('sliders', [SliderController::class, 'list']);
 Route::post('sliders-create', [SliderController::class, 'store']);
 Route::get('sliders/{id}', [SliderController::class, 'profile']);
 Route::get('sliders/delete/{id}', [SliderController::class, 'delete']);
+
+
+// cat
+
+//only those have manage_user permission will get access
+Route::get('offers', [OfferController::class, 'list']);
+Route::post('offers-create', [OfferController::class, 'store']);
+Route::get('offers/{id}', [OfferController::class, 'profile']);
+Route::get('offers/delete/{id}', [OfferController::class, 'delete']);
 
 
 // cat

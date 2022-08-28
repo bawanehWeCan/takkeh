@@ -31,7 +31,7 @@ class SliderRepository
      */
     public function allSliders()
     {
-        $sliders = $this->slider->where('type', 'Slider')->get();
+        $sliders = $this->slider->get();
         return $sliders;
     }
 
