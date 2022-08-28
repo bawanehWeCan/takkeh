@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SliderController;
+use App\Http\Controllers\Api\SpecialController;
 use Nette\Utils\Json;
 
 /*
@@ -75,6 +76,16 @@ Route::get('offers', [OfferController::class, 'list']);
 Route::post('offers-create', [OfferController::class, 'store']);
 Route::get('offers/{id}', [OfferController::class, 'profile']);
 Route::get('offers/delete/{id}', [OfferController::class, 'delete']);
+
+
+
+// cat
+
+//only those have manage_user permission will get access
+Route::get('specials', [SpecialController::class, 'list']);
+Route::post('specials-create', [SpecialController::class, 'store']);
+Route::get('specials/{id}', [SpecialController::class, 'profile']);
+Route::get('specials/delete/{id}', [SpecialController::class, 'delete']);
 
 
 // cat
