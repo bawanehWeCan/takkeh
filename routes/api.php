@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\SliderController;
 use Nette\Utils\Json;
 
 /*
@@ -55,6 +56,15 @@ Route::get('categories', [CategoryController::class, 'list']);
 Route::post('category-create', [CategoryController::class, 'store']);
 Route::get('category/{id}', [CategoryController::class, 'profile']);
 Route::get('category/delete/{id}', [CategoryController::class, 'delete']);
+
+
+// cat
+
+//only those have manage_user permission will get access
+Route::get('sliders', [SliderController::class, 'list']);
+Route::post('sliders-create', [SliderController::class, 'store']);
+Route::get('sliders/{id}', [SliderController::class, 'profile']);
+Route::get('sliders/delete/{id}', [SliderController::class, 'delete']);
 
 
 // cat
