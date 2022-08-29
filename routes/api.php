@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SpecialController;
@@ -43,13 +44,9 @@ Route::get('countries', function()
 
 });
 
-
-
 //supp
 Route::post('/user-supplier', [AuthController::class, 'storeSupplier']);
 Route::get('/suppliers', [AuthController::class, 'list']);
-
-
 
 // cat
 
@@ -95,6 +92,13 @@ Route::get('services', [ServiceController::class, 'list']);
 Route::post('service-create', [ServiceController::class, 'store']);
 Route::get('services/{id}', [ServiceController::class, 'profile']);
 Route::get('services/delete/{id}', [ServiceController::class, 'delete']);
+
+
+//only those have manage_user permission will get access
+Route::get('restaurants', [RestaurantController::class, 'list']);
+Route::post('restaurants-create', [RestaurantController::class, 'store']);
+Route::get('restaurants/{id}', [RestaurantController::class, 'profile']);
+Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
 
 
 Route::middleware(['auth:api'])->group(function () {
