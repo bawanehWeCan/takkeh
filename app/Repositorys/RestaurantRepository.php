@@ -5,15 +5,18 @@ namespace App\Repositorys;
 use App\Models\Restaurant;
 use Illuminate\Database\Eloquent\Collection;
 
-class RestaurantRepository
+class RestaurantRepository extends AbstractRepository
 {
 
     /**
      * @var Restaurant
      */
-    protected $restaurant = Restaurant::class;
+    //protected $model = Restaurant::class;
 
-
+    public function __construct($resource)
+    {
+        $this->resource = $resource;
+    }
 
     /**
      * saveRestaurant function
@@ -24,16 +27,14 @@ class RestaurantRepository
     public function save($data)
     {
 
-        $restaurant = new $this->restaurant;
-        $restaurant->name = $data['name'];
-        $restaurant->logo = $data['logo'];
-        $restaurant->time = $data['time'];
-        $restaurant->cover = $data['cover'];
-        $restaurant->save();
-        
+        $model = new $this->model;
+        $model->name    = $data['name'];
+        $model->logo    = $data['logo'];
+        $model->time    = $data['time'];
+        $model->cover   = $data['cover'];
+        $model->save();
 
-    
-        return $restaurant->fresh();
+        return $model->fresh();
 
     }
 }

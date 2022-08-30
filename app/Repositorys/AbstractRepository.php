@@ -1,20 +1,18 @@
 <?php
 
+namespace App\Repositorys;
+
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
 abstract class AbstractRepository{
 
-     /**
-     * holds the specific model name with its namespace.
-     *
-     * @var string
-     */
-    protected $model;
 
     /**
      * holds the specific model itself.
      *
      * @var Model
      */
-    protected $resource;
+    protected $model;
 
     /**
      * Create new Library class.
@@ -22,16 +20,26 @@ abstract class AbstractRepository{
      * this abstraction expects the child class to have a protected attribute named model.
      * that will hold the model name with its full namespace.
      */
-    public function __construct()
+    public function __construct($model)
     {
-        $this->resource = app($this->model);
+        $this->resource = $model;
     }
+    
 
     /**
      * @return void
      */
-    public function list(){
+    public function all(){
         $data = $this->resource->get();
+        return $data;
+    }
+
+        /**
+     * @return void
+     */
+    public function pagination($length = 10): LengthAwarePaginator
+    {
+        $data = $this->resource->paginate($length);
         return $data;
     }
 
@@ -69,7 +77,7 @@ abstract class AbstractRepository{
     /**
      * @return void
      */
-    abstract function store( $data );
+    abstract function save( $data );
 
 
 }
