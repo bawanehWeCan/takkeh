@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SliderController;
@@ -96,9 +97,17 @@ Route::get('services/delete/{id}', [ServiceController::class, 'delete']);
 
 //only those have manage_user permission will get access
 Route::get('restaurants', [RestaurantController::class, 'pagination']);
-Route::post('restaurants-create', [RestaurantController::class, 'store']);
-Route::get('restaurants/{id}', [RestaurantController::class, 'profile']);
+Route::post('restaurants-create', [RestaurantController::class, 'save']);
+Route::get('restaurants/{id}', [RestaurantController::class, 'view']);
 Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
+
+
+//only those have manage_user permission will get access
+Route::get('products', [ProductController::class, 'pagination']);
+Route::post('products-create', [ProductController::class, 'save']);
+Route::get('products/{id}', [ProductController::class, 'view']);
+Route::get('products/delete/{id}', [ProductController::class, 'delete']);
+
 
 
 Route::middleware(['auth:api'])->group(function () {

@@ -32,4 +32,8 @@ class Restaurant extends Model
             $this->attributes['cover'] =  'img/restaurants/'.$filename;
         }
     }
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
 }

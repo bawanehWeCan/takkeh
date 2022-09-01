@@ -2,11 +2,11 @@
 
 namespace App\Repositorys;
 
-class RestaurantRepository extends AbstractRepository
+class SizeRepository extends AbstractRepository
 {
 
     /**
-     * @var Restaurant
+     * @var Model
      */
     //protected $model = Restaurant::class;
 
@@ -26,9 +26,8 @@ class RestaurantRepository extends AbstractRepository
 
         $model = new $this->model;
         $model->name    = $data['name'];
-        $model->logo    = $data['logo'];
-        $model->time    = $data['time'];
-        $model->cover   = $data['cover'];
+        $model->price    = $data['price'];
+        $model->product_id    = $data['product_id'];
         $model->save();
 
         return $model->fresh();

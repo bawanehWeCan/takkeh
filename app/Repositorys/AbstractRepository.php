@@ -22,7 +22,7 @@ abstract class AbstractRepository{
      */
     public function __construct($model)
     {
-        $this->resource = $model;
+        $this->model = $model;
     }
     
 
@@ -30,7 +30,7 @@ abstract class AbstractRepository{
      * @return void
      */
     public function all(){
-        $data = $this->resource->get();
+        $data = $this->model->get();
         return $data;
     }
 
@@ -39,7 +39,7 @@ abstract class AbstractRepository{
      */
     public function pagination($length = 10): LengthAwarePaginator
     {
-        $data = $this->resource->paginate($length);
+        $data = $this->model->paginate($length);
         return $data;
     }
 
@@ -49,7 +49,7 @@ abstract class AbstractRepository{
      * @return void
      */
     function getByID( $model_id ){
-        $model = $this->resource->where( 'id', $model_id )->firstOrFail();
+        $model = $this->model->where( 'id', $model_id )->firstOrFail();
         return $model;
     }
 
@@ -62,7 +62,7 @@ abstract class AbstractRepository{
      */
     public function deleteByID( $model_id, bool $force = false ):void
     {
-        $model = $this->resource->where( 'id', $model_id )->firstOrFail();
+        $model = $this->model->where( 'id', $model_id )->firstOrFail();
         
         if ($force) {
             $model->forceDelete();
