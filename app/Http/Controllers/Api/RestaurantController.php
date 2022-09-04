@@ -6,6 +6,7 @@ use App\Http\Resources\RestaurantResource;
 use App\Repositorys\RestaurantRepository;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\RestaurantRequest;
+use App\Http\Resources\ResResource;
 use App\Models\Restaurant;
 
 class RestaurantController extends ApiController
@@ -29,6 +30,16 @@ class RestaurantController extends ApiController
      */
     public function save( RestaurantRequest $request ){
         return $this->store( $request );
+    }
+
+    public function list()
+    {
+
+        $data =  $this->repositry->all();
+
+        return $this->returnData( 'data' , ResResource::collection( $data ), __('Succesfully'));
+
+
     }
 
 }
