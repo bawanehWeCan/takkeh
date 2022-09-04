@@ -20,7 +20,7 @@ class RestaurantResource extends JsonResource
             'logo'=>$this->logo,
             'cover'=>$this->cover,
             'time'=>$this->time,
-            'products'=> ProductResource::collection( $this->products ),
+            // 'products'=> ProductResource::collection( $this->products ),
         ];
     }
 }
