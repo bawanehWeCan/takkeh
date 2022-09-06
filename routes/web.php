@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +25,5 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('orders', [OrderController::class,'index'] );
 

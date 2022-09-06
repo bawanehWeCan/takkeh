@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\OfferController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\PermissionController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SpecialController;
+
 use Nette\Utils\Json;
 
 /*
@@ -38,12 +40,7 @@ Route::post('/password-otb', [AuthController::class, 'password']);
 Route::post('change-password', [AuthController::class, 'changePassword']);
 
 
-Route::get('countries', function()
-{
-	return response(['status' => true, 'code' => 200, 'msg' => __('User created succesfully'), 
-	'countries' =>Json::decode(Countries::getList('en', 'json'))]);
 
-});
 
 //supp
 Route::post('/user-supplier', [AuthController::class, 'storeSupplier']);
@@ -144,3 +141,7 @@ Route::middleware(['auth:api'])->group(function () {
 	});
 });
 
+
+
+Route::post('make-order',[ OrderController::class, 'store' ]);
+Route::post('update-order',[ OrderController::class, 'update' ]);

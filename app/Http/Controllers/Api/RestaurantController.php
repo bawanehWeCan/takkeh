@@ -34,13 +34,11 @@ class RestaurantController extends ApiController
 
     public function pagination( $lenght = 10 )
     {
-
         $data =  $this->repositry->pagination( $lenght );
-
         return $this->returnData( 'data' , ResResource::collection( $data ), __('Succesfully'));
-
-
     }
+
+    
 
 
 }
