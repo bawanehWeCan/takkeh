@@ -87,7 +87,7 @@ class AuthController extends Controller
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => "sender=Takkeh&mobile=" . $request->phone . "&channel=sms",
             CURLOPT_HTTPHEADER => array(
-                "Authorization: Bearer 48e9d03083973825dc3a697ee09f7f39"
+                "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
             ),
         ));
 
@@ -130,7 +130,7 @@ class AuthController extends Controller
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => "mobile=" . $request->phone . "&code=" . $request->code,
             CURLOPT_HTTPHEADER => array(
-                "Authorization: Bearer 48e9d03083973825dc3a697ee09f7f39"
+                "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
             ),
         ));
 
@@ -218,7 +218,7 @@ class AuthController extends Controller
                 CURLOPT_CUSTOMREQUEST => "POST",
                 CURLOPT_POSTFIELDS => "sender=Takkeh&mobile=" . $request->phone . "&channel=sms",
                 CURLOPT_HTTPHEADER => array(
-                    "Authorization: Bearer 48e9d03083973825dc3a697ee09f7f39"
+                    "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
                 ),
             ));
 
