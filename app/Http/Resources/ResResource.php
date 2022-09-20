@@ -19,11 +19,11 @@ class ResResource extends JsonResource
             'name'=>$this->name,
             'logo'=>$this->logo,
             'cover'=>$this->cover,
-            'categories'=>'name, name2',
             'review_icon'=>'img/cats/burger.svg',
             'review'=>'اشي فاخر',
             'cost'=>'توصيل مجاني',
             'time'=>$this->time,
+            'categories'=> CategoryResource::collection($this->categories),
         ];
     }
 }

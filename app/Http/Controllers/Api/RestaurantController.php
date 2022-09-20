@@ -7,7 +7,9 @@ use App\Repositorys\RestaurantRepository;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\RestaurantRequest;
 use App\Http\Resources\ResResource;
+use App\Models\Category;
 use App\Models\Restaurant;
+use Illuminate\Http\Request;
 
 class RestaurantController extends ApiController
 {
@@ -32,13 +34,29 @@ class RestaurantController extends ApiController
         return $this->store( $request );
     }
 
-    public function pagination( $lenght = 10 )
+    public function getPagination( Request $request )
     {
-        $data =  $this->repositry->pagination( $lenght );
+        if( $request->has('filter') ){
+            $category = Category::find( $request->filter );
+
+            $data = $category->restaurant;
+            return $this->returnData( 'data' , ResResource::collection( $data ), __('Succesfully'));
+
+        }
+        $data =  $this->repositry->pagination( 10 );
         return $this->returnData( 'data' , ResResource::collection( $data ), __('Succesfully'));
     }
 
-    
+    public function addCategory( Request $request ){
+
+        $category   = Category::find( $request->category_id );
+        $restaurant = Restaurant::find( $request->restaurant_id );
+
+        $restaurant->categories()->save($category);
+
+        return $this->returnData( 'data' , ResResource::make( $restaurant ), __('Succesfully'));
+
+    }
 
 
 }

@@ -55,6 +55,8 @@ Route::get('category/{id}', [CategoryController::class, 'profile']);
 Route::get('category/delete/{id}', [CategoryController::class, 'delete']);
 
 
+
+
 // cat
 
 //only those have manage_user permission will get access
@@ -93,10 +95,13 @@ Route::get('services/delete/{id}', [ServiceController::class, 'delete']);
 
 
 //only those have manage_user permission will get access
-Route::get('restaurants', [RestaurantController::class, 'pagination']);
+Route::get('restaurants', [RestaurantController::class, 'getPagination']);
 Route::post('restaurants-create', [RestaurantController::class, 'save']);
 Route::get('restaurants/{id}', [RestaurantController::class, 'view']);
 Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
+
+Route::post('restaurants/category', [RestaurantController::class, 'addCategory']);
+
 
 
 //only those have manage_user permission will get access
@@ -112,7 +117,7 @@ Route::middleware(['auth:api'])->group(function () {
 	Route::get('logout', [AuthController::class, 'logout']);
 
 	Route::get('profile', [AuthController::class, 'profile']);
-	
+
 	Route::post('update-profile', [AuthController::class, 'updateProfile']);
 
 	//only those have manage_user permission will get access
@@ -145,3 +150,5 @@ Route::middleware(['auth:api'])->group(function () {
 
 Route::post('make-order',[ OrderController::class, 'store' ]);
 Route::post('update-order',[ OrderController::class, 'update' ]);
+
+
