@@ -18,13 +18,13 @@ class ApiController extends Controller
      * this abstraction expects the child class to have a protected attribute named model.
      * that will hold the model name with its full namespace.
      */
-    public function __construct($repositry,$resource,$model)
+    public function __construct($repositry, $resource, $model)
     {
         $this->repositry =  $repositry;
         $this->resource = $resource;
         $this->model = $model;
     }
-    
+
 
     public function list()
     {
@@ -47,7 +47,6 @@ class ApiController extends Controller
     }
 
 
-
     /**
      * store function
      *
@@ -57,7 +56,7 @@ class ApiController extends Controller
     public function store( $data )
     {
         $model = $this->repositry->save( $data );
-        
+
 
         if ($model) {
             return $this->returnData( 'data' , new $this->resource( $model ), __('Succesfully'));
@@ -65,7 +64,6 @@ class ApiController extends Controller
 
         return $this->returnError(__('Sorry! Failed to create !'));
     }
-
 
 
     /**
@@ -97,5 +95,20 @@ class ApiController extends Controller
 
         return $this->returnSuccessMessage(__('Delete succesfully!'));
     }
+
+    public function search($value){
+
+        $data = $this->repositry->searchManyByKey('name',$value);
+
+        if ($data) {
+            return $this->returnData('data', $this->resource::collection( $data ), __('Get  succesfully'));
+        }
+
+        return $this->returnError(__('Sorry! Failed to get !'));
+
+
+    }
+
+
 
 }

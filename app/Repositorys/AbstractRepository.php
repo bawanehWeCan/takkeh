@@ -24,7 +24,7 @@ abstract class AbstractRepository{
     {
         $this->model = $model;
     }
-    
+
 
     /**
      * @return void
@@ -63,7 +63,7 @@ abstract class AbstractRepository{
     public function deleteByID( $model_id, bool $force = false ):void
     {
         $model = $this->model->where( 'id', $model_id )->firstOrFail();
-        
+
         if ($force) {
             $model->forceDelete();
         }
@@ -78,6 +78,12 @@ abstract class AbstractRepository{
      * @return void
      */
     abstract function save( $data );
+
+
+    public function searchManyByKey($key, $value){
+        $data = $this->model->where( $key, 'like', '%' . $value . '%' )->get();
+        return $data;
+    }
 
 
 }

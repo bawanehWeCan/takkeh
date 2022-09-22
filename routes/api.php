@@ -103,6 +103,9 @@ Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
 Route::post('restaurants/category', [RestaurantController::class, 'addCategory']);
 
 
+Route::post('restaurants/search/{value}', [RestaurantController::class, 'search']);
+
+
 
 //only those have manage_user permission will get access
 Route::get('products', [ProductController::class, 'pagination']);
