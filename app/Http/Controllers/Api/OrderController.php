@@ -18,7 +18,7 @@ class OrderController extends Controller
         $order = new Order();
         $order->user_id = $request->user_id;
         $order->restaurant_id = $request->restaurant_id;
-        $order->note = $request->note;
+        $order->note = !empty( $request->note ) ? $request->note : '';
         $order->total = $request->total;
         $order->status = 'pending';
         $order->save();
@@ -30,7 +30,7 @@ class OrderController extends Controller
             $cart_item->order_id = $order->id;
             $cart_item->quantity = $product['quantity'];
             $cart_item->size_id = $product['size_id'];
-            $cart_item->note = $product['note'];
+            $cart_item->note = !empty( $product['note'] ) ? $product['note'] : '';
             $cart_item->price = $product['price'];
             $cart_item->save();
 
