@@ -65,6 +65,22 @@ class AuthController extends Controller
                 'user' => UserResource::make(Auth::user())
             ]]);
         }
+
+        if (Auth::user()->type == 'driver') {
+
+            return response(['status' => true, 'code' => 200, 'msg' => __('Log in success'), 'data' => [
+                'token' => $accessToken,
+                'user' => UserResource::make(Auth::user())
+            ]]);
+        }
+
+        if (Auth::user()->type == 'restaurant') {
+
+            return response(['status' => true, 'code' => 200, 'msg' => __('Log in success'), 'data' => [
+                'token' => $accessToken,
+                'user' => UserResource::make(Auth::user())
+            ]]);
+        }
     }
 
     public function countries(){
