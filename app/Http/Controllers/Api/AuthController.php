@@ -43,6 +43,7 @@ class AuthController extends Controller
             $request->only([
                 'phone',
                 'password',
+                'type',
             ])
         );
         if (!$auth) {
