@@ -13,12 +13,12 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     use ResponseTrait;
-    public function store( Request $request )
+    public function store(Request $request)
     {
         $order = new Order();
         $order->user_id = $request->user_id;
         $order->restaurant_id = $request->restaurant_id;
-        $order->note = !empty( $request->note ) ? $request->note : '';
+        $order->note = !empty($request->note) ? $request->note : '';
         $order->total = $request->total;
         $order->status = 'pending';
         $order->save();
@@ -30,7 +30,7 @@ class OrderController extends Controller
             $cart_item->order_id = $order->id;
             $cart_item->quantity = $product['quantity'];
             $cart_item->size_id = $product['size_id'];
-            $cart_item->note = !empty( $product['note'] ) ? $product['note'] : '';
+            $cart_item->note = !empty($product['note']) ? $product['note'] : '';
             $cart_item->price = $product['price'];
             $cart_item->save();
 
@@ -42,16 +42,28 @@ class OrderController extends Controller
             }
         }
 
-        return $this->returnData('data',new OrderResource( $order ),'');
+        return $this->returnData('data', new OrderResource($order), '');
     }
 
-    public function update( Request $request ){
-        $order = Order::find( $request->order_id );
+    public function update(Request $request)
+    {
+        $order = Order::find($request->order_id);
         $order->lat = $request->lat;
         $order->long = $request->long;
         $order->save();
 
-        return $this->returnData('data',new OrderResource( $order ),'');
+        $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
+        $stuRef->set([
+            'user_id' => $order->user_id,
+            'restaurant_id' => $order->restaurant_id,
+            'status' => $order->status,
+            'note' => $order->note,
+            'lat' => $order->lat,
+            'long' => $order->long,
+            'total' => $order->total,
+            'driver_id' => 0,
+        ]);
 
+        return $this->returnData('data', new OrderResource($order), '');
     }
 }

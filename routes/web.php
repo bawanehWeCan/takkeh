@@ -27,3 +27,14 @@ require __DIR__.'/auth.php';
 
 Route::get('orders', [OrderController::class,'index'] );
 
+
+Route::get('/insert', function() {
+    $stuRef = app('firebase.firestore')->database()->collection('User')->newDocument();
+    $stuRef->set([
+       'firstname' => 'Seven',
+       'lastname' => 'Stac',
+       'age'    => 19
+]);
+echo "<h1>".'inserted'."</h1>";
+});
+

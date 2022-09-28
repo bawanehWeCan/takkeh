@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('lat')->nullable();
             $table->text('long')->nullable();
             $table->integer('total');
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 
