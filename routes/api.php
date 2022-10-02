@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SpecialController;
-
+use App\Http\Controllers\Api\PageController;
 use Nette\Utils\Json;
 
 /*
@@ -153,5 +153,14 @@ Route::middleware(['auth:api'])->group(function () {
 
 Route::post('make-order',[ OrderController::class, 'store' ]);
 Route::post('update-order',[ OrderController::class, 'update' ]);
+
+
+
+//pages
+
+Route::get('pages', [PageController::class, 'list']);
+Route::post('pages-create', [PageController::class, 'save']);
+Route::get('pages/{id}', [PageController::class, 'profile']);
+Route::get('pages/delete/{id}', [PageController::class, 'delete']);
 
 

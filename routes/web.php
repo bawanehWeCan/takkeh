@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OrderController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,12 +30,24 @@ Route::get('orders', [OrderController::class,'index'] );
 
 
 Route::get('/insert', function() {
-    $stuRef = app('firebase.firestore')->database()->collection('User')->newDocument();
+    $order = Order::find(1);
+    $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
     $stuRef->set([
-       'firstname' => 'Seven',
-       'lastname' => 'Stac',
-       'age'    => 19
-]);
+        'user_id' => $order->user_id,
+        'restaurant_id' => $order->restaurant_id,
+        'restaurant_name' => $order->restaurant->name,
+        'status' => $order->status,
+        'note' => $order->note,
+        'lat' => $order->lat,
+        'long' => $order->long,
+        'total' => $order->total,
+        'driver_id' => 0,
+        'res_lat' => $order->restaurant->lat,
+        'res_long' => $order->restaurant->lng,
+        'res_zone' => $order->restaurant->zone,
+        'created_at' => $order->created_at,
+        'position' => array( 'geohas'=>'alaa','geopoint' => array( 'aaa','aaa' ) ),
+    ]);
 echo "<h1>".'inserted'."</h1>";
 });
 

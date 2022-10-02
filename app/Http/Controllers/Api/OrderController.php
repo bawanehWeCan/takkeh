@@ -9,6 +9,7 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\ProductItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class OrderController extends Controller
 {
@@ -67,6 +68,7 @@ class OrderController extends Controller
             'res_long' => $order->restaurant->lng,
             'res_zone' => $order->restaurant->zone,
             'created_at' => $order->created_at,
+            'position' => array( 'geohas'=>'alaa','geopoint' => array( 'aaa','aaa' ) ),
         ]);
 
         return $this->returnData('data', new OrderResource($order), '');
