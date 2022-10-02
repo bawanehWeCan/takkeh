@@ -65,6 +65,7 @@ class OrderController extends Controller
             'driver_id' => 0,
             'res_lat' => $order->restaurant->lat,
             'res_long' => $order->restaurant->lng,
+            'res_zone' => $order->restaurant->zone,
             'created_at' => $order->created_at,
         ]);
 
