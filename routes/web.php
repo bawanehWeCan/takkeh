@@ -46,7 +46,7 @@ Route::get('/insert', function() {
         'res_long' => $order->restaurant->lng,
         'res_zone' => $order->restaurant->zone,
         'created_at' => $order->created_at,
-        'position' => array( 'geohas'=>'alaa','geopoint' => array( 'aaa','aaa' ) ),
+        'position' => array( 'geohas'=>'alaa','geopoint' =>  ['aaa','aaa' ] ),
     ]);
 echo "<h1>".'inserted'."</h1>";
 });
