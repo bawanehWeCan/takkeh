@@ -173,7 +173,7 @@ class GeoHash
     /**
      * Encode a hash from given lat and long
      */
-    public function encode($lat, $long, $len = 0)
+    public function encode($lat, $long, $len = 9)
     {
         //how many bits does latitude need?
         $plat = $this->precision($lat);
