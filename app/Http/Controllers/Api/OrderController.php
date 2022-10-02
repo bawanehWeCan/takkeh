@@ -56,12 +56,16 @@ class OrderController extends Controller
         $stuRef->set([
             'user_id' => $order->user_id,
             'restaurant_id' => $order->restaurant_id,
+            'restaurant_name' => $order->restaurant->name,
             'status' => $order->status,
             'note' => $order->note,
             'lat' => $order->lat,
             'long' => $order->long,
             'total' => $order->total,
             'driver_id' => 0,
+            'res_lat' => $order->restaurant->lat,
+            'res_long' => $order->restaurant->lng,
+            'created_at' => $order->created_at,
         ]);
 
         return $this->returnData('data', new OrderResource($order), '');

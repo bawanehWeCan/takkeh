@@ -73,4 +73,13 @@ class User extends Authenticatable
     public function services(){
         return $this->hasMany(Service::class);
     }
+
+    public function restaurant(){
+        return $this->hasMany(Restaurant::class);
+    }
+
+
+    public function main(){
+        return $this->hasMany(Restaurant::class)->first();
+    }
 }
