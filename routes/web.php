@@ -47,7 +47,7 @@ Route::get('/insert', function() {
         'res_long' => $order->restaurant->lng,
         'res_zone' => $order->restaurant->zone,
         'created_at' => $order->created_at,
-        'position' => array( 'geohash'=>$g->decode($order->restaurant->lat,$order->restaurant->lng),'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat,$order->restaurant->lng) ),
+        'position' => array( 'geohash'=>$g->encode($order->restaurant->lat,$order->restaurant->lng),'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat,$order->restaurant->lng) ),
 
     ]);
 echo "<h1>".'inserted'."</h1>";
