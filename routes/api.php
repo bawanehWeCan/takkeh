@@ -28,6 +28,18 @@ use Nette\Utils\Json;
 |
 */
 
+
+
+// cat
+
+//only those have manage_user permission will get access
+Route::get('categories', [CategoryController::class, 'list']);
+Route::post('category-create', [CategoryController::class, 'save']);
+Route::get('category/{id}', [CategoryController::class, 'view']);
+Route::get('category/delete/{id}', [CategoryController::class, 'delete']);
+
+
+
 //Auth
 Route::post('login', [AuthController::class, 'login']);
 
@@ -46,13 +58,7 @@ Route::post('change-password', [AuthController::class, 'changePassword']);
 Route::post('/user-supplier', [AuthController::class, 'storeSupplier']);
 Route::get('/suppliers', [AuthController::class, 'list']);
 
-// cat
 
-//only those have manage_user permission will get access
-Route::get('categories', [CategoryController::class, 'list']);
-Route::post('category-create', [CategoryController::class, 'store']);
-Route::get('category/{id}', [CategoryController::class, 'profile']);
-Route::get('category/delete/{id}', [CategoryController::class, 'delete']);
 
 
 

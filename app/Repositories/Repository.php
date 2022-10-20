@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Repositorys;
+namespace App\Repositories;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 
-abstract class AbstractRepository{
+class Repository{
 
 
     /**
@@ -12,7 +13,7 @@ abstract class AbstractRepository{
      *
      * @var Model
      */
-    protected $model;
+    protected Model $model;
 
     /**
      * Create new Library class.
@@ -20,7 +21,7 @@ abstract class AbstractRepository{
      * this abstraction expects the child class to have a protected attribute named model.
      * that will hold the model name with its full namespace.
      */
-    public function __construct($model)
+    public function __construct( Model $model )
     {
         $this->model = $model;
     }
@@ -48,7 +49,8 @@ abstract class AbstractRepository{
      * @param [type] $model_id
      * @return void
      */
-    function getByID( $model_id ){
+    function getByID( $model_id )
+    {
         $model = $this->model->where( 'id', $model_id )->firstOrFail();
         return $model;
     }
@@ -77,7 +79,11 @@ abstract class AbstractRepository{
     /**
      * @return void
      */
-    abstract function save( $data );
+    function save( $data )
+    {
+        $model = $this->model->create( $data );
+        return $model->fresh();
+    }
 
 
     public function searchManyByKey($key, $value){
