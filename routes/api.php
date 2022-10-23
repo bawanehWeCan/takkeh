@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SpecialController;
 use App\Http\Controllers\Api\PageController;
-use App\Http\Controllers\PromocodeController;
+use App\Http\Controllers\Api\PromocodeController;
 use Nette\Utils\Json;
 
 /*
