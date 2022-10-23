@@ -24,8 +24,12 @@ class PromocodeController extends ApiController
         $this->repositry =  new Repository($this->model);
     }
 
+
+
+
     public function save( PromoCodeRequest $request ){
         return $this->store( $request );
+
     }
 
     // /** */
