@@ -151,7 +151,7 @@ Route::middleware(['auth:api'])->group(function () {
 
     //only those have manage_user permission will get access
     Route::get('promo-code', [PromocodeController::class, 'list']);
-    Route::post('promo-code-create', [PromocodeController::class, 'store']);
+    Route::post('promo-code-create', [PromocodeController::class, 'save']);
     Route::get('promo-code/{id}', [PromocodeController::class, 'view']);
     Route::get('promo-code/delete/{id}', [PromocodeController::class, 'delete']);
 });
