@@ -14,7 +14,7 @@ class PromocodeController extends Controller
 {
     use ResponseTrait;
 
-    
+
 
     public function __construct()
     {
@@ -23,7 +23,6 @@ class PromocodeController extends Controller
         $this->repositry =  new Repository($this->model);
     }
 
-    /** */
     public function list()
     {
         $promoCodes = $this->repositry->all();
