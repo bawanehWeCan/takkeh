@@ -14,7 +14,7 @@ class PromocodeController extends Controller
 {
     use ResponseTrait;
 
-    
+
 
     public function __construct()
     {
@@ -27,7 +27,7 @@ class PromocodeController extends Controller
     public function list()
     {
         $promoCodes = $this->repositry->all();
-        return $this->returnData('Promo Codes', $this->resource($promoCodes), __('Succesfully'));
+        return $this->returnData('data', $this->resource::collecton($promoCodes), __('Succesfully'));
     }
 
     public function store(PromoCodeRequest $request)
@@ -35,7 +35,7 @@ class PromocodeController extends Controller
         $code = $this->repositry->save($request);
 
         if ($code) {
-            return $this->returnData('Promo Codes', $this->resource($code), __('Code created succesfully'));
+            return $this->returnData('data', new $this->resource($code), __('Code created succesfully'));
         }
 
         return $this->returnError(__('Sorry! Failed to create Code!'));
@@ -47,7 +47,7 @@ class PromocodeController extends Controller
         $code = $this->repositry->getByID($id);
 
         if ($code) {
-            return $this->returnData('Code',  $this->resource($code), __('Get Code succesfully'));
+            return $this->returnData('data',  new $this->resource($code), __('Get Code succesfully'));
         }
 
         return $this->returnError(__('Sorry! Failed to get Code!'));
