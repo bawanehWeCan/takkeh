@@ -21,4 +21,8 @@ class PromoCode extends Model
     public $timestamps = true;
 
     protected $table = 'promo_code';
+
+    public function orders(){
+        return $this->belongsToMany(Order::class);
+    }
 }

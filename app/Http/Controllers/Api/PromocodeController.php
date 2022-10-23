@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\ApiController;
+use App\Models\Order;
 use App\Models\PromoCode;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Repositories\Repository;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Http\Requests\PromoCodeRequest;
 use App\Http\Resources\PromocodeResource;
 
@@ -30,6 +31,21 @@ class PromocodeController extends ApiController
     public function save( PromoCodeRequest $request ){
         return $this->store( $request );
 
+    }
+
+    public function addOrderToPromoCode(Request $request, $code_id, $order_id){
+        $code = $this->model()->find($code_id);
+        $order = Order::find($order_id);
+
+        if(!$code){
+            return $this->returnError(__("Sorry! failed to find a promo code"));
+        }
+        if(!$order){
+            return $this->returnError(__("Sorry! failed to find an order"));
+        }
+
+        $code->orders->attach($order);
+        return $this->returnSuccessMessage(__("An order added to a promo code successfully!"));
     }
 
     // /** */
