@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\ApiController;
 use App\Models\PromoCode;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
@@ -10,7 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PromoCodeRequest;
 use App\Http\Resources\PromocodeResource;
 
-class PromocodeController extends Controller
+class PromocodeController extends ApiController
 {
     use ResponseTrait;
 
@@ -23,39 +24,48 @@ class PromocodeController extends Controller
         $this->repositry =  new Repository($this->model);
     }
 
-    public function list()
-    {
-        $promoCodes = $this->repositry->all();
-        return $this->returnData('Promo Codes', $this->resource($promoCodes), __('Succesfully'));
+
+
+
+    public function save( PromoCodeRequest $request ){
+        return $this->store( $request );
+
     }
 
-    public function store(PromoCodeRequest $request)
-    {
-        $code = $this->repositry->save($request);
+    // /** */
+    // public function list()
+    // {
+    //     $promoCodes = $this->repositry->all();
+    //     return $this->returnData('data', $this->resource::collecton($promoCodes), __('Succesfully'));
+    // }
 
-        if ($code) {
-            return $this->returnData('Promo Codes', $this->resource($code), __('Code created succesfully'));
-        }
+    // public function store(PromoCodeRequest $request)
+    // {
+    //     $code = $this->repositry->save($request);
 
-        return $this->returnError(__('Sorry! Failed to create Code!'));
-    }
+    //     if ($code) {
+    //         return $this->returnData('data', new $this->resource($code), __('Code created succesfully'));
+    //     }
 
-    public function view($id)
-    {
+    //     return $this->returnError(__('Sorry! Failed to create Code!'));
+    // }
 
-        $code = $this->repositry->getByID($id);
+    // public function view($id)
+    // {
 
-        if ($code) {
-            return $this->returnData('Code',  $this->resource($code), __('Get Code succesfully'));
-        }
+    //     $code = $this->repositry->getByID($id);
 
-        return $this->returnError(__('Sorry! Failed to get Code!'));
-    }
+    //     if ($code) {
+    //         return $this->returnData('data',  new $this->resource($code), __('Get Code succesfully'));
+    //     }
 
-    public function delete($id)
-    {
-        $this->repositry->deleteByID($id);
+    //     return $this->returnError(__('Sorry! Failed to get Code!'));
+    // }
 
-        return $this->returnSuccessMessage(__('Delete Code succesfully!'));
-    }
+    // public function delete($id)
+    // {
+    //     $this->repositry->deleteByID($id);
+
+    //     return $this->returnSuccessMessage(__('Delete Code succesfully!'));
+    // }
 }
