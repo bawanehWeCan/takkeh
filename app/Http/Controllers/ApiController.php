@@ -3,14 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Repository;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Request;
 
 class ApiController extends Controller
 {
+
     use ResponseTrait;
 
+
+    /**
+     * Create new Library class.
+     *
+     * this abstraction expects the child class to have a protected attribute named model.
+     * that will hold the model name with its full namespace.
+     */
+    public function __construct($repositry, $resource, $model)
+    {
+        $this->repositry =  $repositry;
+        $this->resource = $resource;
+        $this->model = $model;
+    }
 
 
     public function list()
@@ -40,19 +53,17 @@ class ApiController extends Controller
      * @param Request $request
      * @return void
      */
-    protected function _save( $request )
+    public function store( $data )
     {
-        $model = $this->repositry->save( $request );
+        $model = $this->repositry->save( $data );
 
 
         if ($model) {
-            return $this->returnData( 'data' , $this->resource::make( $model ), __('Succesfully'));
+            return $this->returnData( 'data' , new $this->resource( $model ), __('Succesfully'));
         }
 
         return $this->returnError(__('Sorry! Failed to create !'));
     }
-
-
 
 
     /**
@@ -66,7 +77,7 @@ class ApiController extends Controller
         $model = $this->repositry->getByID($id);
 
         if ($model) {
-            return $this->returnData('data', $this->resource::make( $model ), __('Get  succesfully'));
+            return $this->returnData('data', new $this->resource( $model ), __('Get  succesfully'));
         }
 
         return $this->returnError(__('Sorry! Failed to get !'));
@@ -97,4 +108,7 @@ class ApiController extends Controller
 
 
     }
+
+
+
 }
