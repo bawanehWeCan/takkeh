@@ -20,4 +20,7 @@ class Order extends Model
     public function restaurant(){
         return $this->belongsTo(Restaurant::class);
     }
+    public function codes(){
+        return $this->belongsToMany(PromoCode::class);
+    }
 }

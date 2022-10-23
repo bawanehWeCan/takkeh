@@ -155,6 +155,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('promo-code-create', [PromocodeController::class, 'save']);
     Route::get('promo-code/{id}', [PromocodeController::class, 'view']);
     Route::get('promo-code/delete/{id}', [PromocodeController::class, 'delete']);
+    Route::post('promo-code/{id}/order/{id}', [PromocodeController::class, 'addOrderToPromoCode']);
 });
 
 

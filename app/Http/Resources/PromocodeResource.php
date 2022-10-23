@@ -22,7 +22,7 @@ class PromocodeResource extends JsonResource
             'delivery_fee'=>$this->delivery_fee,
             'service_fee'=>$this->service_fee,
             'discount'=>$this->discount,
-            'order_id'=>$this->order_id,
+            'orders'=>OrderResource::collection($this->orders),
         ];
     }
 }
