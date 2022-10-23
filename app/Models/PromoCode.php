@@ -19,4 +19,6 @@ class PromoCode extends Model
     ];
 
     public $timestamps = true;
+
+    protected $table = 'promo_code';
 }
