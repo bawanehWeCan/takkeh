@@ -18,7 +18,7 @@ return array(
     'App\\Http\\Controllers\\Api\\PageController' => $baseDir . '/app/Http/Controllers/Api/PageController.php',
     'App\\Http\\Controllers\\Api\\PermissionController' => $baseDir . '/app/Http/Controllers/Api/PermissionController.php',
     'App\\Http\\Controllers\\Api\\ProductController' => $baseDir . '/app/Http/Controllers/Api/ProductController.php',
-    'App\\Http\\Controllers\\Api\\PromocodeController' => $baseDir . '/app/Http/Controllers/Api/PromocodeController.php',
+    'App\\Http\\Controllers\\Api\\PromoCodeController' => $baseDir . '/app/Http/Controllers/Api/PromoCodeController.php',
     'App\\Http\\Controllers\\Api\\RestaurantController' => $baseDir . '/app/Http/Controllers/Api/RestaurantController.php',
     'App\\Http\\Controllers\\Api\\RolesController' => $baseDir . '/app/Http/Controllers/Api/RolesController.php',
     'App\\Http\\Controllers\\Api\\ServiceController' => $baseDir . '/app/Http/Controllers/Api/ServiceController.php',

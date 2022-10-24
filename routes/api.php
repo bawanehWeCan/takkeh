@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SpecialController;
 use App\Http\Controllers\Api\PageController;
-use App\Http\Controllers\ِApi\PromocodeController;
+use App\Http\Controllers\Api\PromoCodeController;
 
 use Nette\Utils\Json;
 
@@ -151,11 +151,11 @@ Route::middleware(['auth:api'])->group(function () {
 	});
 
     //only those have manage_user permission will get access
-    Route::get('promo-code', [PromocodeController::class, 'list']);
-    Route::post('promo-code-create', [PromocodeController::class, 'save']);
-    Route::get('promo-code/{id}', [PromocodeController::class, 'view']);
-    Route::get('promo-code/delete/{id}', [PromocodeController::class, 'delete']);
-    Route::post('promo-code/{id}/order/{id}', [PromocodeController::class, 'addOrderToPromoCode']);
+    Route::get('promo-code', [PromoCodeController::class, 'list']);
+    Route::post('promo-code-create', [PromoCodeController::class, 'save']);
+    Route::get('promo-code/{id}', [PromoCodeController::class, 'view']);
+    Route::get('promo-code/delete/{id}', [PromoCodeController::class, 'delete']);
+    Route::post('add-code-to-order', [PromoCodeController::class, 'addCodeOrder']);
 });
 
 

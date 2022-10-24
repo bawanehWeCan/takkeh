@@ -15,7 +15,6 @@ class PromoCode extends Model
         'delivery_fee',
         'service_fee',
         'discount',
-        'order_id'
     ];
 
     public $timestamps = true;
