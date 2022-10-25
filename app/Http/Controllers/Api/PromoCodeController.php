@@ -65,41 +65,4 @@ class PromoCodeController extends ApiController
         $order->codes()->attach($code);
         return $this->returnSuccessMessage(__("An order added to a promo code successfully!"));
     }
-
-    // /** */
-    // public function list()
-    // {
-    //     $promoCodes = $this->repositry->all();
-    //     return $this->returnData('data', $this->resource::collecton($promoCodes), __('Succesfully'));
-    // }
-
-    // public function store(PromoCodeRequest $request)
-    // {
-    //     $code = $this->repositry->save($request);
-
-    //     if ($code) {
-    //         return $this->returnData('data', new $this->resource($code), __('Code created succesfully'));
-    //     }
-
-    //     return $this->returnError(__('Sorry! Failed to create Code!'));
-    // }
-
-    // public function view($id)
-    // {
-
-    //     $code = $this->repositry->getByID($id);
-
-    //     if ($code) {
-    //         return $this->returnData('data',  new $this->resource($code), __('Get Code succesfully'));
-    //     }
-
-    //     return $this->returnError(__('Sorry! Failed to get Code!'));
-    // }
-
-    // public function delete($id)
-    // {
-    //     $this->repositry->deleteByID($id);
-
-    //     return $this->returnSuccessMessage(__('Delete Code succesfully!'));
-    // }
 }
