@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PromoCodeResource extends JsonResource
+class FaqResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,8 @@ class PromoCodeResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'name'=>$this->name,
-            'code'=>$this->code,
-            'type'=>$this->type,
-            'value'=>$this->value,
-            'orders'=>OrderResource::collection($this->orders),
+            'question'=>$this->question,
+            'answer'=>$this->answer,
         ];
     }
 }
