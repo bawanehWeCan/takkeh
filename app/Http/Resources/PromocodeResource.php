@@ -16,12 +16,10 @@ class PromocodeResource extends JsonResource
     {
         return [
             'id'=>$this->id,
+            'name'=>$this->name,
             'code'=>$this->code,
-            'total'=>$this->total,
-            'tax'=>$this->tax,
-            'delivery_fee'=>$this->delivery_fee,
-            'service_fee'=>$this->service_fee,
-            'discount'=>$this->discount,
+            'type'=>$this->type,
+            'value'=>$this->value,
             'orders'=>OrderResource::collection($this->orders),
         ];
     }
