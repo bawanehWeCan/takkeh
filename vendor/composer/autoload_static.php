@@ -793,7 +793,7 @@ class ComposerStaticInit19cee2b460902135a1a57057e41a7f9f
         'App\\Http\\Controllers\\Api\\PageController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PageController.php',
         'App\\Http\\Controllers\\Api\\PermissionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PermissionController.php',
         'App\\Http\\Controllers\\Api\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ProductController.php',
-        'App\\Http\\Controllers\\Api\\PromocodeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PromocodeController.php',
+        'App\\Http\\Controllers\\Api\\PromoCodeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PromoCodeController.php',
         'App\\Http\\Controllers\\Api\\RestaurantController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/RestaurantController.php',
         'App\\Http\\Controllers\\Api\\RolesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/RolesController.php',
         'App\\Http\\Controllers\\Api\\ServiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ServiceController.php',

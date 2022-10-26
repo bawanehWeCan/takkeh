@@ -15,13 +15,10 @@ return new class extends Migration
     {
         Schema::create('promo_code', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('code');
-            $table->float('total')->default(0);
-            $table->float('tax')->default(0);
-            $table->float('delivery_fee')->default(0);
-            $table->float('service_fee')->default(0);
-            $table->float('discount')->default(0);
-            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
+            $table->enum('type',['Fixed','Percentage']);
+            $table->float('value')->default(0);
             $table->timestamps();
         });
     }

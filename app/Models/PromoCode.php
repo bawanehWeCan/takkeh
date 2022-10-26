@@ -9,13 +9,10 @@ class PromoCode extends Model
 {
     use HasFactory;
     public $fillable = [
+        'name',
         'code',
-        'total',
-        'tax',
-        'delivery_fee',
-        'service_fee',
-        'discount',
-        'order_id'
+        'type',
+        'value',
     ];
 
     public $timestamps = true;
