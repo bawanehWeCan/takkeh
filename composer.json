@@ -16,6 +16,8 @@
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "monarobase/country-list": "^3.3",
+        "pragmarx/countries": "^0.8.2",
+        "psr/simple-cache": "2.0",
         "spatie/laravel-permission": "^5.5"
     },
     "require-dev": {
@@ -40,6 +42,12 @@
             "Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ],
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
