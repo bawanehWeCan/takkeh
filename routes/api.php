@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CountriesController;
+use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\UserController;
@@ -17,8 +18,6 @@ use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SpecialController;
 use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\PromoCodeController;
-use App\Http\Controllers\Api\FaqController;
-
 use Nette\Utils\Json;
 
 /*
