@@ -10,7 +10,7 @@ use App\Repositories\Repository;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\PromoCodeRequest;
-use App\Http\Resources\PromocodeResource;
+use App\Http\Resources\PromoCodeResource;
 
 class PromoCodeController extends ApiController
 {
@@ -25,7 +25,7 @@ class PromoCodeController extends ApiController
      */
     public function __construct()
     {
-        $this->resource = PromocodeResource::class;
+        $this->resource = PromoCodeResource::class;
         $this->model = app(PromoCode::class);
         $this->repositry =  new Repository($this->model);
     }

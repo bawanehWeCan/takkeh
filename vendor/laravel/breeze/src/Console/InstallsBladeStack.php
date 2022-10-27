@@ -26,11 +26,11 @@ trait InstallsBladeStack
 
         // Controllers...
         (new Filesystem)->ensureDirectoryExists(app_path('Http/Controllers/Auth'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/App/Http/Controllers/Auth', app_path('Http/Controllers/Auth'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/app/Http/Controllers/Auth', app_path('Http/Controllers/Auth'));
 
         // Requests...
         (new Filesystem)->ensureDirectoryExists(app_path('Http/Requests/Auth'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/App/Http/Requests/Auth', app_path('Http/Requests/Auth'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/app/Http/Requests/Auth', app_path('Http/Requests/Auth'));
 
         // Views...
         (new Filesystem)->ensureDirectoryExists(resource_path('views/auth'));
@@ -45,7 +45,7 @@ trait InstallsBladeStack
 
         // Components...
         (new Filesystem)->ensureDirectoryExists(app_path('View/Components'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/App/View/Components', app_path('View/Components'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/default/app/View/Components', app_path('View/Components'));
 
         // Tests...
         $this->installTests();
@@ -66,7 +66,9 @@ trait InstallsBladeStack
         copy(__DIR__.'/../../stubs/default/resources/css/app.css', resource_path('css/app.css'));
         copy(__DIR__.'/../../stubs/default/resources/js/app.js', resource_path('js/app.js'));
 
+        $this->runCommands(['npm install', 'npm run build']);
+
+        $this->line('');
         $this->components->info('Breeze scaffolding installed successfully.');
-        $this->components->warn('Please execute the [npm install && npm run dev] commands to build your assets.');
     }
 }

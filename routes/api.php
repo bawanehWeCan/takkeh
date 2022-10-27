@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CountriesController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\UserController;
@@ -16,7 +17,7 @@ use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SpecialController;
 use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\PromoCodeController;
-
+use App\Http\Controllers\FaqController;
 
 use Nette\Utils\Json;
 
@@ -157,8 +158,17 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('promo-code/{id}', [PromoCodeController::class, 'view']);
     Route::get('promo-code/delete/{id}', [PromoCodeController::class, 'delete']);
     Route::post('add-code-to-order', [PromoCodeController::class, 'addCodeOrder']);
+
+    Route::get('faq', [FaqController::class, 'list']);
+    Route::post('faq-create', [FaqController::class, 'save']);
+    Route::get('faq/{id}', [FaqController::class, 'view']);
+    Route::get('faq/delete/{id}', [FaqController::class, 'delete']);
+
+
+
 });
 
+Route::get('country-list', [CountriesController::class, 'getCountries']);
 
 
 Route::post('make-order',[ OrderController::class, 'store' ]);

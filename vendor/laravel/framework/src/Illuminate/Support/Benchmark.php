@@ -33,11 +33,11 @@ class Benchmark
     }
 
     /**
-     * Measure a callable or array of callables over the given number of iterations, then die and dump.
+     * Measure a callable or array of callables over the given number of iterations, then dump and die.
      *
      * @param  \Closure|array  $benchmarkables
      * @param  int  $iterations
-     * @return void
+     * @return never
      */
     public static function dd(Closure|array $benchmarkables, int $iterations = 1): void
     {
