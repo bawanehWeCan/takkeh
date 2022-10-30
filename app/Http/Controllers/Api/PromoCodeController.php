@@ -61,8 +61,11 @@ class PromoCodeController extends ApiController
         if(!$order){
             return $this->returnError(__("Sorry! failed to find an order"));
         }
-
-        $order->codes()->attach($code);
-        return $this->returnSuccessMessage(__("An order added to a promo code successfully!"));
+        if (!  $order->codes->contains($code->id)) {
+            $order->codes()->attach($code);
+            return $this->returnSuccessMessage(__("An order added to a promo code successfully!"));
+        }else{
+            return $this->returnError("Sorry! This code is added before");
+        }
     }
 }

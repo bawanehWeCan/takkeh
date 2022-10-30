@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SpecialController;
 use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\PromoCodeController;
+use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\WalletController;
 use App\Http\Controllers\FaqController;
 
 use Nette\Utils\Json;
@@ -164,7 +166,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('faq/{id}', [FaqController::class, 'view']);
     Route::get('faq/delete/{id}', [FaqController::class, 'delete']);
 
+    Route::get('wallet', [WalletController::class, 'list']);
+    Route::post('wallet-create', [WalletController::class, 'save']);
+    Route::get('wallet/{id}', [WalletController::class, 'view']);
+    Route::get('wallet/delete/{id}', [WalletController::class, 'delete']);
 
+    Route::post('transaction', [TransactionController::class, 'transaction']);
 
 });
 
