@@ -24,8 +24,8 @@ class TransactionController extends Controller
     }
 
     public function transaction(TransactionRequest $request){
-        // try {
-        //     DB::beginTransaction();
+        try {
+            DB::beginTransaction();
 
             if($request->type == "Deposite"){
                 $transaction = $this->createTransaction($request);
@@ -51,10 +51,10 @@ class TransactionController extends Controller
             }
 
             DB::commit();
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return $this->returnError("Error! $e");
-        // }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return $this->returnError("Error! $e");
+        }
     }
 
     public function createTransaction($request){
