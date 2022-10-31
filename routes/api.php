@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SpecialController;
 use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\PromoCodeController;
+use App\Http\Controllers\Api\ReviewController;
 use Nette\Utils\Json;
 
 /*
@@ -43,6 +44,12 @@ Route::post('/password-otb', [AuthController::class, 'password']);
 Route::post('change-password', [AuthController::class, 'changePassword']);
 
 
+
+//Reviews
+Route::get('reviews', [ReviewController::class, 'index']);
+Route::post('review-create', [ReviewController::class, 'save']);
+Route::get('review/{id}', [ReviewController::class, 'show']);
+Route::post('review/delete/{id}', [ReviewController::class, 'destroy']);
 
 
 //supp
@@ -115,6 +122,12 @@ Route::get('products', [ProductController::class, 'pagination']);
 Route::post('products-create', [ProductController::class, 'save']);
 Route::get('products/{id}', [ProductController::class, 'view']);
 Route::get('products/delete/{id}', [ProductController::class, 'delete']);
+
+
+
+
+
+
 
 
 
