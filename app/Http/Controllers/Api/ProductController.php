@@ -11,6 +11,8 @@ use App\Models\Extra;
 use App\Repositorys\ExtraRepository;
 use App\Models\Size;
 use App\Repositorys\SizeRepository;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends ApiController
 {
@@ -23,43 +25,58 @@ class ProductController extends ApiController
     public function __construct()
     {
         $this->resource = ProductResource::class;
-        $this->model = app( Product::class );
-        $this->repositry =  new ProductRepository( $this->model ) ;
+        $this->model = app(Product::class);
+        $this->repositry =  new ProductRepository($this->model);
     }
 
     /**
      * @param ProductRequest $request
      * @return void
      */
-    public function save( ProductRequest $request ){
-        return $this->store( $request );
-    }
-
-    public function store( $data )
+    public function save(ProductRequest $request)
     {
-        $extraRepo  = new ExtraRepository( app(Extra::class) );
-        $sizeRepo   = new SizeRepository( app(Size::class) );
-        $model = $this->repositry->save( $data );
-
-        foreach ($data['sizes'] as  $value) {
-            $value['product_id'] = $model->id;
-            $extra = $extraRepo->save( $value );
-        }
-
-        foreach ($data['extras'] as  $value) {
-            $value['product_id'] = $model->id;
-            $extra = $sizeRepo->save( $value );
-        }
-
-        
-        
-
-        if ($model) {
-            return $this->returnData( 'data' , new $this->resource( $model ), __('Succesfully'));
-        }
-
-        return $this->returnError(__('Sorry! Failed to create !'));
+        return $this->store($request);
     }
+
+    public function store($data)
+    {
+
+        try {
+            DB::beginTransaction();
+
+            $extraRepo  = new ExtraRepository(app(Extra::class));
+            $sizeRepo   = new SizeRepository(app(Size::class));
+            $model = $this->repositry->save($data);
+
+            foreach ($data['sizes'] as  $value) {
+                $value['product_id'] = $model->id;
+                $extraRepo->save($value);
+            }
+
+            foreach ($data['extras'] as  $value) {
+                $value['product_id'] = $model->id;
+                $sizeRepo->save($value);
+            }
+
+
+
+
+            if ($model) {
+                return $this->returnData('data', new $this->resource($model), __('Succesfully'));
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->returnError(__('Sorry! Failed to create !'));
+        }
+    }
+
+
+
+
+
+
 
     // public function pagination( $lenght = 10 )
     // {

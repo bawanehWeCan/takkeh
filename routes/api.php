@@ -20,7 +20,6 @@ use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\PromoCodeController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\WalletController;
-use App\Http\Controllers\FaqController;
 
 
 use App\Http\Controllers\Api\ReviewController;
