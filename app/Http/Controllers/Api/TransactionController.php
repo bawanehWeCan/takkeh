@@ -9,6 +9,7 @@ use App\Traits\ResponseTrait;
 use App\Repositories\Repository;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\TransactionRequest;
 use App\Http\Resources\TransactionItemResource;
 
@@ -25,32 +26,37 @@ class TransactionController extends Controller
 
     public function transaction(TransactionRequest $request){
         try {
-            DB::beginTransaction();
 
             if($request->type == "Deposite"){
+                DB::beginTransaction();
+
                 $transaction = $this->createTransaction($request);
-                $total = $transaction->wallet->total + (int)$request->amount;
-                if ($total <=  $transaction->wallet->total) {
+                $wallet = Wallet::find($transaction->wallet->id);
+                $total = $wallet->total + $request->amount;
+                if ((int)$total <=  (int)$transaction->wallet->total) {
                     $transaction->update(['status'=>'Failed']);
                     return $this->returnError("Fail depositing!");
                 }
-                $transaction->wallet->update(['total' => $total]);
+                $wallet->update(['total'=>(double)$total]);
                 $transaction->update(['status'=>'Success']);
+                DB::commit();
                 return $this->returnData("Transaction",new TransactionItemResource($transaction), "Success Depositing!");
-            }
-            if($request->type == "Withdraw"){
+            }elseif($request->type == "Withdraw"){
+                DB::beginTransaction();
+
                 $transaction = $this->createTransaction($request);
-                $total = $transaction->wallet->total -  (int)$request->amount;
-                if ($total <= 0 || $transaction->wallet->total <= 0) {
+                $wallet = Wallet::find($transaction->wallet->id);
+                $total = $wallet->total - $request->amount;
+                if ($total < 0 || $transaction->wallet->total <= 0) {
                     $transaction->update(['status'=>'Failed']);
                     return $this->returnError("Credit is not enough!");
                 }
-                $transaction->wallet->update(['total' => $total]);
+                $wallet->update(['total'=>(double)$total]);
                 $transaction->update(['status'=>'Success']);
+                DB::commit();
                 return $this->returnData("Transaction",new TransactionItemResource($transaction), "Success Withdarawing!");
             }
 
-            DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             return $this->returnError("Error! $e");
