@@ -50,6 +50,7 @@ Route::get('reviews', [ReviewController::class, 'index']);
 Route::post('review-create', [ReviewController::class, 'save']);
 Route::get('review/{id}', [ReviewController::class, 'show']);
 Route::post('review/delete/{id}', [ReviewController::class, 'destroy']);
+Route::post('/review/edit/{id}', [ReviewController::class, 'editRev']);
 
 
 //supp
