@@ -96,9 +96,9 @@ class ApiController extends Controller
         return $this->returnSuccessMessage(__('Delete succesfully!'));
     }
 
-    public function search($value){
+    public function search($key,$value){
 
-        $data = $this->repositry->searchManyByKey('name',$value);
+        $data = $this->repositry->searchManyByKey($key,$value);
 
         if ($data) {
             return $this->returnData('data', $this->resource::collection( $data ), __('Get  succesfully'));
