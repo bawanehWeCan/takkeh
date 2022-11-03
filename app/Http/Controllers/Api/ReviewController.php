@@ -44,4 +44,12 @@ class ReviewController extends ApiController
 
         return $this->delete($id);
     }
+
+
+    public function editRev($id,Request $request){
+
+        return $this->update($id,$request->all());
+
+    }
+
 }

@@ -96,9 +96,9 @@ class ApiController extends Controller
         return $this->returnSuccessMessage(__('Delete succesfully!'));
     }
 
-    public function search($value){
+    public function search($key,$value){
 
-        $data = $this->repositry->searchManyByKey('name',$value);
+        $data = $this->repositry->searchManyByKey($key,$value);
 
         if ($data) {
             return $this->returnData('data', $this->resource::collection( $data ), __('Get  succesfully'));
@@ -109,6 +109,18 @@ class ApiController extends Controller
 
     }
 
+
+    public function update($id,$data){
+
+        $model = $this->repositry->edit( $id,$data );
+
+        if ($model) {
+            return $this->returnData('data', new $this->resource( $model ), __('Get  succesfully'));
+        }
+
+        return $this->returnError(__('Sorry! Failed to get !'));
+
+    }
 
 
 }

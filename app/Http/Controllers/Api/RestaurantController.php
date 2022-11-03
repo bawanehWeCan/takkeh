@@ -57,6 +57,10 @@ class RestaurantController extends ApiController
         return $this->returnData( 'data' , ResResource::make( $restaurant ), __('Succesfully'));
 
     }
+    public function lookfor(Request $request){
 
+        return $this->search('name',$request->keyword);
+
+    }
 
 }

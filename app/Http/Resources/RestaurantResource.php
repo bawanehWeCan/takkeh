@@ -23,4 +23,6 @@ class RestaurantResource extends JsonResource
             'products'=> ProductResource::collection( $this->products ),
         ];
     }
+
+
 }

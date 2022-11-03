@@ -54,6 +54,7 @@ Route::get('reviews', [ReviewController::class, 'index']);
 Route::post('review-create', [ReviewController::class, 'save']);
 Route::get('review/{id}', [ReviewController::class, 'show']);
 Route::post('review/delete/{id}', [ReviewController::class, 'destroy']);
+Route::post('/review/edit/{id}', [ReviewController::class, 'editRev']);
 
 
 //supp
@@ -116,8 +117,8 @@ Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
 
 Route::post('restaurants/category', [RestaurantController::class, 'addCategory']);
 
-
-Route::post('restaurants/search/{value}', [RestaurantController::class, 'search']);
+Route::post('restaurants/search', [RestaurantController::class, 'lookfor']);
+// Route::post('restaurants/search/{value}', [RestaurantController::class, 'search']);
 
 
 
