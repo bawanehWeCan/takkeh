@@ -9,7 +9,7 @@ use App\Http\Requests\ReviewRequest;
 use Illuminate\Http\Request;
 use App\Repositories\Repository;
 use App\Http\Resources\ReviewResource;
-
+use Auth;
 
 
 class ReviewController extends ApiController
