@@ -36,6 +36,7 @@ class ReviewController extends ApiController
     }
 
     public function save(ReviewRequest $request ){
+        $request['user_id'] = Auth::user()->id;
         return $this->store( $request->all() );
     }
 
@@ -47,6 +48,7 @@ class ReviewController extends ApiController
 
 
     public function editRev($id,Request $request){
+        $request['user_id'] = Auth::user()->id;
 
         return $this->update($id,$request->all());
 
