@@ -47,10 +47,10 @@ Route::post('change-password', [AuthController::class, 'changePassword']);
 
 //Reviews
 Route::get('reviews', [ReviewController::class, 'index']);
-Route::post('review-create', [ReviewController::class, 'save']);
+
 Route::get('review/{id}', [ReviewController::class, 'show']);
 Route::post('review/delete/{id}', [ReviewController::class, 'destroy']);
-Route::post('/review/edit/{id}', [ReviewController::class, 'editRev']);
+
 
 
 //supp
@@ -139,6 +139,10 @@ Route::middleware(['auth:api'])->group(function () {
 	Route::get('profile', [AuthController::class, 'profile']);
 
 	Route::post('update-profile', [AuthController::class, 'updateProfile']);
+
+
+    Route::post('/review/edit/{id}', [ReviewController::class, 'editRev']);
+    Route::post('review-create', [ReviewController::class, 'save']);
 
 	//only those have manage_user permission will get access
 	Route::get('/users', [UserController::class, 'list']);
