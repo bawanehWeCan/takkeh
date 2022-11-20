@@ -19,7 +19,7 @@ class ReviewResource extends JsonResource
             'id'=>$this->id,
             'title'=>$this->title,
             'content'=>$this->content,
-            'points'=>$this->points,
+            'points'=>number_format($this->points,2),
             'user'=>new UserResource($this->user),
             'status'=>$this->status,
         ];

@@ -118,6 +118,7 @@ Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
 Route::post('restaurants/category', [RestaurantController::class, 'addCategory']);
 
 Route::post('restaurants/search', [RestaurantController::class, 'lookfor']);
+Route::post('restaurant/review', [RestaurantController::class, 'addReviewToResturant']);
 // Route::post('restaurants/search/{value}', [RestaurantController::class, 'search']);
 
 

@@ -40,4 +40,8 @@ class Restaurant extends Model
     public function user(){
         return $this->belongsTo(Restaurant::class);
     }
+
+    public function review(){
+        return $this->morphOne(Review::class,'reviewable');
+    }
 }
