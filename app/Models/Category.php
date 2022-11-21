@@ -22,4 +22,6 @@ class Category extends Model
     public function restaurant(){
         return $this->morphedByMany( Restaurant::class, 'categoryable' );
     }
+
+    
 }

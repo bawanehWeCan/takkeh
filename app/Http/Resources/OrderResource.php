@@ -24,7 +24,7 @@ class OrderResource extends JsonResource
             'restaurant_name'=>$this->restaurant?->name,
             'note'=>$this->note,
             'status'=>$this->status,
-            'total'=>$this->total,
+            'total'=>number_format($this->total,2),
             'lat'=>$this->lat,
             'long'=>$this->long,
             'products'=> CartItemResource::collection($this->products),
