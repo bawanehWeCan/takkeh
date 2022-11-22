@@ -195,6 +195,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('wallet', [WalletController::class, 'list']);
     Route::post('wallet-create', [WalletController::class, 'save']);
     Route::get('wallet/{id}', [WalletController::class, 'view']);
+    Route::get('my-wallet', [WalletController::class, 'myWallet']);
     Route::get('wallet/delete/{id}', [WalletController::class, 'delete']);
 
     Route::post('transaction', [TransactionController::class, 'transaction']);

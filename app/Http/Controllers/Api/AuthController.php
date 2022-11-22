@@ -17,6 +17,7 @@ use App\Http\Requests\PasswordRequest;
 use App\Http\Resources\SupplierResource;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\PasswordChangeRequest;
+use App\Http\Resources\WalletResource;
 
 class AuthController extends Controller
 {
@@ -121,10 +122,14 @@ class AuthController extends Controller
             // return $this->returnData( 'user', UserResource::make($user), '');
 
             if (Auth::user()->type == 'user') {
-
+                $user->wallet()->create([
+                    'name'=>$user->name . "'s wallet" . rand(0,10000),
+                    'user_id'=>$user->id
+                ]);
                 return response(['status' => true, 'code' => 200, 'msg' => __('User created succesfully'), 'data' => [
                     'token' => $accessToken,
-                    'user' => UserResource::make(Auth::user())
+                    'user' => UserResource::make(Auth::user()),
+                    'wallet'=>WalletResource::make(Auth::user()->wallet),
                 ]]);
             }
         }

@@ -40,7 +40,7 @@ class UserRepository
      * saveUser function
      *
      * @param Array $data
-     * @return void
+     * @return object
      */
     public function saveUser($data)
     {
