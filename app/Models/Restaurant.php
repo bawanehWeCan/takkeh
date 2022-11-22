@@ -9,6 +9,8 @@ class Restaurant extends Model
 {
     use HasFactory;
 
+    public $fillable = ['user_id','name','logo','time','cover'];
+
     public function categories(){
         return $this->morphToMany( Category::class, 'categoryable' );
     }
@@ -38,7 +40,7 @@ class Restaurant extends Model
     }
 
     public function user(){
-        return $this->belongsTo(Restaurant::class);
+        return $this->belongsTo(User::class,"user_id","id");
     }
 
     public function review(){

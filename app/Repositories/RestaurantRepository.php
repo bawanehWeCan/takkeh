@@ -25,12 +25,7 @@ class RestaurantRepository extends AbstractRepository
     {
 
         $model = new $this->model;
-        $model->name    = $data['name'];
-        $model->logo    = $data['logo'];
-        $model->time    = $data['time'];
-        $model->cover   = $data['cover'];
-        $model->save();
-
+        $model->create($data);
         return $model->fresh();
 
     }

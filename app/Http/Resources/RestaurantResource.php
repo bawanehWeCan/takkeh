@@ -20,6 +20,9 @@ class RestaurantResource extends JsonResource
             'logo'=>$this->logo,
             'cover'=>$this->cover,
             'time'=>$this->time,
+            'cost'=>'توصيل مجاني',
+            'review_icon'=>'img/cats/burger.svg',
+            'review'=> new ReviewResource($this->review),
             'products'=> ProductResource::collection( $this->products ),
         ];
     }

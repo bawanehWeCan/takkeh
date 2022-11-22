@@ -6,7 +6,9 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use App\Repositories\Repository;
 use App\Http\Resources\ResResource;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\RestaurantRequest;
 use App\Repositorys\RestaurantRepository;
@@ -24,7 +26,7 @@ class RestaurantController extends ApiController
     {
         $this->resource = ResResource::class;
         $this->model = app( Restaurant::class );
-        $this->repositry =  new RestaurantRepository( $this->model ) ;
+        $this->repositry =  new Repository( $this->model ) ;
     }
 
     /**
@@ -32,7 +34,7 @@ class RestaurantController extends ApiController
      * @return void
      */
     public function save( RestaurantRequest $request ){
-        return $this->store( $request );
+        return $this->store( $request->all() );
     }
 
     public function getPagination( Request $request )
