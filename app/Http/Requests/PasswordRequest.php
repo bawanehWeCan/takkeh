@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Http\Requests;
-
 use App\Traits\ResponseTrait;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
-class ProfileUpdateRequest extends FormRequest
+
+class PasswordRequest extends FormRequest
 {
     use ResponseTrait;
     /**
@@ -24,16 +24,15 @@ class ProfileUpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules()
     {
         return [
-            'name' => 'sometimes|string',
-            'email' => 'sometimes|email',
+            'password' => 'current_password:api',
+            'new_password'=>"required|confirmed",
         ];
     }
-
     protected function failedValidation(Validator $validator)
     {
         $errors = (new ValidationException($validator))->errors();

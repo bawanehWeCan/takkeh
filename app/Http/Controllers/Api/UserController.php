@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\RoleChangeRequest;
-use App\Http\Requests\UserRequest;
-use App\Http\Resources\UserResource;
-use App\Repositorys\UserRepository;
 use App\Traits\ResponseTrait;
+use App\Http\Requests\UserRequest;
+use App\Repositorys\UserRepository;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use App\Http\Requests\RoleChangeRequest;
+use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -104,4 +106,51 @@ class UserController extends Controller
 
         return $this->returnError(__('Sorry! User not found'));
     }
+
+
+    public function updateUser(ProfileUpdateRequest $request,$id)
+    {
+        $user = User::find($id);
+        // check unique email except this user
+        if (isset($request->email)) {
+            $check = User::where('email', $request->email)->where('email','!=',$user->email)
+                ->first();
+
+            if ($check) {
+
+                return $this->returnError('The email address is already used!');
+            }
+        }
+        if (isset($request->phone)) {
+            $check = User::where('phone', $request->phone)->where('phone','!=',$user->phone)
+                ->first();
+
+            if ($check) {
+
+                return $this->returnError('The phone is already used!');
+            }
+        }
+
+        if ($request->has('image')) {
+            unlink($user->image);
+        }
+        if ($request->has('cover')) {
+            unlink($user->cover);
+        }
+
+        $user->update(
+            $request->only([
+                'name',
+                'lname',
+                'email',
+                'image',
+                'cover',
+                'phone',
+            ])
+        );
+
+
+        return $this->returnData('user', UserResource::make($user), 'successful');
+    }
+
 }

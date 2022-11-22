@@ -148,6 +148,7 @@ Route::middleware(['auth:api'])->group(function () {
 	Route::get('profile', [AuthController::class, 'profile']);
 
 	Route::post('update-profile', [AuthController::class, 'updateProfile']);
+	Route::post('update-password', [AuthController::class, 'updatePassword']);
 
 
     Route::post('/review/edit/{id}', [ReviewController::class, 'editRev']);
@@ -157,6 +158,7 @@ Route::middleware(['auth:api'])->group(function () {
 	Route::get('/users', [UserController::class, 'list']);
 	Route::post('/user-create', [UserController::class, 'store']);
 	Route::get('/user/{id}', [UserController::class, 'profile']);
+	Route::post('/user/update/{id}', [UserController::class, 'updateUser']);
 	Route::get('/user/delete/{id}', [UserController::class, 'delete']);
 	Route::post('/user/change-role/{id}', [UserController::class, 'changeRole']);
 
