@@ -20,10 +20,10 @@ class ResResource extends JsonResource
             'logo'=>$this->logo,
             'cover'=>$this->cover,
             'review_icon'=>'img/cats/burger.svg',
-            'review'=>'اشي فاخر',
             'cost'=>'توصيل مجاني',
             'time'=>$this->time,
             'categories'=> CategoryResource::collection($this->categories),
+            'review'=> new ReviewResource($this->review),
         ];
     }
 }

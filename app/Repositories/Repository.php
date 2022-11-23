@@ -91,5 +91,12 @@ class Repository{
         return $data;
     }
 
+    public function edit($id,$data){
+        $model = $this->model->where( 'id', $id )->firstOrFail();
+        $model->update($data);
+        return $model->fresh();
+
+    }
+
 
 }

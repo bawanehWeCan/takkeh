@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthRequest;
-use App\Http\Requests\PasswordChangeRequest;
-use App\Http\Requests\ProfileUpdateRequest;
-use App\Http\Requests\UserRequest;
-use App\Http\Resources\SupplierResource;
-use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Repositorys\UserRepository;
-use App\Traits\ResponseTrait;
+use Nette\Utils\Json;
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
+use App\Http\Requests\AuthRequest;
+use App\Http\Requests\UserRequest;
+use App\Repositorys\UserRepository;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Nette\Utils\Json;
+use App\Http\Requests\PasswordRequest;
+use App\Http\Resources\SupplierResource;
+use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\PasswordChangeRequest;
+use App\Http\Resources\WalletResource;
 
 class AuthController extends Controller
 {
@@ -83,9 +85,9 @@ class AuthController extends Controller
         }
     }
 
-    public function countries(){
-        return $this->returnData('countries', Countries::getList('en', 'json'), 'succesfully');
-    }
+    // public function countries(){
+    //     return $this->returnData('countries', Countries::getList('en', 'json'), 'succesfully');
+    // }
 
     public function store(UserRequest $request)
     {
@@ -120,10 +122,14 @@ class AuthController extends Controller
             // return $this->returnData( 'user', UserResource::make($user), '');
 
             if (Auth::user()->type == 'user') {
-
+                $user->wallet()->create([
+                    'name'=>$user->name . "'s wallet" . rand(0,10000),
+                    'user_id'=>$user->id
+                ]);
                 return response(['status' => true, 'code' => 200, 'msg' => __('User created succesfully'), 'data' => [
                     'token' => $accessToken,
-                    'user' => UserResource::make(Auth::user())
+                    'user' => UserResource::make(Auth::user()),
+                    'wallet'=>WalletResource::make(Auth::user()->wallet),
                 ]]);
             }
         }
@@ -274,7 +280,7 @@ class AuthController extends Controller
         $user = Auth::user();
         // check unique email except this user
         if (isset($request->email)) {
-            $check = User::where('email', $request->email)
+            $check = User::where('email', $request->email)->where('email','!=',$user->email)
                 ->first();
 
             if ($check) {
@@ -282,18 +288,49 @@ class AuthController extends Controller
                 return $this->returnError('The email address is already used!');
             }
         }
+        if (isset($request->phone)) {
+            $check = User::where('phone', $request->phone)->where('phone','!=',$user->phone)
+                ->first();
+
+            if ($check) {
+
+                return $this->returnError('The phone is already used!');
+            }
+        }
+
+        if ($request->has('image')) {
+            unlink($user->image);
+        }
+
+        if ($request->has('cover')) {
+            unlink($user->cover);
+        }
+
+
 
         $user->update(
             $request->only([
                 'name',
+                'lname',
                 'email',
                 'image',
+                'cover',
                 'phone',
             ])
         );
 
 
         return $this->returnData('user', UserResource::make(Auth::user()), 'successful');
+    }
+
+    public function updatePassword(PasswordRequest $request)
+    {
+        $user = Auth::user();
+
+        $user->update([
+            'password'=>bcrypt($request->new_password),
+        ]);
+        return $this->returnSuccessMessage('Password updated successfully');
     }
 
 

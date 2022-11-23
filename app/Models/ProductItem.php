@@ -9,7 +9,12 @@ class ProductItem extends Model
 {
     use HasFactory;
 
-    public function extra(){
-        return $this->belongsTo(Extra::class);
+    public function group(){
+        return $this->belongsTo(Group::class);
     }
+
+    public function item(){
+        return $this->belongsTo(GroupItem::class, 'group_item_id');
+    }
+
 }

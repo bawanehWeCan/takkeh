@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CountriesController;
 use App\Http\Controllers\Api\FaqController;
+use App\Http\Controllers\api\HomeController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\UserController;
@@ -51,9 +52,10 @@ Route::post('change-password', [AuthController::class, 'changePassword']);
 
 //Reviews
 Route::get('reviews', [ReviewController::class, 'index']);
-Route::post('review-create', [ReviewController::class, 'save']);
+
 Route::get('review/{id}', [ReviewController::class, 'show']);
 Route::post('review/delete/{id}', [ReviewController::class, 'destroy']);
+
 
 
 //supp
@@ -116,8 +118,9 @@ Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
 
 Route::post('restaurants/category', [RestaurantController::class, 'addCategory']);
 
-
-Route::post('restaurants/search/{value}', [RestaurantController::class, 'search']);
+Route::post('restaurants/search', [RestaurantController::class, 'lookfor']);
+Route::post('restaurant/review', [RestaurantController::class, 'addReviewToResturant']);
+// Route::post('restaurants/search/{value}', [RestaurantController::class, 'search']);
 
 
 
@@ -126,6 +129,9 @@ Route::get('products', [ProductController::class, 'pagination']);
 Route::post('products-create', [ProductController::class, 'save']);
 Route::get('products/{id}', [ProductController::class, 'view']);
 Route::get('products/delete/{id}', [ProductController::class, 'delete']);
+
+//home
+Route::get('/home', HomeController::class);
 
 
 
@@ -142,11 +148,17 @@ Route::middleware(['auth:api'])->group(function () {
 	Route::get('profile', [AuthController::class, 'profile']);
 
 	Route::post('update-profile', [AuthController::class, 'updateProfile']);
+	Route::post('update-password', [AuthController::class, 'updatePassword']);
+
+
+    Route::post('/review/edit/{id}', [ReviewController::class, 'editRev']);
+    Route::post('review-create', [ReviewController::class, 'save']);
 
 	//only those have manage_user permission will get access
 	Route::get('/users', [UserController::class, 'list']);
 	Route::post('/user-create', [UserController::class, 'store']);
 	Route::get('/user/{id}', [UserController::class, 'profile']);
+	Route::post('/user/update/{id}', [UserController::class, 'updateUser']);
 	Route::get('/user/delete/{id}', [UserController::class, 'delete']);
 	Route::post('/user/change-role/{id}', [UserController::class, 'changeRole']);
 
@@ -183,6 +195,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('wallet', [WalletController::class, 'list']);
     Route::post('wallet-create', [WalletController::class, 'save']);
     Route::get('wallet/{id}', [WalletController::class, 'view']);
+    Route::get('my-wallet', [WalletController::class, 'myWallet']);
     Route::get('wallet/delete/{id}', [WalletController::class, 'delete']);
 
     Route::post('transaction', [TransactionController::class, 'transaction']);

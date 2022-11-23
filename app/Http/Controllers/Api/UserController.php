@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\RoleChangeRequest;
-use App\Http\Requests\UserRequest;
-use App\Http\Resources\UserResource;
-use App\Repositorys\UserRepository;
+use App\Models\User;
 use App\Traits\ResponseTrait;
+use App\Http\Requests\UserRequest;
+use App\Repositorys\UserRepository;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\WalletResource;
+use App\Http\Requests\RoleChangeRequest;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class UserController extends Controller
 {
@@ -51,7 +54,14 @@ class UserController extends Controller
         $user = $this->userRepositry->saveUser($request);
 
         if ($user) {
-            return $this->returnData('user', UserResource::make($user), __('User created succesfully'));
+            $user->wallet()->create([
+                'name'=>$user->name . "'s wallet" . rand(0,10000),
+                'user_id'=>$user->id
+            ]);
+            return response([
+                $this->returnData('user', UserResource::make($user), __('User created succesfully')),
+                $this->returnData('wallet', WalletResource::make($user->wallet), __('Wallet created succesfully')),
+            ]);
         }
 
         return $this->returnError(__('Sorry! Failed to create user!'));
@@ -104,4 +114,51 @@ class UserController extends Controller
 
         return $this->returnError(__('Sorry! User not found'));
     }
+
+
+    public function updateUser(ProfileUpdateRequest $request,$id)
+    {
+        $user = User::find($id);
+        // check unique email except this user
+        if (isset($request->email)) {
+            $check = User::where('email', $request->email)->where('email','!=',$user->email)
+                ->first();
+
+            if ($check) {
+
+                return $this->returnError('The email address is already used!');
+            }
+        }
+        if (isset($request->phone)) {
+            $check = User::where('phone', $request->phone)->where('phone','!=',$user->phone)
+                ->first();
+
+            if ($check) {
+
+                return $this->returnError('The phone is already used!');
+            }
+        }
+
+        if ($request->has('image')) {
+            unlink($user->image);
+        }
+        if ($request->has('cover')) {
+            unlink($user->cover);
+        }
+
+        $user->update(
+            $request->only([
+                'name',
+                'lname',
+                'email',
+                'image',
+                'cover',
+                'phone',
+            ])
+        );
+
+
+        return $this->returnData('user', UserResource::make($user), 'successful');
+    }
+
 }
