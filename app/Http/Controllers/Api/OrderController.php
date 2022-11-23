@@ -30,15 +30,15 @@ class OrderController extends Controller
             $cart_item->product_id = $product['product_id'];
             $cart_item->order_id = $order->id;
             $cart_item->quantity = $product['quantity'];
-            $cart_item->size_id = $product['size_id'];
             $cart_item->note = !empty($product['note']) ? $product['note'] : '';
             $cart_item->price = $product['price'];
             $cart_item->save();
 
-            foreach ($product['extras'] as $extra) {
+            foreach ($product['groups'] as $group) {
                 $product_item = new ProductItem();
+                $product_item->group_id = $group['group_id'];
+                $product_item->group_item_id = $group['item_id'];
                 $product_item->cart_item_id = $cart_item->id;
-                $product_item->extra_id = $extra['extra_id'];
                 $product_item->save();
             }
         }

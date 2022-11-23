@@ -30,4 +30,10 @@ class WalletController extends ApiController
         return $this->store( $request->all() );
 
     }
+
+    public function myWallet()
+    {
+        $wallet=Wallet::where('user_id',Auth::user()->id)->first();
+        return $this->returnData('my_wallet',$this->resource::make($wallet));
+    }
 }

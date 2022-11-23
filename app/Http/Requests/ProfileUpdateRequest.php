@@ -29,8 +29,8 @@ class ProfileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'email' => 'required|email',
+            'name' => 'sometimes|string',
+            'email' => 'sometimes|email',
         ];
     }
 
@@ -39,7 +39,7 @@ class ProfileUpdateRequest extends FormRequest
         $errors = (new ValidationException($validator))->errors();
 
         throw new HttpResponseException(
-            
+
             $this->returnValidationError($validator,422)
         );
     }
