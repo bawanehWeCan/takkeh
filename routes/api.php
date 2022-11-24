@@ -134,10 +134,6 @@ Route::post('products-create', [ProductController::class, 'save']);
 Route::get('products/{id}', [ProductController::class, 'view']);
 Route::get('products/delete/{id}', [ProductController::class, 'delete']);
 
-//home
-Route::get('/home', [HomeController::class, 'home']);
-
-
 
 
 Route::middleware(['auth:api'])->group(function () {
@@ -179,7 +175,6 @@ Route::middleware(['auth:api'])->group(function () {
 		Route::get('/permission/delete/{id}', [PermissionController::class, 'delete']);
 	});
 
-    //address
     // Address
     Route::get('address', [AddressController::class, 'pagination']);
     Route::post('address-create', [AddressController::class, 'save']);
