@@ -51,7 +51,7 @@ class Repository{
      */
     function getByID( $model_id )
     {
-        $model = $this->model->where( 'id', $model_id )->firstOrFail();
+        $model = $this->model->find($model_id);
         return $model;
     }
 
@@ -64,7 +64,7 @@ class Repository{
      */
     public function deleteByID( $model_id, bool $force = false ):void
     {
-        $model = $this->model->where( 'id', $model_id )->firstOrFail();
+        $model = $this->model->find($model_id);
 
         if ($force) {
             $model->forceDelete();
