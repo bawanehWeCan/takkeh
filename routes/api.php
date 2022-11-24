@@ -1,31 +1,32 @@
 <?php
 
+use Nette\Utils\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CardController;
-use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\CountriesController;
-use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\PageController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\OrderController;
-use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RolesController;
-use App\Http\Controllers\Api\PermissionController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\RestaurantController;
-use App\Http\Controllers\Api\ServiceController;
-use App\Http\Controllers\Api\SliderController;
-use App\Http\Controllers\Api\SpecialController;
-use App\Http\Controllers\Api\PageController;
-use App\Http\Controllers\Api\PromoCodeController;
-use App\Http\Controllers\Api\TransactionController;
-use App\Http\Controllers\Api\WalletController;
-
-
 use App\Http\Controllers\Api\ReviewController;
-use Nette\Utils\Json;
+use App\Http\Controllers\Api\SliderController;
+use App\Http\Controllers\Api\WalletController;
+use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\SpecialController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CountriesController;
+use App\Http\Controllers\Api\PromoCodeController;
+
+
+use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\RestaurantController;
+use App\Http\Controllers\Api\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -180,6 +181,14 @@ Route::middleware(['auth:api'])->group(function () {
 		Route::get('/permission/{id}', [PermissionController::class, 'show']);
 		Route::get('/permission/delete/{id}', [PermissionController::class, 'delete']);
 	});
+
+    //address
+    // Address
+    Route::get('address', [AddressController::class, 'pagination']);
+    Route::post('address-create', [AddressController::class, 'save']);
+    Route::get('address/{id}', [AddressController::class, 'view']);
+    Route::get('address/delete/{id}', [AddressController::class, 'delete']);
+    Route::get('my-address', [AddressController::class, 'user_address']);
 
     //only those have manage_user permission will get access
     Route::get('promo-code', [PromoCodeController::class, 'list']);

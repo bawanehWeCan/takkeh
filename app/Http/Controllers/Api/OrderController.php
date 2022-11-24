@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AddressResource;
 use App\Http\Resources\OrderResource;
 use App\Traits\ResponseTrait;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\ProductItem;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -71,6 +73,9 @@ class OrderController extends Controller
             'position' => array( 'geohas'=>'alaa','geopoint' => array( 'aaa','aaa' ) ),
         ]);
 
-        return $this->returnData('data', new OrderResource($order), '');
+        return response([
+            $this->returnData('order', new OrderResource($order), ''),
+            $this->returnData('User_addresses', AddressResource::collection(User::find($order->user_id)->addresses), ''),
+        ]);
     }
 }
