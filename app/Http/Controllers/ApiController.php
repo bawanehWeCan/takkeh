@@ -76,11 +76,11 @@ class ApiController extends Controller
     {
         $model = $this->repositry->getByID($id);
 
-        if ($model) {
-            return $this->returnData('data', new $this->resource( $model ), __('Get  succesfully'));
+        if (!$model) {
+            return $this->returnError(__('Sorry! Failed to get !'));
         }
+        return $this->returnData('data', new $this->resource( $model ), __('Get  succesfully'));
 
-        return $this->returnError(__('Sorry! Failed to get !'));
     }
 
     /**
