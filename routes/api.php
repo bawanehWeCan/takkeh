@@ -37,6 +37,8 @@ use Nette\Utils\Json;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//home
+Route::get('/home', [HomeController::class,'home']);
 
 //Auth
 Route::post('login', [AuthController::class, 'login']);
@@ -133,11 +135,6 @@ Route::get('products/delete/{id}', [ProductController::class, 'delete']);
 
 //home
 Route::get('/home', [HomeController::class, 'home']);
-
-
-
-
-
 
 
 
