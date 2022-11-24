@@ -20,7 +20,7 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __invoke()
+    public function home()
     {
         $sliders = Slider::all();
         $cats = Category::all();
