@@ -91,6 +91,12 @@ class ApiController extends Controller
      */
     public function delete($id)
     {
+        $model = $this->repositry->getByID($id);
+
+        if (!$model) {
+            return $this->returnError(__('Sorry! Failed to get !'));
+        }
+
         $this->repositry->deleteByID($id);
 
         return $this->returnSuccessMessage(__('Delete succesfully!'));
