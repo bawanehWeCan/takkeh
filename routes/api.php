@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\CardController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CountriesController;
 use App\Http\Controllers\Api\FaqController;
-use App\Http\Controllers\api\HomeController;
+use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\UserController;
@@ -132,7 +132,7 @@ Route::get('products/{id}', [ProductController::class, 'view']);
 Route::get('products/delete/{id}', [ProductController::class, 'delete']);
 
 //home
-Route::get('/home', [HomeController::class,'home']);
+Route::get('/home', [HomeController::class, 'home']);
 
 
 
