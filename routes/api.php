@@ -132,7 +132,7 @@ Route::get('products/{id}', [ProductController::class, 'view']);
 Route::get('products/delete/{id}', [ProductController::class, 'delete']);
 
 //home
-Route::get('/home', HomeController::class);
+//Route::get('/home', HomeController::class);
 
 
 
