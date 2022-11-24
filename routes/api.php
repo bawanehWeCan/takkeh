@@ -37,7 +37,7 @@ use Nette\Utils\Json;
 |
 */
 //home
-Route::get('/home', HomeController::class);
+Route::get('/home', [HomeController::class,'home']);
 
 //Auth
 Route::post('login', [AuthController::class, 'login']);
