@@ -50,7 +50,9 @@ class OfferController extends Controller
      */
     public function store(OfferRequest $request)
     {
-        if (isset($request->resturant_id)) {
+        if(isset($request->resturant_id) && isset($request->product_id)){
+            return $this->returnError('It\'s not allowed to add both (resturant_id and product_id) Please add only one of them');
+        }elseif (isset($request->resturant_id)) {
             $resturant = Restaurant::find($request->resturant_id);
             if (!$resturant) {
                 return $this->returnError('This resturant is not exists');
@@ -64,8 +66,6 @@ class OfferController extends Controller
             }
             $request['offerable_id']=$request->product_id;
             $request['offerable_type']=get_class($product);
-        }elseif(isset($request->resturant_id) && isset($request->product_id)){
-            return $this->returnError('It\'s not allowed to add both (resturant_id and product_id) Please add only one of them');
         }
         $offer = $this->offerRepositry->saveOffer($request);
 
