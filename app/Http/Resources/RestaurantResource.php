@@ -21,7 +21,6 @@ class RestaurantResource extends JsonResource
             'cover'=>$this->cover,
             'time'=>$this->time,
             'cost'=>'توصيل مجاني',
-            'products'=> ProductResource::collection( $this->products ),
         ];
     }
 

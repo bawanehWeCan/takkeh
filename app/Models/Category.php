@@ -22,6 +22,9 @@ class Category extends Model
     public function restaurant(){
         return $this->morphedByMany( Restaurant::class, 'categoryable' );
     }
+    public function Products(){
+        return $this->morphedByMany( Product::class, 'categoryable' );
+    }
 
-    
+
 }

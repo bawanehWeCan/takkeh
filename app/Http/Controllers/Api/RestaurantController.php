@@ -5,14 +5,21 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Restaurant;
+use App\Models\ProductItem;
+use App\Models\Categoryable;
 use Illuminate\Http\Request;
 use App\Repositories\Repository;
 use App\Http\Resources\ResResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\RestaurantRequest;
 use App\Repositorys\RestaurantRepository;
 use App\Http\Resources\RestaurantResource;
+use App\Http\Resources\RestCatProResource;
+use App\Http\Resources\ProductItemResource;
+use App\Http\Resources\CategoryItemResource;
+use App\Http\Resources\CatProResource;
 
 class RestaurantController extends ApiController
 {
@@ -97,7 +104,12 @@ class RestaurantController extends ApiController
         if (!$resturant) {
             return $this->returnError('This resturant is not exists');
         }
-        return $this->returnData('data', new RestaurantResource($resturant), '');
+        $categryables = Categoryable::where('categoryable_type',"App\Models\Product")->pluck('category_id');
+        $cats = Category::with('products')->WhereIn('id',$categryables->toArray())->whereHas('products',function (Builder $q) use($resturant){
+            $q->where('restaurant_id',$resturant->id);
+        })->get();
+        return $this->returnData('categories', CatProResource::collection($cats), '');
     }
+
 
 }

@@ -136,6 +136,7 @@ Route::get('products', [ProductController::class, 'pagination']);
 Route::post('products-create', [ProductController::class, 'save']);
 Route::get('products/{id}', [ProductController::class, 'view']);
 Route::get('products/delete/{id}', [ProductController::class, 'delete']);
+Route::post('products/category', [ProductController::class, 'addCategory']);
 
 
 

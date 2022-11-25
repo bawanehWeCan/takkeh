@@ -7,8 +7,10 @@ use App\Models\Size;
 use App\Models\Extra;
 use App\Models\Group;
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\GroupItem;
 use App\Models\Restaurant;
+use Illuminate\Http\Request;
 use App\Repositories\Repository;
 use Illuminate\Support\Facades\DB;
 use App\Repositorys\SizeRepository;
@@ -98,6 +100,19 @@ class ProductController extends ApiController
     public function lookfor(ProductRequest $request){
 
         return $this->search('name',$request->keyword);
+
+    }
+
+    public function addCategory( Request $request ){
+
+        $category   = Category::find( $request->category_id );
+        $product = $this->model->find( $request->product_id );
+        if (!$category || !$product) {
+            return $this->returnError('Some thing has been wrong');
+        }
+        $cat = $product->categories()->save($category);
+        $product->push($cat);
+        return $this->returnData( 'data' , $this->resource::make( $product ), __('Succesfully'));
 
     }
 

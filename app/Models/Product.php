@@ -31,4 +31,8 @@ class Product extends Model
         return $this->hasMany(Group::class);
     }
 
+    public function categories(){
+        return $this->morphToMany( Category::class, 'categoryable' );
+    }
+
 }
