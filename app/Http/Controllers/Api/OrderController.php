@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AddressResource;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderUpdateResource;
 use App\Traits\ResponseTrait;
 use App\Models\CartItem;
 use App\Models\Order;
@@ -54,7 +55,6 @@ class OrderController extends Controller
         $order->lat = $request->lat;
         $order->long = $request->long;
         $order->save();
-
         $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
         $stuRef->set([
             'user_id' => $order->user_id,
@@ -73,9 +73,7 @@ class OrderController extends Controller
             'position' => array( 'geohas'=>'alaa','geopoint' => array( 'aaa','aaa' ) ),
         ]);
 
-        return response([
-            $this->returnData('order', new OrderResource($order), ''),
-            $this->returnData('User_addresses', AddressResource::collection(User::find($order->user_id)->addresses), ''),
-        ]);
+        return $this->returnData('order', new OrderUpdateResource($order), '');
+
     }
 }
