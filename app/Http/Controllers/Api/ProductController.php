@@ -39,7 +39,7 @@ class ProductController extends ApiController
      */
     public function save(ProductRequest $request)
     {
-        $resturant = Restaurant::find($request->resturant_id);
+        $resturant = Restaurant::find($request->restaurant_id);
         if (!$resturant) {
             return $this->returnError('This resturant is not exists');
         }
