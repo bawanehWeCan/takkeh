@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\AddressResource;
+use App\Http\Resources\MyOrdersResource;
 use App\Http\Resources\OrderUpdateResource;
 
 class OrderController extends Controller
@@ -84,6 +85,6 @@ class OrderController extends Controller
         if (!$orders) {
             return $this->returnError(__('Sorry! Failed to get !'));
         }
-        return $this->returnData('data',  OrderResource::collection( $orders ), __('Get  succesfully'));
+        return $this->returnData('data',  MyOrdersResource::collection( $orders ), __('Get  succesfully'));
     }
 }
