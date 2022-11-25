@@ -47,6 +47,8 @@ class OfferRepository
 
         $offer = new $this->offer;
         $offer->image = $data['image'];
+        $offer->offerable_id = $data['offerable_id'];
+        $offer->offerable_type = $data['offerable_type'];
         $offer->save();
 
         return $offer->fresh();
