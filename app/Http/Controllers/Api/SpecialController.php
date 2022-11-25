@@ -60,6 +60,7 @@ class SpecialController extends Controller
             }
             $request['offerable_id']=$request->resturant_id;
             $request['offerable_type']=get_class($resturant);
+            unset($request['resturant_id']);
         }elseif (isset($request->product_id)) {
             $product = Product::find($request->product_id);
             if (!$product) {
@@ -67,6 +68,7 @@ class SpecialController extends Controller
             }
             $request['offerable_id']=$request->product_id;
             $request['offerable_type']=get_class($product);
+            unset($request['product_id']);
         }
         $special = $this->specialRepositry->saveSpecial($request->all());
 
