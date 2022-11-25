@@ -205,6 +205,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('wallet/delete/{id}', [WalletController::class, 'delete']);
 
     Route::post('transaction', [TransactionController::class, 'transaction']);
+    Route::get('my-orders',[ OrderController::class, 'user_orders' ]);
 
 });
 

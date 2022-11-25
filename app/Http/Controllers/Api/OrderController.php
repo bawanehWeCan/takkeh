@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\AddressResource;
-use App\Http\Resources\OrderResource;
-use App\Http\Resources\OrderUpdateResource;
-use App\Traits\ResponseTrait;
-use App\Models\CartItem;
-use App\Models\Order;
-use App\Models\ProductItem;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\CartItem;
+use App\Models\ProductItem;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\AddressResource;
+use App\Http\Resources\OrderUpdateResource;
 
 class OrderController extends Controller
 {
@@ -75,5 +76,14 @@ class OrderController extends Controller
 
         return $this->returnData('order', new OrderUpdateResource($order), '');
 
+    }
+
+    public function user_orders($length = 10){
+        $orders = Order::where('user_id',Auth::user()->id)->paginate($length);
+
+        if (!$orders) {
+            return $this->returnError(__('Sorry! Failed to get !'));
+        }
+        return $this->returnData('data',  OrderResource::collection( $orders ), __('Get  succesfully'));
     }
 }
