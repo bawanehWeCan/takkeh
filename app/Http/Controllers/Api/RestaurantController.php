@@ -91,4 +91,13 @@ class RestaurantController extends ApiController
         return $this->returnData('data', new $this->resource($resturant), '');
     }
 
+    public function resturantWithProducts($id)
+    {
+        $resturant = $this->repositry->getByID($id);
+        if (!$resturant) {
+            return $this->returnError('This resturant is not exists');
+        }
+        return $this->returnData('data', new RestaurantResource($resturant), '');
+    }
+
 }

@@ -124,6 +124,9 @@ Route::post('restaurants/category', [RestaurantController::class, 'addCategory']
 
 Route::post('restaurants/search', [RestaurantController::class, 'lookfor']);
 Route::post('restaurant/review', [RestaurantController::class, 'addReviewToResturant']);
+
+Route::get('restaurant/products/{id}', [RestaurantController::class, 'resturantWithProducts']);
+
 // Route::post('restaurants/search/{value}', [RestaurantController::class, 'search']);
 
 
