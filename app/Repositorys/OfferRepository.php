@@ -45,11 +45,7 @@ class OfferRepository
     public function saveOffer($data)
     {
 
-        $offer = new $this->offer;
-        $offer->image = $data['image'];
-        $offer->offerable_id = $data['offerable_id'];
-        $offer->offerable_type = $data['offerable_type'];
-        $offer->save();
+        $offer = $this->offer->create($data);
 
         return $offer->fresh();
     }

@@ -45,9 +45,7 @@ class SpecialRepository
     public function saveSpecial($data)
     {
 
-        $special = new $this->special;
-        $special->image = $data['image'];
-        $special->save();
+        $special = $this->special->create($data);
 
         return $special->fresh();
     }
