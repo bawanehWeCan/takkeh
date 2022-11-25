@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\RoleChangeRequest;
-use App\Http\Requests\SpecialRequest;
-use App\Http\Resources\SpecialResource;
-use App\Repositorys\SpecialRepository;
+use App\Models\Product;
+use App\Models\Restaurant;
 use App\Traits\ResponseTrait;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\SpecialRequest;
+use App\Repositorys\SpecialRepository;
+use App\Http\Resources\SpecialResource;
+use App\Http\Requests\RoleChangeRequest;
 
 class SpecialController extends Controller
 {
@@ -48,6 +50,17 @@ class SpecialController extends Controller
      */
     public function store(SpecialRequest $request)
     {
+        if (isset($request->resturant_id)) {
+            $request['offerable_id']=$request->resturant_id;
+            $resturant = Restaurant::find($request->resturant_id);
+            $request['offerable_type']=get_class($resturant);
+        }elseif (isset($request->product_id)) {
+            $request['offerable_id']=$request->product_id;
+            $product = Product::find($request->product_id);
+            $request['offerable_type']=get_class($product);
+        }elseif(isset($request->resturant_id) && isset($request->product_id)){
+            return $this->returnError('It\'s not allowed to add both (resturant_id and product_id) Please add only one of them');
+        }
         $special = $this->specialRepositry->saveSpecial($request);
 
         if ($special) {

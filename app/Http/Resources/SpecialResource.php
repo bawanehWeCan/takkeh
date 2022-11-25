@@ -17,6 +17,8 @@ class SpecialResource extends JsonResource
         return [
             'id'=>$this->id,
             'image'=>$this->image,
+            'offerable_id'=>$this->offerable_id,
+            'offerable_type'=>$this->offerable_type,
         ];
     }
 }

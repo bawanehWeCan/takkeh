@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleChangeRequest;
 use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferResource;
+use App\Models\Product;
+use App\Models\Restaurant;
 use App\Repositorys\OfferRepository;
 use App\Traits\ResponseTrait;
 
@@ -48,6 +50,17 @@ class OfferController extends Controller
      */
     public function store(OfferRequest $request)
     {
+        if (isset($request->resturant_id)) {
+            $request['offerable_id']=$request->resturant_id;
+            $resturant = Restaurant::find($request->resturant_id);
+            $request['offerable_type']=get_class($resturant);
+        }elseif (isset($request->product_id)) {
+            $request['offerable_id']=$request->product_id;
+            $product = Product::find($request->product_id);
+            $request['offerable_type']=get_class($product);
+        }elseif(isset($request->resturant_id) && isset($request->product_id)){
+            return $this->returnError('It\'s not allowed to add both (resturant_id and product_id) Please add only one of them');
+        }
         $offer = $this->offerRepositry->saveOffer($request);
 
         if ($offer) {
