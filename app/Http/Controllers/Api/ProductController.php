@@ -8,6 +8,7 @@ use App\Models\Extra;
 use App\Models\Group;
 use App\Models\Product;
 use App\Models\GroupItem;
+use App\Models\Restaurant;
 use App\Repositories\Repository;
 use Illuminate\Support\Facades\DB;
 use App\Repositorys\SizeRepository;
@@ -38,6 +39,10 @@ class ProductController extends ApiController
      */
     public function save(ProductRequest $request)
     {
+        $resturant = Restaurant::find($request->resturant_id);
+        if (!$resturant) {
+            return $this->returnError('This resturant is not exists');
+        }
         return $this->store($request);
     }
 
