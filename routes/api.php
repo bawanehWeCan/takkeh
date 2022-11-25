@@ -115,7 +115,7 @@ Route::get('services/delete/{id}', [ServiceController::class, 'delete']);
 
 
 //only those have manage_user permission will get access
-Route::get('restaurants', [RestaurantController::class, 'getPagination']);
+Route::get('restaurants', [RestaurantController::class, 'list_reviews']);
 Route::post('restaurants-create', [RestaurantController::class, 'save']);
 Route::get('restaurants/{id}', [RestaurantController::class, 'view']);
 Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);

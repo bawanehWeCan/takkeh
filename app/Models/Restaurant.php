@@ -44,6 +44,6 @@ class Restaurant extends Model
     }
 
     public function review(){
-        return $this->morphOne(Review::class,'reviewable');
+        return $this->morphMany(Review::class,'reviewable');
     }
 }
