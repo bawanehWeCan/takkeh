@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Offer extends Model
 {
     use HasFactory;
-
+    protected $guarded = [];
     public function setImageAttribute($value){
         if ($value){
             $file = $value;
