@@ -25,7 +25,7 @@ class ResResource extends JsonResource
             'is_busy'=>$this->is_busy,
             'description'=>$this->description,
             'categories'=> CategoryItemResource::collection($this?->categories),
-            // 'tags'=> TagResource::collection($this?->tags),
+            'tags'=> TagResource::collection($this?->tags),
             // 'review'=>  ReviewResource::collection($this?->review),
         ];
     }
