@@ -50,7 +50,7 @@ class AuthController extends Controller
             ])
         );
 
-        dd( Hash::make( $request->password ) );
+        //dd( Hash::make( $request->password ) );
         if (!$auth) {
 
 
