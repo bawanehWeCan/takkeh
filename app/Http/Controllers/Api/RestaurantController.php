@@ -113,7 +113,7 @@ class RestaurantController extends ApiController
         unset($request['resturant_id']);
         $resturant_with_review = $resturant->review()->create($request->all());
 
-        $resturant->review = $resturant_with_review;
+        // $resturant->review = $resturant_with_review;
         return $this->returnData('data', new $this->resource($resturant), '');
     }
 
