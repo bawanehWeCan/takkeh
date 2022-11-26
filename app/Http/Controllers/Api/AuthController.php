@@ -42,14 +42,7 @@ class AuthController extends Controller
     }
     public function login(AuthRequest $request)
     {
-        $auth = Auth::attempt(
-            $request->only([
-                'phone',
-                'password',
-                'type',
-            ])
-        );
-        dd( $auth );
+        $user = User::where('phone',$request->phone)->first();
         //dd( Hash::make( $request->password ) );
         if (!$auth) {
 
@@ -61,7 +54,7 @@ class AuthController extends Controller
             ], 500);
         }
 
-        $accessToken = Auth::user()->createToken('authToken')->accessToken;
+        $accessToken = $user->createToken('authToken')->accessToken;
 
         if (Auth::user()->type == 'user') {
 
