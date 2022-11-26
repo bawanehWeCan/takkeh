@@ -6,11 +6,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-
         "google/protobuf": "3.17",
         "grpc/grpc": "1.38",
         "guzzlehttp/guzzle": "^7.2",
-
+        "kreait/laravel-firebase": "^4.2",
         "laravel/framework": "^9.19",
         "laravel/passport": "^10.4",
         "laravel/sanctum": "^2.14.1",
