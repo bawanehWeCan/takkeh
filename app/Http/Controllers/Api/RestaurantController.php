@@ -14,6 +14,7 @@ use App\Http\Resources\ResResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CatProResource;
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\RevItemResource;
 use App\Http\Requests\RestaurantRequest;
 use App\Repositorys\RestaurantRepository;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,6 +23,7 @@ use App\Http\Resources\RestCatProResource;
 use App\Http\Resources\ProductItemResource;
 use App\Http\Resources\CategoryItemResource;
 use App\Http\Resources\ResturantInfoResource;
+use App\Http\Resources\ResturantrevsResource;
 use App\Http\Resources\ResturantRerviewResource;
 
 class RestaurantController extends ApiController
@@ -50,24 +52,29 @@ class RestaurantController extends ApiController
     public function getPagination( Request $request )
     {
         if (!isset($request->category_id) && !isset($request->tag_id)) {
-            $data =  $this->repositry->pagination(10);
+            $data =  $this->repositry->with('review')->pagination(10);
         }elseif (isset($request->category_id) && isset($request->tag_id)) {
-            $data =  $this->model->whereHas('categories',function(Builder $q) use ($request){
+            $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
                 $q->where('category_id',$request->category_id);
             })->whereHas('tags',function(Builder $q) use ($request){
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
         }elseif (isset($request->category_id) && !isset($request->tag_id)) {
-            $data =  $this->model->whereHas('categories',function(Builder $q) use ($request){
+            $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
                 $q->where('category_id',$request->category_id);
             })->paginate( 10 );
         }elseif (isset($request->tag_id) && !isset($request->category_id)) {
-            $data =  $this->model->whereHas('tags',function(Builder $q) use ($request){
+            $data =  $this->model->with('review')->whereHas('tags',function(Builder $q) use ($request){
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
         }
-        return $this->returnData( 'data' , RestaurantResource::collection( $data ), __('Succesfully'));
-    }
+        $all=[];
+        foreach ($data as $resturant) {
+            $resturant = $this->review_string_icon($resturant);
+            $all = collect($all)->push($resturant);
+        }
+        // return json_encode($all);
+        return $this->returnData('data', ResturantRerviewResource::collection(collect($all)), '');    }
 
     public function addCategory( Request $request ){
 
@@ -167,6 +174,15 @@ class RestaurantController extends ApiController
         $resturant = Restaurant::with(['review','info'])->find($id);
         $resturant = $this->review_string_icon($resturant);
         return $this->returnData('data', ResturantInfoResource::make(collect($resturant)), '');
+    }
+
+    public function get_reviews($id){
+        $restaurant = Restaurant::with(['review','info'])->find($id);
+        $resturant = $this->review_string_icon($restaurant);
+        return response([
+            'restaurant'=> ResturantrevsResource::make(collect($resturant)),
+            'reviews'=> RevItemResource::collection($restaurant->review),
+        ]);
     }
 
     public function review_string_icon($resturant)
