@@ -131,14 +131,8 @@ class RestaurantController extends ApiController
     }
 
     public function list_reviews($length = 10){
-        $resturants = Restaurant::with('review')->paginate($length);
-        $all=[];
-        foreach ($resturants as $resturant) {
-            $resturant = $this->review_string_icon($resturant);
-            $all = collect($all)->push($resturant);
-        }
-        // return json_encode($all);
-        return $this->returnData('data', ResturantRerviewResource::collection(collect($all)), '');
+        $resturants = Restaurant::paginate($length);
+        return $this->returnData('data', ResturantRerviewResource::collection($resturants), '');
     }
 
     public function updateAvailability(Request $request)
