@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CatProResource extends JsonResource
+class ResCatProResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +15,11 @@ class CatProResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id"=>$this->id,
-            "name"=>$this->name,
-            "products"=>ResCatProResource::collection($this->products),
+            'id'=>$this->id,
+            'name'=>$this->name,
+            'image'=>$this->image,
+            'price'=>number_format($this->price,2),
+            'groups' => GroupResource::collection($this->groups)
         ];
     }
 }
