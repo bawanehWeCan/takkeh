@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\GeoHash;
+use Google\Cloud\Core\GeoPoint;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\CartItem;
@@ -15,6 +17,7 @@ use App\Http\Resources\OrderResource;
 use App\Http\Resources\AddressResource;
 use App\Http\Resources\MyOrdersResource;
 use App\Http\Resources\OrderUpdateResource;
+use App\Models\Address;
 
 class OrderController extends Controller
 {
@@ -57,22 +60,51 @@ class OrderController extends Controller
         $order->lat = $request->lat;
         $order->long = $request->long;
         $order->save();
+
+        $address = Address::find( $request->address_id );
+
+        $g = new GeoHash();
+
+        $user = User::find( $order->user_id );
+
+
         $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
         $stuRef->set([
-            'user_id' => $order->user_id,
-            'restaurant_id' => $order->restaurant_id,
-            'restaurant_name' => $order->restaurant->name,
-            'status' => $order->status,
-            'note' => $order->note,
-            'lat' => $order->lat,
-            'long' => $order->long,
-            'total' => $order->total,
-            'driver_id' => 0,
-            'res_lat' => $order->restaurant->lat,
-            'res_long' => $order->restaurant->lng,
-            'res_zone' => $order->restaurant->zone,
+
             'created_at' => $order->created_at,
-            'position' => array( 'geohas'=>'alaa','geopoint' => array( 'aaa','aaa' ) ),
+            'delivery_fee'=> 15,
+            'discount'=> 5,
+
+            'driver_id'=> 0,
+            'driver_image'=>'',
+            'driver_name'=>'',
+            'driver_phone'=>'',
+
+            'drop_point_address'=>$address->name,
+            'drop_point_id'=>$user->id,
+            'drop_point_image'=>$user->image,
+            'drop_point_name'=>$user->name,
+            'drop_point_position' => array( 'geohash'=>$g->encode($address->lat,$address->long),'geopoint' =>  new \Google\Cloud\Core\GeoPoint($address->lat,$address->long)),
+
+            'final_price'=>$order->total,
+            'note' => $order->note,
+            'order_details'=>'',
+            'order_id'=>$order->id,
+            'payment_method'=>'Cash',
+
+            'pickup_point_address'=>$order->restaurant->address,
+            'pickup_point_id'=>$order->restaurant->id,
+            'pickup_point_image'=>$order->restaurant->logo,
+            'pickup_point_name'=>$order->restaurant->name,
+            'pickup_point_phone'=>$order->restaurant->user->phone,
+            'drop_point_position' => array( 'geohash'=>$g->encode($order->restaurant->lat,$order->restaurant->long),'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat,$order->restaurant->long)),
+
+            'status'=>$order->status,
+            'tax'=>5,
+            'total_price'=>$order->total,
+            'type'=>'restaurant',
+            'user_name'=>$user->name,
+
         ]);
 
         return $this->returnData('order', new OrderUpdateResource($order), '');
