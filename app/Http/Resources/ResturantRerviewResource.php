@@ -22,6 +22,8 @@ class ResturantRerviewResource extends JsonResource
             'review_icon'=>'img/cats/burger.svg',
             'cost'=>'توصيل مجاني',
             'time'=>$this['time'],
+            'is_busy'=>$this['is_busy'],
+            'description'=>$this['description'],
             'review_average'=>$this['avg'],
             'review'=>$this['review'],
             'review_icon'=>$this['icon'],

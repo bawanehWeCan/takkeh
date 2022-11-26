@@ -22,6 +22,8 @@ class ResResource extends JsonResource
             'review_icon'=>'img/cats/burger.svg',
             'cost'=>'توصيل مجاني',
             'time'=>$this->time,
+            'is_busy'=>$this->is_busy,
+            'description'=>$this->description,
             'categories'=> CategoryResource::collection($this->categories),
             'review'=>  ReviewResource::collection($this->review),
         ];

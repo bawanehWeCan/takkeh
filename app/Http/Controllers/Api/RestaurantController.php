@@ -135,10 +135,26 @@ class RestaurantController extends ApiController
                 $resturant = collect($resturant)->put('review',"مش بطال");
                 $resturant = collect($resturant)->put('icon',"1.svg");
             }
+
             $all = collect($all)->push($resturant);
         }
         // return json_encode($all);
         return $this->returnData('data', ResturantRerviewResource::collection(collect($all)), '');
+    }
+
+    public function updateAvailability(Request $request)
+    {
+        $resturant = $this->repositry->getByID($request->restaurant_id);
+        if (!$resturant) {
+            return $this->returnError('This resturant is not exists');
+        }
+        if ($resturant->is_busy == 0) {
+            $resturant->update(['is_busy'=>1]);
+            return $this->returnSuccessMessage('Resturant is busy now');
+        }else{
+            $resturant->update(['is_busy'=>0]);
+            return $this->returnSuccessMessage('Resturant is ready for orders');
+        }
     }
 
 

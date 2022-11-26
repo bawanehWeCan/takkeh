@@ -20,6 +20,8 @@ class RestaurantResource extends JsonResource
             'logo'=>$this->logo,
             'cover'=>$this->cover,
             'time'=>$this->time,
+            'is_busy'=>$this->is_busy,
+            'description'=>$this->description,
             'cost'=>'توصيل مجاني',
         ];
     }

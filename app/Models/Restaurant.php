@@ -9,7 +9,7 @@ class Restaurant extends Model
 {
     use HasFactory;
 
-    public $fillable = ['user_id','name','logo','time','cover'];
+    public $guarded = [];
 
     public function categories(){
         return $this->morphToMany( Category::class, 'categoryable' );
