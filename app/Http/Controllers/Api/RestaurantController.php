@@ -177,13 +177,32 @@ class RestaurantController extends ApiController
     }
 
     public function get_reviews($id){
-        $restaurant = Restaurant::with(['review','info'])->find($id);
-        $resturant = $this->review_string_icon($restaurant);
+        $restaurant = Restaurant::find($id);
+        // $resturant = $this->review_string_icon($restaurant);
+
+        return $this->returnData('data', ResturantInfoResource::make($restaurant));
+
+
         return response([
             'restaurant'=> ResturantrevsResource::make(collect($resturant)),
             'reviews'=> RevItemResource::collection($restaurant->review),
         ]);
     }
+
+
+    // public function get_reviews($id){
+    //     $restaurant = Restaurant::find($id);
+    //     $info = $restaurant->load('info');
+    //     $review = $restaurant->load('review');
+
+
+    //     $resturant = $this->review_string_icon($restaurant);
+    //     return $this->returnData('data', ResturantInfoResource::make(collect($resturant)), '');
+    //     return response([
+    //         'restaurant'=> ResturantrevsResource::make(collect($resturant)),
+    //         'reviews'=> RevItemResource::collection($restaurant->review),
+    //     ]);
+    // }
 
     public function review_string_icon($resturant)
     {
