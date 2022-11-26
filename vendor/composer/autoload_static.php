@@ -1004,6 +1004,7 @@ class ComposerStaticInit19cee2b460902135a1a57057e41a7f9f
         'App\\Models\\Faq' => __DIR__ . '/../..' . '/app/Models/Faq.php',
         'App\\Models\\Group' => __DIR__ . '/../..' . '/app/Models/Group.php',
         'App\\Models\\GroupItem' => __DIR__ . '/../..' . '/app/Models/GroupItem.php',
+        'App\\Models\\Info' => __DIR__ . '/../..' . '/app/Models/Info.php',
         'App\\Models\\Offer' => __DIR__ . '/../..' . '/app/Models/Offer.php',
         'App\\Models\\Order' => __DIR__ . '/../..' . '/app/Models/Order.php',
         'App\\Models\\Page' => __DIR__ . '/../..' . '/app/Models/Page.php',

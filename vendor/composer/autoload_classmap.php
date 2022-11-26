@@ -128,6 +128,7 @@ return array(
     'App\\Models\\Faq' => $baseDir . '/app/Models/Faq.php',
     'App\\Models\\Group' => $baseDir . '/app/Models/Group.php',
     'App\\Models\\GroupItem' => $baseDir . '/app/Models/GroupItem.php',
+    'App\\Models\\Info' => $baseDir . '/app/Models/Info.php',
     'App\\Models\\Offer' => $baseDir . '/app/Models/Offer.php',
     'App\\Models\\Order' => $baseDir . '/app/Models/Order.php',
     'App\\Models\\Page' => $baseDir . '/app/Models/Page.php',

@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SpecialController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CountriesController;
+use App\Http\Controllers\Api\InfoController;
 use App\Http\Controllers\Api\PromoCodeController;
 
 
@@ -140,6 +141,12 @@ Route::get('tags', [TagController::class, 'list']);
 Route::post('tags-create', [TagController::class, 'save']);
 Route::get('tags/{id}', [TagController::class, 'view']);
 Route::get('tags/delete/{id}', [TagController::class, 'delete']);
+
+//info
+Route::get('info', [InfoController::class, 'list']);
+Route::post('info-create', [InfoController::class, 'save']);
+Route::get('info/{id}', [InfoController::class, 'view']);
+Route::get('info/delete/{id}', [InfoController::class, 'delete']);
 
 //only those have manage_user permission will get access
 Route::get('products', [ProductController::class, 'pagination']);
