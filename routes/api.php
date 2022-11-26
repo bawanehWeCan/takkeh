@@ -45,6 +45,8 @@ Route::get('/home', [HomeController::class,'home']);
 //Auth
 Route::post('login', [AuthController::class, 'login']);
 
+Route::post('sociallogin', [AuthController::class, 'sociallogin']);
+
 Route::post('/user-reg', [AuthController::class, 'store']);
 
 Route::post('/otb-check', [AuthController::class, 'check']);
