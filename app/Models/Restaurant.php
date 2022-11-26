@@ -39,6 +39,10 @@ class Restaurant extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function Info(){
+        return $this->hasOne(Info::class);
+    }
+
     public function user(){
         return $this->belongsTo(User::class,"user_id","id");
     }
