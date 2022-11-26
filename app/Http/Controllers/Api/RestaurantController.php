@@ -113,8 +113,8 @@ class RestaurantController extends ApiController
         return $this->returnData('categories', CatProResource::collection($cats), '');
     }
 
-    public function list_reviews(){
-        $resturants = Restaurant::with('review')->get();
+    public function list_reviews($length = 0){
+        $resturants = Restaurant::with('review')->pagination($length);
         $all=[];
         foreach ($resturants as $resturant) {
             $avg = $resturant->review->avg('points');
