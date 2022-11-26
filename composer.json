@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "google/cloud-firestore": "^1.26",
         "google/protobuf": "3.17",
         "grpc/grpc": "1.38",
         "guzzlehttp/guzzle": "^7.2",
