@@ -22,8 +22,8 @@ class RestaurantResource extends JsonResource
             'time'=>$this->time,
             'is_busy'=>$this->is_busy,
             'description'=>$this->description,
-            'cost'=>'توصيل مجاني',
-            "reviews"=>ReviewResource::collection($this->review),
+            'cost'=>(double)$this->cost,
+            "reviews"=>ReviewResource::make($this->review),
         ];
     }
 
