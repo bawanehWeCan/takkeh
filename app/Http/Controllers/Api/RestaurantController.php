@@ -14,6 +14,7 @@ use App\Http\Resources\ResResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CatProResource;
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\RevItemResource;
 use App\Http\Requests\RestaurantRequest;
 use App\Repositorys\RestaurantRepository;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,6 +23,7 @@ use App\Http\Resources\RestCatProResource;
 use App\Http\Resources\ProductItemResource;
 use App\Http\Resources\CategoryItemResource;
 use App\Http\Resources\ResturantInfoResource;
+use App\Http\Resources\ResturantrevsResource;
 use App\Http\Resources\ResturantRerviewResource;
 
 class RestaurantController extends ApiController
@@ -175,9 +177,12 @@ class RestaurantController extends ApiController
     }
 
     public function get_reviews($id){
-        $resturant = Restaurant::with(['review','info'])->find($id);
-        $resturant = $this->review_string_icon($resturant);
-        return $this->returnData('data', ResturantInfoResource::make(collect($resturant)), '');
+        $restaurant = Restaurant::with(['review','info'])->find($id);
+        $resturant = $this->review_string_icon($restaurant);
+        return response([
+            'restaurant'=> ResturantrevsResource::make(collect($resturant)),
+            'reviews'=> RevItemResource::collection($restaurant->review),
+        ]);
     }
 
     public function review_string_icon($resturant)
