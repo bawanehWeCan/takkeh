@@ -19,7 +19,7 @@ class CartItemResource extends JsonResource
             // 'group_name'=>$this->group->name,
             // 'item_name'=>$this->item->name,
             'item_name'=>$this,
-            'price'=>number_format($this->item->price,2),
+            //'price'=>number_format($this->item->price,2),
         ];
     }
 }
