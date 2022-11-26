@@ -11,6 +11,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
 use App\Http\Requests\RoleChangeRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -55,7 +56,7 @@ class UserController extends Controller
 
         if ($user) {
             $user->wallet()->create([
-                'name'=>$user->name . "'s wallet" . rand(0,10000),
+                'name'=>rand(0,100000) . "_" . $user->name  . "_" . $user->lname . "_" . Carbon::now()->year,
                 'user_id'=>$user->id
             ]);
             return response([

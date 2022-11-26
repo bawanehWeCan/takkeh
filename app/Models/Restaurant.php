@@ -9,7 +9,7 @@ class Restaurant extends Model
 {
     use HasFactory;
 
-    public $fillable = ['user_id','name','logo','time','cover'];
+    public $guarded = [];
 
     public function categories(){
         return $this->morphToMany( Category::class, 'categoryable' );
@@ -44,6 +44,11 @@ class Restaurant extends Model
     }
 
     public function review(){
-        return $this->morphOne(Review::class,'reviewable');
+        return $this->morphMany(Review::class,'reviewable');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'tagable');
     }
 }

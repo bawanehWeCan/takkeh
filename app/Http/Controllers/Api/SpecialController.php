@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\RoleChangeRequest;
-use App\Http\Requests\SpecialRequest;
-use App\Http\Resources\SpecialResource;
-use App\Repositorys\SpecialRepository;
+use App\Models\Product;
+use App\Models\Restaurant;
 use App\Traits\ResponseTrait;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\SpecialRequest;
+use App\Repositorys\SpecialRepository;
+use App\Http\Resources\SpecialResource;
+use App\Http\Requests\RoleChangeRequest;
 
 class SpecialController extends Controller
 {
@@ -48,7 +50,27 @@ class SpecialController extends Controller
      */
     public function store(SpecialRequest $request)
     {
-        $special = $this->specialRepositry->saveSpecial($request);
+        if(isset($request->resturant_id) && isset($request->product_id)){
+            return $this->returnError('It\'s not allowed to add both (resturant_id and product_id) Please add only one of them');
+        }
+        if (isset($request->resturant_id)) {
+            $resturant = Restaurant::find($request->resturant_id);
+            if (!$resturant) {
+                return $this->returnError('This resturant is not exists');
+            }
+            $request['offerable_id']=$request->resturant_id;
+            $request['offerable_type']=get_class($resturant);
+            unset($request['resturant_id']);
+        }elseif (isset($request->product_id)) {
+            $product = Product::find($request->product_id);
+            if (!$product) {
+                return $this->returnError('This product is not exists');
+            }
+            $request['offerable_id']=$request->product_id;
+            $request['offerable_type']=get_class($product);
+            unset($request['product_id']);
+        }
+        $special = $this->specialRepositry->saveSpecial($request->all());
 
         if ($special) {
             return $this->returnData('Special', SpecialResource::make($special), __('Special created succesfully'));

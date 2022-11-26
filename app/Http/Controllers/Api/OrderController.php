@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\OrderResource;
-use App\Traits\ResponseTrait;
-use App\Models\CartItem;
+use App\Models\User;
 use App\Models\Order;
+use App\Models\CartItem;
 use App\Models\ProductItem;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\AddressResource;
+use App\Http\Resources\MyOrdersResource;
+use App\Http\Resources\OrderUpdateResource;
 
 class OrderController extends Controller
 {
@@ -52,7 +57,6 @@ class OrderController extends Controller
         $order->lat = $request->lat;
         $order->long = $request->long;
         $order->save();
-
         $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
         $stuRef->set([
             'user_id' => $order->user_id,
@@ -71,6 +75,16 @@ class OrderController extends Controller
             'position' => array( 'geohas'=>'alaa','geopoint' => array( 'aaa','aaa' ) ),
         ]);
 
-        return $this->returnData('data', new OrderResource($order), '');
+        return $this->returnData('order', new OrderUpdateResource($order), '');
+
+    }
+
+    public function user_orders($length = 10){
+        $orders = Order::where('user_id',Auth::user()->id)->paginate($length);
+
+        if (!$orders) {
+            return $this->returnError(__('Sorry! Failed to get !'));
+        }
+        return $this->returnData('data',  MyOrdersResource::collection( $orders ), __('Get  succesfully'));
     }
 }

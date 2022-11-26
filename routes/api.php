@@ -1,30 +1,33 @@
 <?php
 
+use Nette\Utils\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\CountriesController;
 use App\Http\Controllers\Api\FaqController;
-use App\Http\Controllers\api\HomeController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CardController;
+use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\PageController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\OrderController;
-use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RolesController;
-use App\Http\Controllers\Api\PermissionController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\RestaurantController;
-use App\Http\Controllers\Api\ServiceController;
-use App\Http\Controllers\Api\SliderController;
-use App\Http\Controllers\Api\SpecialController;
-use App\Http\Controllers\Api\PageController;
-use App\Http\Controllers\Api\PromoCodeController;
-use App\Http\Controllers\Api\TransactionController;
-use App\Http\Controllers\Api\WalletController;
-
-
 use App\Http\Controllers\Api\ReviewController;
-use Nette\Utils\Json;
+use App\Http\Controllers\Api\SliderController;
+use App\Http\Controllers\Api\WalletController;
+use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\SpecialController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CountriesController;
+use App\Http\Controllers\Api\PromoCodeController;
+
+
+use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\RestaurantController;
+use App\Http\Controllers\Api\TagController;
+use App\Http\Controllers\Api\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,7 +116,7 @@ Route::get('services/delete/{id}', [ServiceController::class, 'delete']);
 
 
 //only those have manage_user permission will get access
-Route::get('restaurants', [RestaurantController::class, 'getPagination']);
+Route::get('restaurants', [RestaurantController::class, 'list_reviews']);
 Route::post('restaurants-create', [RestaurantController::class, 'save']);
 Route::get('restaurants/{id}', [RestaurantController::class, 'view']);
 Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
@@ -122,15 +125,28 @@ Route::post('restaurants/category', [RestaurantController::class, 'addCategory']
 
 Route::post('restaurants/search', [RestaurantController::class, 'lookfor']);
 Route::post('restaurant/review', [RestaurantController::class, 'addReviewToResturant']);
+Route::post('restaurant/availabitlity', [RestaurantController::class, 'updateAvailability']);
+Route::post('restaurant/tags', [RestaurantController::class, 'addTags']);
+Route::post('restaurant/search', [RestaurantController::class, 'getPagination']);
+
+Route::get('restaurant/products/{id}', [RestaurantController::class, 'resturantWithProducts']);
+
 // Route::post('restaurants/search/{value}', [RestaurantController::class, 'search']);
 
-
+//tags
+Route::get('tags', [TagController::class, 'list']);
+Route::post('tags-create', [TagController::class, 'save']);
+Route::get('tags/{id}', [TagController::class, 'view']);
+Route::get('tags/delete/{id}', [TagController::class, 'delete']);
 
 //only those have manage_user permission will get access
 Route::get('products', [ProductController::class, 'pagination']);
 Route::post('products-create', [ProductController::class, 'save']);
 Route::get('products/{id}', [ProductController::class, 'view']);
 Route::get('products/delete/{id}', [ProductController::class, 'delete']);
+Route::post('products/category', [ProductController::class, 'addCategory']);
+
+
 
 Route::middleware(['auth:api'])->group(function () {
 
@@ -171,6 +187,13 @@ Route::middleware(['auth:api'])->group(function () {
 		Route::get('/permission/delete/{id}', [PermissionController::class, 'delete']);
 	});
 
+    // Address
+    Route::get('address', [AddressController::class, 'pagination']);
+    Route::post('address-create', [AddressController::class, 'save']);
+    Route::get('address/{id}', [AddressController::class, 'view']);
+    Route::get('address/delete/{id}', [AddressController::class, 'delete']);
+    Route::get('my-address', [AddressController::class, 'user_address']);
+
     //only those have manage_user permission will get access
     Route::get('promo-code', [PromoCodeController::class, 'list']);
     Route::post('promo-code-create', [PromoCodeController::class, 'save']);
@@ -190,6 +213,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('wallet/delete/{id}', [WalletController::class, 'delete']);
 
     Route::post('transaction', [TransactionController::class, 'transaction']);
+    Route::get('my-orders',[ OrderController::class, 'user_orders' ]);
 
 });
 

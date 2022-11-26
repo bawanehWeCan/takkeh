@@ -78,6 +78,9 @@ class User extends Authenticatable
         return $this->hasMany(Restaurant::class,"user_id","id");
     }
 
+    public function cards(){
+        return $this->hasMany(Card::class);
+    }
 
     public function main(){
         return $this->hasMany(Restaurant::class)->first();
@@ -89,5 +92,13 @@ class User extends Authenticatable
 
     public function transactions(){
         return $this->hasMany(Transaction::class);
+    }
+
+    public function addresses(){
+        return $this->hasMany(Address::class);
+    }
+
+    public function orders(){
+        return $this->hasMany(Order::class);
     }
 }
