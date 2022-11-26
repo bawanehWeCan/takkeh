@@ -15,11 +15,17 @@ class CartItemResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-             //'group_name'=>$this->group->id,
-            // 'item_name'=>$this->item->name,
-            //'item_name'=>$this,
-            //'price'=>number_format($this->item->price,2),
+            'id'=>$this->product->id,
+            'product_id'=>$this->product->id,
+            'product_name'=>$this->product->name,
+            'product_image'=>$this->product->image,
+            'quantity'=>$this->quantity,
+            // 'size_id'=>$this->size_id,
+            // 'size'=>$this->size->name,
+             'items'=> ProductItemResource::collection($this->items) ,
+            'note'=>$this->note,
+            'area'=>$this->area,
+            'price'=>number_format($this->price,2),
         ];
     }
 }
