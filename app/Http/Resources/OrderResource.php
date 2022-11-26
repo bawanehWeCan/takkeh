@@ -22,11 +22,11 @@ class OrderResource extends JsonResource
             'driver_name'=>$this->user->name,
             'restaurant_id'=>$this->restaurant_id,
             'restaurant_name'=>$this->restaurant?->name,
-            // 'note'=>$this->note,
-            // 'status'=>$this->status,
-            // 'total'=>number_format($this->total,2),
-            // 'lat'=>$this->lat,
-            // 'long'=>$this->long,
+            'note'=>$this->note,
+            'status'=>$this->status,
+            'total'=>number_format($this->total,2),
+            'lat'=>$this->lat,
+            'long'=>$this->long,
             // 'products'=> CartItemResource::collection($this->products),
         ];
     }
