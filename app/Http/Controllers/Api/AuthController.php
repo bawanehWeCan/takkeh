@@ -44,7 +44,10 @@ class AuthController extends Controller
     {
         $user = User::where('phone',$request->phone)->first();
         //dd( Hash::make( $request->password ) );
-        if (!$auth) {
+
+        Auth::login($user);
+
+        if (!$user) {
 
 
             return response()->json([
@@ -54,7 +57,7 @@ class AuthController extends Controller
             ], 500);
         }
 
-        $accessToken = $user->createToken('authToken')->accessToken;
+        $accessToken = Auth::user()->createToken('authToken')->accessToken;
 
         if (Auth::user()->type == 'user') {
 
