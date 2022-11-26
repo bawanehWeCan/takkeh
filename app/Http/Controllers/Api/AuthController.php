@@ -379,7 +379,12 @@ class AuthController extends Controller
 
     }
 
+    public function updateDeviceToken(Request $request)
+    {
+        $user = User::find(Auth::user()->id)->update(['device_token'=>$request->device_token]);
 
+        return $this->returnData('user', UserResource::make(User::find(Auth::user()->id)), 'successful');
+    }
     public function logout(Request $request)
     {
         $user = Auth::user()->token();

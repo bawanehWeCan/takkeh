@@ -153,6 +153,7 @@ Route::post('products/category', [ProductController::class, 'addCategory']);
 Route::middleware(['auth:api'])->group(function () {
 
 	Route::get('logout', [AuthController::class, 'logout']);
+	Route::post('user/token', [AuthController::class, 'updateDeviceToken']);
 
 	Route::get('profile', [AuthController::class, 'profile']);
 
