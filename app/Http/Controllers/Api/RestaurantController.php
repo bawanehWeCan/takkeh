@@ -103,7 +103,7 @@ class RestaurantController extends ApiController
 
         $user = User::find($request->user_id);
 
-        $resturant = Restaurant::where('user_id', $request->user_id)->find($request->resturant_id);
+        $resturant = Restaurant::find($request->resturant_id);
         if (!$resturant ) {
             return $this->returnError(__('Error! something has been wrong'));
         }
