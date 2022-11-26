@@ -66,8 +66,13 @@ class RestaurantController extends ApiController
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
         }
-        return $this->returnData( 'data' , RestaurantResource::collection( $data ), __('Succesfully'));
-    }
+        $all=[];
+        foreach ($data as $resturant) {
+            $resturant = $this->review_string_icon($resturant);
+            $all = collect($all)->push($resturant);
+        }
+        // return json_encode($all);
+        return $this->returnData('data', ResturantRerviewResource::collection(collect($all)), '');    }
 
     public function addCategory( Request $request ){
 
