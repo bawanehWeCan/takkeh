@@ -16,8 +16,9 @@ class CartItemResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            //'group_name'=>$this->group->name,
-            'item_name'=>$this->item->name,
+            // 'group_name'=>$this->group->name,
+            // 'item_name'=>$this->item->name,
+            'item_name'=>$this,
             'price'=>number_format($this->item->price,2),
         ];
     }
