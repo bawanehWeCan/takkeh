@@ -65,7 +65,7 @@ class RestaurantController extends ApiController
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
         }
-        return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
+        return $this->returnData( 'data' , RestaurantResource::collection( $data ), __('Succesfully'));
     }
 
     public function addCategory( Request $request ){
