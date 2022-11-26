@@ -113,7 +113,7 @@ class RestaurantController extends ApiController
         return $this->returnData('categories', CatProResource::collection($cats), '');
     }
 
-    public function list_reviews($length = 0){
+    public function list_reviews($length = 10){
         $resturants = Restaurant::with('review')->pagination($length);
         $all=[];
         foreach ($resturants as $resturant) {
