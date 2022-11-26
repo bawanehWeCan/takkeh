@@ -50,20 +50,17 @@ class RestaurantController extends ApiController
     {
         if (!isset($request->category_id) && !isset($request->tag_id)) {
             $data =  $this->repositry->pagination( 10 );
-        }
-        if (isset($request->category_id) && isset($request->tag_id)) {
+        }elseif (isset($request->category_id) && isset($request->tag_id)) {
             $data =  $this->model->whereHas('categories',function(Builder $q) use ($request){
                 $q->where('category_id',$request->category_id);
             })->whereHas('tags',function(Builder $q) use ($request){
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
-        }
-        if (isset($request->category_id)) {
+        }elseif (isset($request->category_id)) {
             $data =  $this->model->whereHas('categories',function(Builder $q) use ($request){
                 $q->where('category_id',$request->category_id);
             })->paginate( 10 );
-        }
-        if (isset($request->tag_id)) {
+        }elseif (isset($request->tag_id)) {
             $data =  $this->model->whereHas('tags',function(Builder $q) use ($request){
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
