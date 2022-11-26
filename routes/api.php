@@ -131,6 +131,7 @@ Route::post('restaurant/review', [RestaurantController::class, 'addReviewToRestu
 Route::post('restaurant/availabitlity', [RestaurantController::class, 'updateAvailability']);
 Route::post('restaurant/tags', [RestaurantController::class, 'addTags']);
 Route::post('restaurant/catpro/search', [RestaurantController::class, 'getPagination']);
+Route::get('restaurant/info/{id}', [RestaurantController::class, 'get_info']);
 
 Route::get('restaurant/products/{id}', [RestaurantController::class, 'resturantWithProducts']);
 
