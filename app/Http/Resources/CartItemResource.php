@@ -16,14 +16,9 @@ class CartItemResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'product_id'=>$this->product->id,
-            'product_name'=>$this->product->name,
-            'quantity'=>$this->quantity,
-            // 'size_id'=>$this->size_id,
-            // 'size'=>$this->size->name,
-            'extras'=> ProductItemResource::collection($this->extras) ,
-            'note'=>$this->note,
-            'price'=>number_format($this->price,2),
+            'group_name'=>$this->group->name,
+            'item_name'=>$this->item->name,
+            'price'=>number_format($this->item->price,2),
         ];
     }
 }
