@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\PromoCodeController;
 
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\RestaurantController;
+use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\TransactionController;
 
 /*
@@ -130,7 +131,11 @@ Route::get('restaurant/products/{id}', [RestaurantController::class, 'resturantW
 
 // Route::post('restaurants/search/{value}', [RestaurantController::class, 'search']);
 
-
+//tags
+Route::get('tags', [TagController::class, 'list']);
+Route::post('tags-create', [TagController::class, 'save']);
+Route::get('tags/{id}', [TagController::class, 'view']);
+Route::get('tags/delete/{id}', [TagController::class, 'delete']);
 
 //only those have manage_user permission will get access
 Route::get('products', [ProductController::class, 'pagination']);

@@ -136,6 +136,7 @@ return array(
     'App\\Models\\Size' => $baseDir . '/app/Models/Size.php',
     'App\\Models\\Slider' => $baseDir . '/app/Models/Slider.php',
     'App\\Models\\Special' => $baseDir . '/app/Models/Special.php',
+    'App\\Models\\Tag' => $baseDir . '/app/Models/Tag.php',
     'App\\Models\\Transaction' => $baseDir . '/app/Models/Transaction.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\Wallet' => $baseDir . '/app/Models/Wallet.php',
