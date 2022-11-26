@@ -49,6 +49,8 @@ class AuthController extends Controller
                 'type',
             ])
         );
+
+        dd( Hash::make( $request->password ) );
         if (!$auth) {
 
 
