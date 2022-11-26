@@ -50,19 +50,19 @@ class RestaurantController extends ApiController
     public function getPagination( Request $request )
     {
         if (!isset($request->category_id) && !isset($request->tag_id)) {
-            $data =  $this->repositry->pagination(10);
+            $data =  $this->repositry->with('review')->pagination(10);
         }elseif (isset($request->category_id) && isset($request->tag_id)) {
-            $data =  $this->model->whereHas('categories',function(Builder $q) use ($request){
+            $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
                 $q->where('category_id',$request->category_id);
             })->whereHas('tags',function(Builder $q) use ($request){
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
         }elseif (isset($request->category_id) && !isset($request->tag_id)) {
-            $data =  $this->model->whereHas('categories',function(Builder $q) use ($request){
+            $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
                 $q->where('category_id',$request->category_id);
             })->paginate( 10 );
         }elseif (isset($request->tag_id) && !isset($request->category_id)) {
-            $data =  $this->model->whereHas('tags',function(Builder $q) use ($request){
+            $data =  $this->model->with('review')->whereHas('tags',function(Builder $q) use ($request){
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
         }
@@ -164,6 +164,12 @@ class RestaurantController extends ApiController
     }
 
     public function get_info($id){
+        $resturant = Restaurant::with(['review','info'])->find($id);
+        $resturant = $this->review_string_icon($resturant);
+        return $this->returnData('data', ResturantInfoResource::make(collect($resturant)), '');
+    }
+
+    public function get_reviews($id){
         $resturant = Restaurant::with(['review','info'])->find($id);
         $resturant = $this->review_string_icon($resturant);
         return $this->returnData('data', ResturantInfoResource::make(collect($resturant)), '');

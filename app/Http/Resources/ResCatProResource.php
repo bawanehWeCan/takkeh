@@ -18,6 +18,7 @@ class ResCatProResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'image'=>$this->image,
+            'description'=>$this->content,
             'price'=>number_format($this->price,2),
             'groups' => GroupResource::collection($this->groups)
         ];
