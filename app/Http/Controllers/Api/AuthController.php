@@ -45,7 +45,6 @@ class AuthController extends Controller
         $auth = Auth::attempt(
             $request->only([
                 'phone',
-                'password',
                 'type',
             ])
         );
