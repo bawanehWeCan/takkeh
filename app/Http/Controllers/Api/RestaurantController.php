@@ -48,14 +48,26 @@ class RestaurantController extends ApiController
 
     public function getPagination( Request $request )
     {
-        if( $request->has('filter') ){
-            $category = Category::find( $request->filter );
-
-            $data = $category->restaurant;
-            return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
-
+        if (!isset($request->category_id) && !isset($request->tag_id)) {
+            $data =  $this->repositry->pagination( 10 );
         }
-        $data =  $this->repositry->pagination( 10 );
+        if (isset($request->category_id) && isset($request->tag_id)) {
+            $data =  $this->model->whereHas('categories',function(Builder $q) use ($request){
+                $q->where('category_id',$request->category_id);
+            })->whereHas('tags',function(Builder $q) use ($request){
+                $q->where('tag_id',$request->tag_id);
+            })->paginate( 10 );
+        }
+        if (isset($request->category_id)) {
+            $data =  $this->model->whereHas('categories',function(Builder $q) use ($request){
+                $q->where('category_id',$request->category_id);
+            })->paginate( 10 );
+        }
+        if (isset($request->tag_id)) {
+            $data =  $this->model->whereHas('tags',function(Builder $q) use ($request){
+                $q->where('tag_id',$request->tag_id);
+            })->paginate( 10 );
+        }
         return $this->returnData( 'data' , $this->resource::collection( $data ), __('Succesfully'));
     }
 
@@ -114,7 +126,7 @@ class RestaurantController extends ApiController
     }
 
     public function list_reviews($length = 10){
-        $resturants = Restaurant::with('review')->pagination($length);
+        $resturants = Restaurant::with('review')->paginate($length);
         $all=[];
         foreach ($resturants as $resturant) {
             $avg = $resturant->review->avg('points');
