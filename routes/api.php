@@ -45,6 +45,8 @@ Route::get('/home', [HomeController::class,'home']);
 //Auth
 Route::post('login', [AuthController::class, 'login']);
 
+Route::post('sociallogin', [AuthController::class, 'sociallogin']);
+
 Route::post('/user-reg', [AuthController::class, 'store']);
 
 Route::post('/otb-check', [AuthController::class, 'check']);
@@ -151,6 +153,7 @@ Route::post('products/category', [ProductController::class, 'addCategory']);
 Route::middleware(['auth:api'])->group(function () {
 
 	Route::get('logout', [AuthController::class, 'logout']);
+	Route::post('user/token', [AuthController::class, 'updateDeviceToken']);
 
 	Route::get('profile', [AuthController::class, 'profile']);
 
