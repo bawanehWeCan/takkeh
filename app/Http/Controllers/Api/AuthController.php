@@ -45,10 +45,11 @@ class AuthController extends Controller
         $auth = Auth::attempt(
             $request->only([
                 'phone',
+                'password',
                 'type',
             ])
         );
-
+        dd( $auth );
         //dd( Hash::make( $request->password ) );
         if (!$auth) {
 
