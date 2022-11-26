@@ -22,4 +22,9 @@ class Tag extends Model
             $this->attributes['image'] =  'img/tags/'.$filename;
         }
     }
+
+    public function restaurants()
+    {
+        return $this->morphedByMany(Restaurant::class, 'tagable');
+    }
 }

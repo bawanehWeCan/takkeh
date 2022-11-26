@@ -21,6 +21,7 @@ use App\Http\Resources\RestCatProResource;
 use App\Http\Resources\ProductItemResource;
 use App\Http\Resources\CategoryItemResource;
 use App\Http\Resources\ResturantRerviewResource;
+use App\Models\Tag;
 
 class RestaurantController extends ApiController
 {
@@ -155,6 +156,20 @@ class RestaurantController extends ApiController
             $resturant->update(['is_busy'=>0]);
             return $this->returnSuccessMessage('Resturant is ready for orders');
         }
+    }
+
+    public function addTags(Request $request)
+    {
+        $restaurant = $this->repositry->getByID($request->restaurant_id);
+        $tags = Tag::whereIn('id',$request->tags)->get();
+        if (!$restaurant) {
+            return $this->returnError('This resturant is not exists');
+        }
+
+        $new = $restaurant->tags()->attach($tags);
+
+     return $this->returnSuccessMessage('Tags added to resturant successfully');
+
     }
 
 
