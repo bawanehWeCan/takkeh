@@ -114,7 +114,7 @@ class OrderController extends Controller
             'pickup_point_phone'=>$order->restaurant->user->phone,
             'drop_point_position' => array( 'geohash'=>$g->encode($order->restaurant->lat,$order->restaurant->long),'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat,$order->restaurant->long)),
 
-            'status'=>$order->status,
+            'status'=>'hold',
             'tax'=>5,
             'total_price'=>$order->total,
             'type'=>'restaurant',
