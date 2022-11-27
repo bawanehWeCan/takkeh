@@ -16,9 +16,10 @@ class MyOrdersResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'restaurant_id'=>$this->restaurant_id,
-            'restaurant_name'=>$this->restaurant?->name,
-            'restaurant_logo'=>$this->restaurant?->logo,
+            'restaurant_id'=>(string)$this->restaurant_id,
+            'restaurant_name'=>(string)$this->restaurant?->name,
+            'restaurant_logo'=>(string)$this->restaurant?->logo,
+            'order_number'=>$this->id,
             'created_at'=>$this->created_at,
         ];
     }

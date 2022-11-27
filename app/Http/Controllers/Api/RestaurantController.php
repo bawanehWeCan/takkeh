@@ -183,7 +183,7 @@ class RestaurantController extends ApiController
 
     public function searchProduct(Request $request)
     {
-        $data =  $this->model->with(['products'=>function($q) use ($request){
+        $data =  $this->model->with(['products'=>function( $q) use ($request){
             $q->where('name',"like","%".$request->key."%");
         }])->find($request->restaurant_id);
         return $this->returnData('data', new RestaurantProductsResource($data), '');
