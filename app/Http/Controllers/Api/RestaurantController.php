@@ -53,9 +53,9 @@ class RestaurantController extends ApiController
 
     public function getPagination( Request $request )
     {
-
+        $data =  $this->model->with('review')->pagination(10);
         if (!isset($request->category_id) && !isset($request->tag_id)) {
-            $data =  $this->repositry->with('review')->pagination(10);
+            $data =  $this->model->with('review')->pagination(10);
         }elseif (isset($request->category_id) && isset($request->tag_id)) {
             $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
                 $q->where('category_id',$request->category_id);
