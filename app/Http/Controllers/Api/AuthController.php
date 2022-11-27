@@ -297,11 +297,11 @@ class AuthController extends Controller
             }
         }
 
-        if ($request->has('image')) {
+        if ($request->has('image') && $user->image) {
             unlink($user->image);
         }
 
-        if ($request->has('cover')) {
+        if ($request->has('cover') && $user->cover ) {
             unlink($user->cover);
         }
 
