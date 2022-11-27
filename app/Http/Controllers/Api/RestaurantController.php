@@ -53,9 +53,9 @@ class RestaurantController extends ApiController
 
     public function getPagination( Request $request )
     {
-
+        $data =  $this->repositry->pagination(10);
         if (!isset($request->category_id) && !isset($request->tag_id)) {
-            $data =  $this->repositry->with('review')->pagination(10);
+            $data =  $this->repositry->pagination(10);
         }elseif (isset($request->category_id) && isset($request->tag_id)) {
             $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
                 $q->where('category_id',$request->category_id);
@@ -123,11 +123,8 @@ class RestaurantController extends ApiController
         if (!$resturant) {
             return $this->returnError('This resturant is not exists');
         }
-        $categryables = Categoryable::where('categoryable_type',"App\Models\Product")->pluck('category_id');
-        $cats = Category::with('products')->WhereIn('id',$categryables->toArray())->whereHas('products',function (Builder $q) use($resturant){
-            $q->where('restaurant_id',$resturant->id);
-        })->get();
-        return $this->returnData('categories', CatProResource::collection($cats), '');
+
+        return $this->returnData('categories', CatProResource::collection($resturant->categories), '');
     }
 
     public function list_reviews($length = 10){
