@@ -61,6 +61,8 @@ class OrderController extends Controller
         $order->long = $request->long;
         $order->save();
 
+        dd( $order->products );
+
         $address = Address::find( $request->address_id );
 
         $g = new GeoHash();
@@ -88,7 +90,9 @@ class OrderController extends Controller
 
             'final_price'=>$order->total,
             'note' => $order->note,
+
             'order_details'=>'',
+
             'order_id'=>$order->id,
             'payment_method'=>'Cash',
 
