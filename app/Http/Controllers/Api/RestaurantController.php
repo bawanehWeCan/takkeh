@@ -166,7 +166,7 @@ class RestaurantController extends ApiController
 
     public function get_info($id){
         $resturant = Restaurant::with(['review','info'])->find($id);
-        return $this->returnData('data', ResturantInfoResource::make(collect($resturant)), '');
+        return $this->returnData('data', ResturantInfoResource::make($resturant), '');
     }
 
     public function get_reviews($id){

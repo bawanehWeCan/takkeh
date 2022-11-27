@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\SpecialController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CountriesController;
 use App\Http\Controllers\Api\InfoController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PromoCodeController;
 
 
@@ -230,6 +231,10 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('transactions', [TransactionController::class, 'pagination']);
     Route::get('my-orders',[ OrderController::class, 'user_orders' ]);
 
+    Route::get('notifications', [NotificationController::class, 'list']);
+    Route::post('notifications-create', [NotificationController::class, 'save']);
+    Route::get('notifications/{id}', [NotificationController::class, 'view']);
+    Route::get('notifications/delete/{id}', [NotificationController::class, 'delete']);
 });
 
 Route::get('country-list', [CountriesController::class, 'getCountries']);
