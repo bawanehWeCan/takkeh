@@ -166,8 +166,8 @@ class RestaurantController extends ApiController
 
     public function get_info($id){
         $resturant = Restaurant::with(['review','info'])->find($id);
-        $resturant = $this->review_string_icon($resturant);
-        return $this->returnData('data', ResturantInfoResource::make(collect($resturant)), '');
+
+        return $this->returnData('data', ResturantInfoResource::make($resturant), '');
     }
 
     public function get_reviews($id){
@@ -197,6 +197,29 @@ class RestaurantController extends ApiController
     //         'reviews'=> RevItemResource::collection($restaurant->review),
     //     ]);
     // }
+
+    public function review_string_icon($resturant)
+    {
+        $avg = $resturant->review->avg('points');
+        $resturant = collect($resturant)->put('avg',$avg);
+        if ($avg>=4 && $avg<=5) {
+            $resturant = collect($resturant)->put('review',"خرافي");
+            $resturant = collect($resturant)->put('icon',"5.svg");
+        }elseif ($avg>=3 && $avg<=4) {
+            $resturant = collect($resturant)->put('review',"اشي فاخر");
+            $resturant = collect($resturant)->put('icon',"4.svg");
+        }elseif ($avg>=2 && $avg<=3) {
+            $resturant = collect($resturant)->put('review',"مرتب");
+            $resturant = collect($resturant)->put('icon',"3.svg");
+        }elseif ($avg>=1 && $avg<=2) {
+            $resturant = collect($resturant)->put('review',"مليح");
+            $resturant = collect($resturant)->put('icon',"2.svg");
+        }elseif ($avg>=0 && $avg<=1) {
+            $resturant = collect($resturant)->put('review',"مش بطال");
+            $resturant = collect($resturant)->put('icon',"1.svg");
+        }
+        return $resturant;
+    }
 
 
 

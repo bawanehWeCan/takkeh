@@ -15,18 +15,18 @@ class ResturantRerviewResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this['id'],
-            'name'=>$this['name'],
-            'logo'=>$this['logo'],
-            'cover'=>$this['cover'],
+            'id'=>$this->id,
+            'name'=>$this->name,
+            'logo'=>$this->logo,
+            'cover'=>$this->cover,
             'review_icon'=>'img/cats/burger.svg',
             'cost'=>'توصيل مجاني',
-            'time'=>$this['time'],
-            'is_busy'=>$this['is_busy'],
-            'description'=>$this['description'],
-            'review_average'=>$this['avg'],
-            'review'=>$this['review'],
-            'review_icon'=>$this['icon'],
+            'time'=>$this->time,
+            'description'=>$this->description,
+            'is_busy'=>$this->is_busy,
+            'review_average'=>$this->review->avg('points'),
+            'review'=>$this->review_title,
+            'review_icon'=>$this->review_icon,
         ];
     }
 }
