@@ -72,6 +72,10 @@ class RestaurantController extends ApiController
             })->paginate( 10 );
         }
 
+        if( $request->category_id == 1 && $request->tag_id == 0 ){
+            $data =  $this->repositry->pagination(10);
+        }
+
         // return json_encode($all);
         return $this->returnData('data', ResturantRerviewResource::collection($data), '');    }
 
