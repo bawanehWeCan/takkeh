@@ -73,7 +73,7 @@ class RestaurantController extends ApiController
         }
 
         // return json_encode($all);
-        return $this->returnData('data', ResturantRerviewResource::collection(collect($data)), '');    }
+        return $this->returnData('data', ResturantRerviewResource::collection($data), '');    }
 
     public function addCategory( Request $request ){
 
@@ -132,7 +132,7 @@ class RestaurantController extends ApiController
     public function list_reviews($length = 10){
         $resturants = Restaurant::with('review')->paginate($length);
         // return json_encode($all);
-        return $this->returnData('data', ResturantRerviewResource::collection(collect($resturants)), '');
+        return $this->returnData('data', ResturantRerviewResource::collection($resturants), '');
     }
 
     public function updateAvailability(Request $request)
