@@ -136,6 +136,7 @@ Route::get('restaurant/info/{id}', [RestaurantController::class, 'get_info']);
 Route::get('restaurant/reviews/{id}', [RestaurantController::class, 'get_reviews']);
 
 Route::get('restaurant/products/{id}', [RestaurantController::class, 'resturantWithProducts']);
+Route::get('restaurant/most-popular/{id}', [RestaurantController::class, 'mostPopularProducts']);
 
 // Route::post('restaurants/search/{value}', [RestaurantController::class, 'search']);
 

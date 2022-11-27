@@ -19,6 +19,7 @@ use App\Http\Resources\FirebaseResource;
 use App\Http\Resources\MyOrdersResource;
 use App\Http\Resources\OrderUpdateResource;
 use App\Models\Address;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -42,7 +43,7 @@ class OrderController extends Controller
             $cart_item->note = !empty($product['note']) ? $product['note'] : '';
             $cart_item->price = $product['price'];
             $cart_item->save();
-
+            $this->updateProductQuantity($product['product_id'],$product['quantity']);
             foreach ($product['groups'] as $group) {
                 $product_item = new ProductItem();
                 $product_item->group_id = $group['group_id'];
@@ -132,5 +133,12 @@ class OrderController extends Controller
             return $this->returnError(__('Sorry! Failed to get !'));
         }
         return $this->returnData('data',  MyOrdersResource::collection( $orders ), __('Get  succesfully'));
+    }
+
+    public function updateProductQuantity($id,$qty)
+    {
+        $product = Product::Find($id);
+        $qty = $product->sold_quantity + $qty;
+        $product->update(['sold_quantity'=>$qty]);
     }
 }

@@ -26,6 +26,7 @@ use App\Http\Resources\ResturantInfoResource;
 use App\Http\Resources\ResturantrevsResource;
 use App\Http\Resources\ResturantRerviewResource;
 use App\Http\Resources\RestaurantProductsResource;
+use App\Models\Product;
 
 class RestaurantController extends ApiController
 {
@@ -188,5 +189,13 @@ class RestaurantController extends ApiController
             $q->where('name',"like","%".$request->key."%");
         }])->find($request->restaurant_id);
         return $this->returnData('data', new RestaurantProductsResource($data), '');
+    }
+
+    public function mostPopularProducts($id)
+    {
+        $data =  $this->model->with(['products'=>function( $q){
+            $q->orderBy('sold_quantity',"DESC")->limit(5);
+        }])->find($id);
+        return $this->returnData('retaurant', RestaurantProductsResource::make($data), '');
     }
 }
