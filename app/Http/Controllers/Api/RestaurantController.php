@@ -66,6 +66,10 @@ class RestaurantController extends ApiController
             $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
                 $q->where('category_id',$request->category_id);
             })->paginate( 10 );
+        }elseif (isset($request->category_id) && $request->tag_id == 0) {
+            $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
+                $q->where('category_id',$request->category_id);
+            })->paginate( 10 );
         }elseif (isset($request->tag_id) && !isset($request->category_id)) {
             $data =  $this->model->with('review')->whereHas('tags',function(Builder $q) use ($request){
                 $q->where('tag_id',$request->tag_id);
