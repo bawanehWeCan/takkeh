@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ResturantRerviewResource extends JsonResource
+class RestaurantProductsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,17 +16,17 @@ class ResturantRerviewResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'name'=>$this->name,
-            'logo'=>$this->logo,
-            'cover'=>$this->cover,
-            'review_icon'=>'img/cats/burger.svg',
-            'cost'=>'توصيل مجاني',
-            'time'=>$this->time,
-            'description'=>$this->description,
+            'name'=>(string)$this->name,
+            'logo'=>(string)$this->logo,
+            'cover'=>(string)$this->cover,
+            'cost'=>(double)$this->cost,
+            'time'=>(string)$this->time,
             'is_busy'=>$this->is_busy,
+            'description'=>(string)$this->description,
             'review_average'=>$this->review->avg('points'),
             'review'=>$this->review_title,
             'review_icon'=>$this->review_icon,
+            "products"=>ResCatProResource::collection($this->products),
         ];
     }
 }

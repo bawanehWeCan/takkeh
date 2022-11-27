@@ -25,6 +25,7 @@ use App\Http\Resources\CategoryItemResource;
 use App\Http\Resources\ResturantInfoResource;
 use App\Http\Resources\ResturantrevsResource;
 use App\Http\Resources\ResturantRerviewResource;
+use App\Http\Resources\RestaurantProductsResource;
 
 class RestaurantController extends ApiController
 {
@@ -68,13 +69,9 @@ class RestaurantController extends ApiController
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
         }
-        $all=[];
-        foreach ($data as $resturant) {
-            $resturant = $this->review_string_icon($resturant);
-            $all = collect($all)->push($resturant);
-        }
+
         // return json_encode($all);
-        return $this->returnData('data', ResturantRerviewResource::collection(collect($all)), '');    }
+        return $this->returnData('data', ResturantRerviewResource::collection(collect($data)), '');    }
 
     public function addCategory( Request $request ){
 
@@ -132,13 +129,8 @@ class RestaurantController extends ApiController
 
     public function list_reviews($length = 10){
         $resturants = Restaurant::with('review')->paginate($length);
-        $all=[];
-        foreach ($resturants as $resturant) {
-            $resturant = $this->review_string_icon($resturant);
-            $all = collect($all)->push($resturant);
-        }
         // return json_encode($all);
-        return $this->returnData('data', ResturantRerviewResource::collection(collect($all)), '');
+        return $this->returnData('data', ResturantRerviewResource::collection(collect($resturants)), '');
     }
 
     public function updateAvailability(Request $request)
@@ -189,21 +181,11 @@ class RestaurantController extends ApiController
         // ]);
     }
 
-
-    // public function get_reviews($id){
-    //     $restaurant = Restaurant::find($id);
-    //     $info = $restaurant->load('info');
-    //     $review = $restaurant->load('review');
-
-
-    //     $resturant = $this->review_string_icon($restaurant);
-    //     return $this->returnData('data', ResturantInfoResource::make(collect($resturant)), '');
-    //     return response([
-    //         'restaurant'=> ResturantrevsResource::make(collect($resturant)),
-    //         'reviews'=> RevItemResource::collection($restaurant->review),
-    //     ]);
-    // }
-
-
-
+    public function searchProduct(Request $request)
+    {
+        $data =  $this->model->with(['products'=>function($q) use ($request){
+            $q->where('name',"like","%".$request->key."%");
+        }])->find($request->restaurant_id);
+        return $this->returnData('data', new RestaurantProductsResource($data), '');
+    }
 }

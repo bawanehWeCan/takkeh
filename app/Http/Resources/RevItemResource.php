@@ -32,7 +32,6 @@ class RevItemResource extends JsonResource
             $icon = "1.svg";
         }
         return [
-
             'id'=>$this->id,
             'title'=>$this->title,
             'content'=>$this->content,
