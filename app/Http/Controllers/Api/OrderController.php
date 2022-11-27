@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\AddressResource;
+use App\Http\Resources\FirebaseResource;
 use App\Http\Resources\MyOrdersResource;
 use App\Http\Resources\OrderUpdateResource;
 use App\Models\Address;
@@ -61,7 +62,7 @@ class OrderController extends Controller
         $order->long = $request->long;
         $order->save();
 
-        dd( $order->products );
+
 
         $address = Address::find( $request->address_id );
 
@@ -91,7 +92,7 @@ class OrderController extends Controller
             'final_price'=>$order->total,
             'note' => $order->note,
 
-            'order_details'=>'',
+            'order_details'=>FirebaseResource::collection($order->products),
 
             'order_id'=>$order->id,
             'payment_method'=>'Cash',

@@ -22,4 +22,8 @@ class CartItem extends Model
     public function items(){
         return $this->hasMany( ProductItem::class , 'cart_item_id' );
     }
+
+    public function getNameAttribute(){
+        return $this->product->name;
+    }
 }
