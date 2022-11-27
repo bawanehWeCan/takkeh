@@ -122,11 +122,8 @@ class RestaurantController extends ApiController
         if (!$resturant) {
             return $this->returnError('This resturant is not exists');
         }
-        $categryables = Categoryable::where('categoryable_type',"App\Models\Product")->pluck('category_id');
-        $cats = Category::with('products')->WhereIn('id',$categryables->toArray())->whereHas('products',function (Builder $q) use($resturant){
-            $q->where('restaurant_id',$resturant->id);
-        })->get();
-        return $this->returnData('categories', CatProResource::collection($cats), '');
+
+        return $this->returnData('categories', CatProResource::collection($resturant->categories), '');
     }
 
     public function list_reviews($length = 10){
