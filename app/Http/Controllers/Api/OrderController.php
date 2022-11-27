@@ -70,6 +70,15 @@ class OrderController extends Controller
 
         $user = User::find( $order->user_id );
 
+        $fire = $fireItem = array();
+        foreach( $order->products as $product ){
+            $fireItem['id'] = $product->id;
+            $fireItem['name'] = $product->name;
+            $fireItem['price'] = $product->price;
+            $fireItem['quantity'] = $product->quantity;
+            array_push($fire,$fireItem);
+        }
+
 
         $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
         $stuRef->set([
@@ -92,7 +101,7 @@ class OrderController extends Controller
             'final_price'=>$order->total,
             'note' => $order->note,
 
-            'order_details'=>FirebaseResource::collection($order->products),
+            'order_details'=>$fire,
 
             'order_id'=>$order->id,
             'payment_method'=>'Cash',
