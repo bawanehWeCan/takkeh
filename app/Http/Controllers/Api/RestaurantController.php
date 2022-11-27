@@ -51,30 +51,11 @@ class RestaurantController extends ApiController
 
     public function getPagination( Request $request )
     {
-        if (!isset($request->category_id) && !isset($request->tag_id)) {
-            $data =  $this->repositry->with('review')->pagination(10);
-        }elseif (isset($request->category_id) && isset($request->tag_id)) {
-            $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
-                $q->where('category_id',$request->category_id);
-            })->whereHas('tags',function(Builder $q) use ($request){
-                $q->where('tag_id',$request->tag_id);
-            })->paginate( 10 );
-        }elseif (isset($request->category_id) && !isset($request->tag_id)) {
-            $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
-                $q->where('category_id',$request->category_id);
-            })->paginate( 10 );
-        }elseif (isset($request->tag_id) && !isset($request->category_id)) {
-            $data =  $this->model->with('review')->whereHas('tags',function(Builder $q) use ($request){
-                $q->where('tag_id',$request->tag_id);
-            })->paginate( 10 );
-        }
-        $all=[];
-        foreach ($data as $resturant) {
-            $resturant = $this->review_string_icon($resturant);
-            $all = collect($all)->push($resturant);
-        }
+
+            $data =  $this->repositry->pagination(10);
+
         // return json_encode($all);
-        return $this->returnData('data', ResturantRerviewResource::collection(collect($all)), '');    }
+        return $this->returnData('data', ResturantRerviewResource::collection($data), '');    }
 
     public function addCategory( Request $request ){
 
