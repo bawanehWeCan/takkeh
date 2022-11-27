@@ -25,6 +25,8 @@ use App\Http\Resources\CategoryItemResource;
 use App\Http\Resources\ResturantInfoResource;
 use App\Http\Resources\ResturantrevsResource;
 use App\Http\Resources\ResturantRerviewResource;
+use App\Http\Resources\RestaurantProductsResource;
+use App\Models\Product;
 
 class RestaurantController extends ApiController
 {
@@ -71,7 +73,7 @@ class RestaurantController extends ApiController
         }
 
         // return json_encode($all);
-        return $this->returnData('data', ResturantRerviewResource::collection($data), '');    }
+        return $this->returnData('data', ResturantRerviewResource::collection(collect($data)), '');    }
 
     public function addCategory( Request $request ){
 
@@ -128,8 +130,9 @@ class RestaurantController extends ApiController
     }
 
     public function list_reviews($length = 10){
-        $resturants = Restaurant::paginate($length);
-        return $this->returnData('data', ResturantRerviewResource::collection($resturants), '');
+        $resturants = Restaurant::with('review')->paginate($length);
+        // return json_encode($all);
+        return $this->returnData('data', ResturantRerviewResource::collection(collect($resturants)), '');
     }
 
     public function updateAvailability(Request $request)
@@ -163,8 +166,8 @@ class RestaurantController extends ApiController
 
     public function get_info($id){
         $resturant = Restaurant::with(['review','info'])->find($id);
-
-        return $this->returnData('data', ResturantInfoResource::make($resturant), '');
+        $resturant = $this->review_string_icon($resturant);
+        return $this->returnData('data', ResturantInfoResource::make(collect($resturant)), '');
     }
 
     public function get_reviews($id){
@@ -180,44 +183,19 @@ class RestaurantController extends ApiController
         // ]);
     }
 
-
-    // public function get_reviews($id){
-    //     $restaurant = Restaurant::find($id);
-    //     $info = $restaurant->load('info');
-    //     $review = $restaurant->load('review');
-
-
-    //     $resturant = $this->review_string_icon($restaurant);
-    //     return $this->returnData('data', ResturantInfoResource::make(collect($resturant)), '');
-    //     return response([
-    //         'restaurant'=> ResturantrevsResource::make(collect($resturant)),
-    //         'reviews'=> RevItemResource::collection($restaurant->review),
-    //     ]);
-    // }
-
-    public function review_string_icon($resturant)
+    public function searchProduct(Request $request)
     {
-        $avg = $resturant->review->avg('points');
-        $resturant = collect($resturant)->put('avg',$avg);
-        if ($avg>=4 && $avg<=5) {
-            $resturant = collect($resturant)->put('review',"خرافي");
-            $resturant = collect($resturant)->put('icon',"5.svg");
-        }elseif ($avg>=3 && $avg<=4) {
-            $resturant = collect($resturant)->put('review',"اشي فاخر");
-            $resturant = collect($resturant)->put('icon',"4.svg");
-        }elseif ($avg>=2 && $avg<=3) {
-            $resturant = collect($resturant)->put('review',"مرتب");
-            $resturant = collect($resturant)->put('icon',"3.svg");
-        }elseif ($avg>=1 && $avg<=2) {
-            $resturant = collect($resturant)->put('review',"مليح");
-            $resturant = collect($resturant)->put('icon',"2.svg");
-        }elseif ($avg>=0 && $avg<=1) {
-            $resturant = collect($resturant)->put('review',"مش بطال");
-            $resturant = collect($resturant)->put('icon',"1.svg");
-        }
-        return $resturant;
+        $data =  $this->model->with(['products'=>function( $q) use ($request){
+            $q->where('name',"like","%".$request->key."%");
+        }])->find($request->restaurant_id);
+        return $this->returnData('data', new RestaurantProductsResource($data), '');
     }
 
-
-
+    public function mostPopularProducts($id)
+    {
+        $data =  $this->model->with(['products'=>function( $q){
+            $q->orderBy('sold_quantity',"DESC")->limit(5);
+        }])->find($id);
+        return $this->returnData('retaurant', RestaurantProductsResource::make($data), '');
+    }
 }

@@ -9,6 +9,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function setImageAttribute($value){
         if ($value){
             $file = $value;
