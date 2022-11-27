@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\AddressResource;
+use App\Http\Resources\FirebaseResource;
 use App\Http\Resources\MyOrdersResource;
 use App\Http\Resources\OrderUpdateResource;
 use App\Models\Address;
@@ -61,11 +62,22 @@ class OrderController extends Controller
         $order->long = $request->long;
         $order->save();
 
+
+
         $address = Address::find( $request->address_id );
 
         $g = new GeoHash();
 
         $user = User::find( $order->user_id );
+
+        $fire = $fireItem = array();
+        foreach( $order->products as $product ){
+            $fireItem['id'] = $product->id;
+            $fireItem['name'] = $product->name;
+            $fireItem['price'] = $product->price;
+            $fireItem['quantity'] = $product->quantity;
+            array_push($fire,$fireItem);
+        }
 
 
         $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
@@ -88,7 +100,9 @@ class OrderController extends Controller
 
             'final_price'=>$order->total,
             'note' => $order->note,
-            'order_details'=>'',
+
+            'order_details'=>$fire,
+
             'order_id'=>$order->id,
             'payment_method'=>'Cash',
 

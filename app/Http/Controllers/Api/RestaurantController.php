@@ -52,6 +52,7 @@ class RestaurantController extends ApiController
 
     public function getPagination( Request $request )
     {
+
         if (!isset($request->category_id) && !isset($request->tag_id)) {
             $data =  $this->repositry->with('review')->pagination(10);
         }elseif (isset($request->category_id) && isset($request->tag_id)) {
