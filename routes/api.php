@@ -59,7 +59,7 @@ Route::post('change-password', [AuthController::class, 'changePassword']);
 
 
 //Reviews
-Route::get('reviews', [ReviewController::class, 'index']);
+Route::get('reviews', [ReviewController::class, 'pagination']);
 
 Route::get('review/{id}', [ReviewController::class, 'show']);
 Route::post('review/delete/{id}', [ReviewController::class, 'destroy']);
@@ -227,6 +227,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('wallet/delete/{id}', [WalletController::class, 'delete']);
 
     Route::post('transaction', [TransactionController::class, 'transaction']);
+    Route::get('transactions', [TransactionController::class, 'pagination']);
     Route::get('my-orders',[ OrderController::class, 'user_orders' ]);
 
 });

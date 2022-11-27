@@ -67,4 +67,11 @@ class TransactionController extends Controller
         $request->status = "Processing";
         return $this->model->create($request->all());
     }
+
+    public function pagination()
+    {
+        $transactions = Transaction::paginate(10);
+        return $this->returnData("Transactions", TransactionItemResource::collection($transactions), "");
+
+    }
 }
