@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\WeCanOTP;
 use Carbon\Carbon;
 use App\Models\User;
 use Nette\Utils\Json;
@@ -20,10 +21,9 @@ use App\Http\Resources\SupplierResource;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\PasswordChangeRequest;
 
+
 class AuthController extends Controller
 {
-    use ResponseTrait;
-
     use ResponseTrait;
 
     /**
@@ -42,7 +42,7 @@ class AuthController extends Controller
     }
     public function login(AuthRequest $request)
     {
-        $user = User::where('phone',$request->phone)->first();
+        $user = User::where('phone', $request->phone)->first();
         //dd( Hash::make( $request->password ) );
 
         Auth::login($user);
@@ -128,7 +128,7 @@ class AuthController extends Controller
                 return response(['status' => true, 'code' => 200, 'msg' => __('User created succesfully'), 'data' => [
                     'token' => $accessToken,
                     'user' => UserResource::make(Auth::user()),
-                    'wallet'=>WalletResource::make(Auth::user()->wallet),
+                    'wallet' => WalletResource::make(Auth::user()->wallet),
                 ]]);
             }
         }
@@ -225,28 +225,10 @@ class AuthController extends Controller
 
     public function password(Request $request)
     {
-        $user = User::where( 'phone',$request->phone )->first();
+        $user = User::where('phone', $request->phone)->first();
         if ($user) {
-            $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.releans.com/v2/otp/send",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "sender=Takkeh&mobile=" . $request->phone . "&channel=sms",
-                CURLOPT_HTTPHEADER => array(
-                    "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
-                ),
-            ));
-
-            $response = curl_exec($curl);
-
-            curl_close($curl);
+            $this->sendOTP( $request->phone );
 
             return $this->returnSuccessMessage('Code was sent');
         }
@@ -257,7 +239,7 @@ class AuthController extends Controller
 
     public function changePassword(PasswordChangeRequest $request)
     {
-        $user = User::where( 'phone',$request->phone )->first();
+        $user = User::where('phone', $request->phone)->first();
 
         if ($user) {
 
@@ -267,7 +249,6 @@ class AuthController extends Controller
                 ]);
 
             return $this->returnSuccessMessage('Password has been changed');
-
         }
 
         return $this->returnError('Password not matched!');
@@ -279,7 +260,7 @@ class AuthController extends Controller
         $user = Auth::user();
         // check unique email except this user
         if (isset($request->email)) {
-            $check = User::where('email', $request->email)->where('email','!=',$user->email)
+            $check = User::where('email', $request->email)->where('email', '!=', $user->email)
                 ->first();
 
             if ($check) {
@@ -288,7 +269,7 @@ class AuthController extends Controller
             }
         }
         if (isset($request->phone)) {
-            $check = User::where('phone', $request->phone)->where('phone','!=',$user->phone)
+            $check = User::where('phone', $request->phone)->where('phone', '!=', $user->phone)
                 ->first();
 
             if ($check) {
@@ -301,7 +282,7 @@ class AuthController extends Controller
             unlink($user->image);
         }
 
-        if ($request->has('cover') && $user->cover ) {
+        if ($request->has('cover') && $user->cover) {
             unlink($user->cover);
         }
 
@@ -327,7 +308,7 @@ class AuthController extends Controller
         $user = Auth::user();
 
         $user->update([
-            'password'=>bcrypt($request->new_password),
+            'password' => bcrypt($request->new_password),
         ]);
         return $this->returnSuccessMessage('Password updated successfully');
     }
@@ -339,7 +320,7 @@ class AuthController extends Controller
             ['email', $request->email]
         ])->first();
 
-        if ($user ) {
+        if ($user) {
 
             $accessToken = $user->createToken('authToken')->accessToken;
 
@@ -347,7 +328,7 @@ class AuthController extends Controller
             $user->save();
             Auth::login($user);
 
-            return response(['status' => true,'code' => 200,'msg' => 'success', 'data' => [
+            return response(['status' => true, 'code' => 200, 'msg' => 'success', 'data' => [
                 'token' => $accessToken,
                 'user' => $user
             ]]);
@@ -357,8 +338,8 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->username,
             'email' => $request->email,
-            'phone'=>$request->username,
-            'image'=>'',
+            'phone' => $request->username,
+            'image' => '',
             'password' => Hash::make('1234'),
         ]);
 
@@ -375,17 +356,16 @@ class AuthController extends Controller
 
         $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response(['status' => true,'code' => 200,'msg' => 'success', 'data' => [
+        return response(['status' => true, 'code' => 200, 'msg' => 'success', 'data' => [
             'token' => $accessToken,
             'user' => UserResource::make(Auth::user()),
             'wallet'=>WalletResource::make(Auth::user()->wallet),
         ]]);
-
     }
 
     public function updateDeviceToken(Request $request)
     {
-        $user = User::find(Auth::user()->id)->update(['device_token'=>$request->device_token]);
+        $user = User::find(Auth::user()->id)->update(['device_token' => $request->device_token]);
 
         return $this->returnData('user', UserResource::make(User::find(Auth::user()->id)), 'successful');
     }
@@ -396,4 +376,31 @@ class AuthController extends Controller
 
         return $this->returnSuccessMessage('Logged out succesfully!');
     }
+
+    public static function sendOTP($phone)
+    {
+        $otp = mt_rand(1000,9999);
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "http://82.212.81.40:8080/websmpp/websms",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "user=Wecan&pass=Suh12345&sid=TAKKEH&mno=" . $phone . "&text=" . $otp . "&type=1&respformat=json",
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+    }
+
 }

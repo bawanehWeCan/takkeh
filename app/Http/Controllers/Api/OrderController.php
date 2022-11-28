@@ -95,8 +95,9 @@ class OrderController extends Controller
 
             'drop_point_address'=>$address->name,
             'drop_point_id'=>$user->id,
-            'drop_point_image'=>$user->image,
+            'drop_point_image'=>(string)$user->image,
             'drop_point_name'=>$user->name,
+            'drop_point_phone'=>$user->phone,
             'drop_point_position' => array( 'geohash'=>$g->encode($address->lat,$address->long),'geopoint' =>  new \Google\Cloud\Core\GeoPoint($address->lat,$address->long)),
 
             'final_price'=>$order->total,
@@ -105,16 +106,16 @@ class OrderController extends Controller
             'order_details'=>$fire,
 
             'order_id'=>$order->id,
-            'payment_method'=>'Cash',
+            'payment_method'=>'cash',
 
             'pickup_point_address'=>$order->restaurant->address,
             'pickup_point_id'=>$order->restaurant->id,
             'pickup_point_image'=>$order->restaurant->logo,
             'pickup_point_name'=>$order->restaurant->name,
             'pickup_point_phone'=>$order->restaurant->user->phone,
-            'drop_point_position' => array( 'geohash'=>$g->encode($order->restaurant->lat,$order->restaurant->long),'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat,$order->restaurant->long)),
+            'pickup_point_position' => array( 'geohash'=>$g->encode($order->restaurant->lat,$order->restaurant->long),'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat,$order->restaurant->long)),
 
-            'status'=>$order->status,
+            'status'=>'hold',
             'tax'=>5,
             'total_price'=>$order->total,
             'type'=>'restaurant',

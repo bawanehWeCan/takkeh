@@ -62,14 +62,27 @@ class RestaurantController extends ApiController
             })->whereHas('tags',function(Builder $q) use ($request){
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
-        }elseif (isset($request->category_id) && !isset($request->tag_id)) {
+        }
+        if (isset($request->category_id) && !isset($request->tag_id)) {
             $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
                 $q->where('category_id',$request->category_id);
             })->paginate( 10 );
-        }elseif (isset($request->tag_id) && !isset($request->category_id)) {
+        }
+
+        if (isset($request->category_id) && $request->tag_id == 0) {
+            $data =  $this->model->with('review')->whereHas('categories',function(Builder $q) use ($request){
+                $q->where('category_id',$request->category_id);
+            })->paginate( 10 );
+        }
+
+        if (isset($request->tag_id) && !isset($request->category_id)) {
             $data =  $this->model->with('review')->whereHas('tags',function(Builder $q) use ($request){
                 $q->where('tag_id',$request->tag_id);
             })->paginate( 10 );
+        }
+
+        if( $request->category_id == 1 && $request->tag_id == 0 ){
+            $data =  $this->repositry->pagination(10);
         }
 
         // return json_encode($all);
@@ -83,6 +96,17 @@ class RestaurantController extends ApiController
         $restaurant->categories()->save($category);
 
         return $this->returnData( 'data' , $this->resource::make( $restaurant ), __('Succesfully'));
+
+    }
+
+    public function deleteCategory( Request $request ){
+
+        $category   = Category::find( $request->category_id );
+        $restaurant = Restaurant::find( $request->restaurant_id );
+
+        $restaurant->categories()->detach($category);
+
+        return $this->returnSuccessMessage( 'successful delete category from restaurant');
 
     }
     public function lookfor(Request $request,$length=10){

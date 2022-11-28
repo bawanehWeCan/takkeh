@@ -126,6 +126,7 @@ Route::get('restaurants/{id}', [RestaurantController::class, 'view']);
 Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
 
 Route::post('restaurants/category', [RestaurantController::class, 'addCategory']);
+Route::post('restaurants/category/delete', [RestaurantController::class, 'deleteCategory']);
 
 Route::post('restaurants/search', [RestaurantController::class, 'lookfor']);
 Route::post('restaurant/review', [RestaurantController::class, 'addReviewToResturant']);
@@ -159,6 +160,7 @@ Route::post('products-create', [ProductController::class, 'save']);
 Route::get('products/{id}', [ProductController::class, 'view']);
 Route::get('products/delete/{id}', [ProductController::class, 'delete']);
 Route::post('products/category', [ProductController::class, 'addCategory']);
+Route::post('products/category/delete', [ProductController::class, 'deleteCategory']);
 
 
 
