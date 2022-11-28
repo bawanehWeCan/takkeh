@@ -90,7 +90,7 @@ class RestaurantController extends ApiController
 
     public function addCategory( Request $request ){
 
-        $category   = Category::find( $request->category_id );
+        $category   = $category   = new Category($request->except('restaurant_id'));
         $restaurant = Restaurant::find( $request->restaurant_id );
 
         $restaurant->categories()->save($category);
