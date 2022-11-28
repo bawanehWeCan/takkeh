@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\WeCanOTP;
 use Carbon\Carbon;
 use App\Models\User;
 use Nette\Utils\Json;
@@ -19,12 +20,10 @@ use App\Http\Resources\WalletResource;
 use App\Http\Resources\SupplierResource;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\PasswordChangeRequest;
-use Illuminate\Support\Str;
+
 
 class AuthController extends Controller
 {
-    use ResponseTrait;
-
     use ResponseTrait;
 
     /**
@@ -229,7 +228,7 @@ class AuthController extends Controller
         $user = User::where('phone', $request->phone)->first();
         if ($user) {
 
-            $this->send_otp( $request->phone );
+            WeCanOTP::send( $request->phone );
 
             return $this->returnSuccessMessage('Code was sent');
         }
@@ -372,29 +371,5 @@ class AuthController extends Controller
         return $this->returnSuccessMessage('Logged out succesfully!');
     }
 
-    public function send_otp($phone)
-    {
-        $otp = Str::random(4);
 
-        $curl = curl_init();
-
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "http://82.212.81.40:8080/websmpp/websms",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "user=Wecan&pass=Suh12345&sid=TAKKEH&mno=". $phone ."&text=". $otp ."&type=1&respformat=json",
-                CURLOPT_HTTPHEADER => array(
-                    "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
-                ),
-            ));
-
-            $response = curl_exec($curl);
-
-            curl_close($curl);
-    }
 }
