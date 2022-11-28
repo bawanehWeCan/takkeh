@@ -203,7 +203,10 @@ class AuthController extends Controller
         $user = User::where('phone', $request->phone)->first();
         if ($user) {
 
-            $this->sendOTP($request->phone);
+            $otp = $this->sendOTP($request->phone);
+
+            $user->otp = $otp;
+            $user->save();
 
             return $this->returnSuccessMessage('Code was sent');
         }
