@@ -358,7 +358,7 @@ class AuthController extends Controller
     public function checkOTP( $phone, $otp ){
         $user = User::where('phone', $phone)->first();
 
-        if( (string)$user->$otp == (string)$otp ){
+        if( (string)$user->otp == (string)$otp ){
             return true;
         }
 
