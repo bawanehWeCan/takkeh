@@ -14,6 +14,8 @@ class CountriesController extends Controller
 
     public function getCountries()
     {
+        echo 'I am work Fine';
+        return;
         try {
             $countries = Countries::all();
                 // ->filter(function ($country) {
@@ -28,7 +30,7 @@ class CountriesController extends Controller
                 //     ];
                 // })->values()
                 // ->toArray();
-            dd($countries);
+
             foreach ($countries as $k => $country) {
                 if ($country['code'] == 'PS') {
                     $out = array_splice($countries, $k, 1);
