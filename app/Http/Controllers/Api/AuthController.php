@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\WeCanOTP;
 use Carbon\Carbon;
 use App\Models\User;
 use Nette\Utils\Json;
@@ -84,41 +83,18 @@ class AuthController extends Controller
         }
     }
 
-    // public function countries(){
-    //     return $this->returnData('countries', Countries::getList('en', 'json'), 'succesfully');
-    // }
 
     public function store(UserRequest $request)
     {
         $user = $this->userRepositry->saveUser($request);
 
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.releans.com/v2/otp/send",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "sender=Takkeh&mobile=" . $request->phone . "&channel=sms",
-            CURLOPT_HTTPHEADER => array(
-                "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
+        $this->sendOTP($request->phone);
 
         Auth::login($user);
 
-        $accessToken = Auth::user()->createToken('authToken')->accessToken;
+        $accessToken = $user->createToken('authToken')->accessToken;
 
         if ($user) {
-            // return $this->returnData( 'user', UserResource::make($user), '');
 
             if (Auth::user()->type == 'user') {
                 $user->wallet()->create([
@@ -133,36 +109,13 @@ class AuthController extends Controller
             }
         }
 
-
         return $this->returnError('Sorry! Failed to create user!');
     }
 
     public function check(Request $request)
     {
-        $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.releans.com/v2/otp/check",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "mobile=" . $request->phone . "&code=" . $request->code,
-            CURLOPT_HTTPHEADER => array(
-                "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        $d = Json::decode($response);
-
-        if ($d->status == 200) {
+        if ( $this->checkOTP( $request->phone, $request->code ) ) {
             return $this->returnSuccessMessage('success');
         } else {
             return $this->returnError('Sorry! code not correct');
@@ -228,7 +181,10 @@ class AuthController extends Controller
         $user = User::where('phone', $request->phone)->first();
         if ($user) {
 
-            $this->sendOTP( $request->phone );
+            $otp = $this->sendOTP($request->phone);
+
+            $user->otp = $otp;
+            $user->save();
 
             return $this->returnSuccessMessage('Code was sent');
         }
@@ -377,9 +333,9 @@ class AuthController extends Controller
         return $this->returnSuccessMessage('Logged out succesfully!');
     }
 
-    public static function sendOTP($phone)
+    public function sendOTP($phone)
     {
-        $otp = mt_rand(1000,9999);
+        $otp = mt_rand(1000, 9999);
 
         $curl = curl_init();
 
@@ -392,15 +348,26 @@ class AuthController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "user=Wecan&pass=Suh12345&sid=TAKKEH&mno=" . $phone . "&text=" . $otp . "&type=1&respformat=json",
+            CURLOPT_POSTFIELDS => "user=Wecan&pass=Suh12345&sid=TAKKEH&mno=" . $phone . "&text=Your OTP is " . $otp . " for your account&type=1&respformat=json",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
             ),
         ));
 
-        $response = curl_exec($curl);
+        curl_exec($curl);
 
         curl_close($curl);
+
+        return $otp;
     }
 
+    public function checkOTP( $phone, $otp ){
+        $user = User::where('phone', $phone)->first();
+
+        if( (string)$user->otp == (string)$otp ){
+            return true;
+        }
+
+        return false;
+    }
 }
