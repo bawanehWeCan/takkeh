@@ -8,7 +8,7 @@ class WeCanOTP
 {
     public static  function send($phone)
     {
-        $otp = Str::random(4);
+        $otp = mt_rand(1000,9999);
 
         $curl = curl_init();
 
