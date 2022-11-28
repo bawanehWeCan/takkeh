@@ -213,7 +213,6 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Countries' => Monarobase\CountryList\CountryListFacade::class,
-        'WeCanOTP'    => App\Helpers\Otp::class,
     ])->toArray(),
 
 ];
