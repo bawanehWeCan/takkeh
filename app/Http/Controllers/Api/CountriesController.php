@@ -15,19 +15,19 @@ class CountriesController extends Controller
     public function getCountries()
     {
         try {
-            $countries = Countries::all()
-                ->filter(function ($country) {
-                    return $country['name_ar'] != null;
-                })->map(function ($country) {
+            $countries = Countries::all();
+                // ->filter(function ($country) {
+                //     return $country['name_ar'] != null;
+                // })->map(function ($country) {
 
-                    return [
-                        'code' => $country->cca2,
-                        'name' => $country['name_ar'],
-                        'calling_code' => $country['calling_codes'][0] ?? null,
-                        'flag' => $country['flag']['svg'],
-                    ];
-                })->values()
-                ->toArray();
+                //     return [
+                //         'code' => $country->cca2,
+                //         'name' => $country['name_ar'],
+                //         'calling_code' => $country['calling_codes'][0] ?? null,
+                //         'flag' => $country['flag']['svg'],
+                //     ];
+                // })->values()
+                // ->toArray();
             dd($countries);
             foreach ($countries as $k => $country) {
                 if ($country['code'] == 'PS') {
