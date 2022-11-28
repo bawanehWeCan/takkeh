@@ -21,11 +21,6 @@ class ReviewController extends ApiController
         $this->repositry =  new Repository($this->model);
     }
 
-    public function index()
-    {
-      return $this->list();
-    }
-
 
     public function show($id)
     {

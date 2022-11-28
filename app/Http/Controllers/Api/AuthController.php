@@ -98,8 +98,8 @@ class AuthController extends Controller
 
             if (Auth::user()->type == 'user') {
                 $user->wallet()->create([
-                    'name' => rand(0, 100000) . "_" . $user->name  . "_" . $user->lname . "_" . Carbon::now()->year,
-                    'user_id' => $user->id
+                    'name'=>rand(0,100000) . "_" . $user->name  . "_" . ($user->lname==null?"wallet":$user->lname) . "_" . Carbon::now()->year,
+                    'user_id'=>$user->id
                 ]);
                 return response(['status' => true, 'code' => 200, 'msg' => __('User created succesfully'), 'data' => [
                     'token' => $accessToken,
@@ -299,6 +299,11 @@ class AuthController extends Controller
             'password' => Hash::make('1234'),
         ]);
 
+        $user->wallet()->create([
+            'name'=>rand(0,100000) . "_" . $user->name  . "_" . ($user->lname==null?"wallet":$user->lname) . "_" . Carbon::now()->year,
+            'user_id'=>$user->id
+        ]);
+
 
         // assign new role to the user
         // $role = $user->assignRole('Member');
@@ -309,7 +314,8 @@ class AuthController extends Controller
 
         return response(['status' => true, 'code' => 200, 'msg' => 'success', 'data' => [
             'token' => $accessToken,
-            'user' => $user
+            'user' => UserResource::make(Auth::user()),
+            'wallet'=>WalletResource::make(Auth::user()->wallet),
         ]]);
     }
 

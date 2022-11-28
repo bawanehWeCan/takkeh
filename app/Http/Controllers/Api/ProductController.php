@@ -116,4 +116,17 @@ class ProductController extends ApiController
 
     }
 
+    public function deleteCategory( Request $request ){
+
+        $category   = Category::find( $request->category_id );
+        $product = $this->model->find( $request->product_id );
+        if (!$category || !$product) {
+            return $this->returnError('Some thing has been wrong');
+        }
+        $cat = $product->categories()->detach($category);
+        $product->push($cat);
+        return $this->returnSuccessMessage( 'successful delete category from product');
+
+    }
+
 }

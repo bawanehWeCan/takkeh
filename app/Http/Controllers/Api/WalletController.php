@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
@@ -33,7 +34,15 @@ class WalletController extends ApiController
 
     public function myWallet()
     {
-        $wallet=Wallet::where('user_id',Auth::user()->id)->first();
+        $user = Auth::user();
+        if($user->wallet()->count() == 0){
+            $user->wallet()->create([
+                'name'=>rand(0,100000) . "_" . $user->name  . "_" . ($user->lname==null?"wallet":$user->lname) . "_" . Carbon::now()->year,
+                'user_id'=>$user->id
+            ]);
+        }
+
+        $wallet=Wallet::where('user_id',$user->id)->first();
         return $this->returnData('my_wallet',$this->resource::make($wallet));
     }
 }
