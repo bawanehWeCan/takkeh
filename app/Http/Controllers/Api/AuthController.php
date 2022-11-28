@@ -114,30 +114,8 @@ class AuthController extends Controller
 
     public function check(Request $request)
     {
-        $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.releans.com/v2/otp/check",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "mobile=" . $request->phone . "&code=" . $request->code,
-            CURLOPT_HTTPHEADER => array(
-                "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        $d = Json::decode($response);
-
-        if ($d->status == 200) {
+        if ( $this->checkOTP( $request->phone, $request->code ) ) {
             return $this->returnSuccessMessage('success');
         } else {
             return $this->returnError('Sorry! code not correct');
@@ -364,7 +342,7 @@ class AuthController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "user=Wecan&pass=Suh12345&sid=TAKKEH&mno=" . $phone . "&text=" . $otp . "&type=1&respformat=json",
+            CURLOPT_POSTFIELDS => "user=Wecan&pass=Suh12345&sid=TAKKEH&mno=" . $phone . "&text=Your OTP is " . $otp . " for your account&type=1&respformat=json",
             CURLOPT_HTTPHEADER => array(
                 "Authorization: Bearer 2c1d0706b21b715ff1e5a480b8360d90"
             ),
@@ -375,5 +353,15 @@ class AuthController extends Controller
         curl_close($curl);
 
         return $otp;
+    }
+
+    public function checkOTP( $phone, $otp ){
+        $user = User::where('phone', $phone)->first();
+
+        if( $user->$otp == $otp ){
+            return true;
+        }
+
+        return false;
     }
 }
