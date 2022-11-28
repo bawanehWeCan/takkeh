@@ -2,11 +2,9 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Str;
-
 class WeCanOTP
 {
-    public static  function send($phone)
+    public static function send($phone)
     {
         $otp = mt_rand(1000,9999);
 
