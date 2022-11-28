@@ -12,27 +12,28 @@ class CountriesController extends Controller
 {
     use ResponseTrait;
 
-    public function getCountries(){
+    public function getCountries()
+    {
         $countries = Countries::all()
-        ->filter(function($country){
-            return $country['name_ar'] != null;
-        })->map(function($country){
+            ->filter(function ($country) {
+                return $country['name_ar'] != null;
+            })->map(function ($country) {
 
-            return [
-                'code'=>$country->cca2,
-                'name'=>$country['name_ar'],
-                'calling_code'=>$country['calling_codes'][0]??null,
-                'flag'=>$country['flag']['svg'],
-            ];
-        })->values()
-        ->toArray();
+                return [
+                    'code' => $country->cca2,
+                    'name' => $country['name_ar'],
+                    'calling_code' => $country['calling_codes'][0] ?? null,
+                    'flag' => $country['flag']['svg'],
+                ];
+            })->values()
+            ->toArray();
 
-        foreach($countries as $k => $country){
-            if($country['code'] == 'PS'){
-                $out = array_splice($countries, $k,1);
+        foreach ($countries as $k => $country) {
+            if ($country['code'] == 'PS') {
+                $out = array_splice($countries, $k, 1);
             }
-
         }
-         return $countries = array_merge($out,$countries);
+        dd( $out );
+        return $countries = array_merge($out, $countries);
     }
 }
