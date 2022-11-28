@@ -56,7 +56,7 @@ class UserController extends Controller
 
         if ($user) {
             $user->wallet()->create([
-                'name'=>rand(0,100000) . "_" . $user->name  . "_" . $user->lname . "_" . Carbon::now()->year,
+                'name'=>rand(0,100000) . "_" . $user->name  . "_" . ($user->lname==null?"wallet":$user->lname) . "_" . Carbon::now()->year,
                 'user_id'=>$user->id
             ]);
             return response([

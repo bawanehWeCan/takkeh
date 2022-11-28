@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\SpecialController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CountriesController;
 use App\Http\Controllers\Api\InfoController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PromoCodeController;
 
 
@@ -59,7 +60,7 @@ Route::post('change-password', [AuthController::class, 'changePassword']);
 
 
 //Reviews
-Route::get('reviews', [ReviewController::class, 'index']);
+Route::get('reviews', [ReviewController::class, 'pagination']);
 
 Route::get('review/{id}', [ReviewController::class, 'show']);
 Route::post('review/delete/{id}', [ReviewController::class, 'destroy']);
@@ -125,6 +126,7 @@ Route::get('restaurants/{id}', [RestaurantController::class, 'view']);
 Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
 
 Route::post('restaurants/category', [RestaurantController::class, 'addCategory']);
+Route::post('restaurants/category/delete', [RestaurantController::class, 'deleteCategory']);
 
 Route::post('restaurants/search', [RestaurantController::class, 'lookfor']);
 Route::post('restaurant/review', [RestaurantController::class, 'addReviewToResturant']);
@@ -158,6 +160,7 @@ Route::post('products-create', [ProductController::class, 'save']);
 Route::get('products/{id}', [ProductController::class, 'view']);
 Route::get('products/delete/{id}', [ProductController::class, 'delete']);
 Route::post('products/category', [ProductController::class, 'addCategory']);
+Route::post('products/category/delete', [ProductController::class, 'deleteCategory']);
 
 
 
@@ -227,8 +230,13 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('wallet/delete/{id}', [WalletController::class, 'delete']);
 
     Route::post('transaction', [TransactionController::class, 'transaction']);
+    Route::get('transactions', [TransactionController::class, 'pagination']);
     Route::get('my-orders',[ OrderController::class, 'user_orders' ]);
 
+    Route::get('notifications', [NotificationController::class, 'list']);
+    Route::post('notifications-create', [NotificationController::class, 'save']);
+    Route::get('notifications/{id}', [NotificationController::class, 'view']);
+    Route::get('notifications/delete/{id}', [NotificationController::class, 'delete']);
 });
 
 Route::get('country-list', [CountriesController::class, 'getCountries']);

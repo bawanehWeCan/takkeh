@@ -98,9 +98,21 @@ class RestaurantController extends ApiController
         return $this->returnData( 'data' , $this->resource::make( $restaurant ), __('Succesfully'));
 
     }
-    public function lookfor(Request $request){
 
-        return $this->search('name',$request->keyword);
+    public function deleteCategory( Request $request ){
+
+        $category   = Category::find( $request->category_id );
+        $restaurant = Restaurant::find( $request->restaurant_id );
+
+        $restaurant->categories()->detach($category);
+
+        return $this->returnSuccessMessage( 'successful delete category from restaurant');
+
+    }
+    public function lookfor(Request $request,$length=10){
+
+        $restaurants = Restaurant::where('name',"like","%$request->keyword%")->paginate($length);
+        return $this->returnData( 'data' , ResturantRerviewResource::collection( $restaurants ), __('Succesfully'));
 
     }
 
@@ -141,7 +153,6 @@ class RestaurantController extends ApiController
 
     public function list_reviews($length = 10){
         $resturants = Restaurant::with('review')->paginate($length);
-        // return json_encode($all);
         return $this->returnData('data', ResturantRerviewResource::collection($resturants), '');
     }
 
@@ -176,21 +187,12 @@ class RestaurantController extends ApiController
 
     public function get_info($id){
         $resturant = Restaurant::with(['review','info'])->find($id);
-        // $resturant = $this->review_string_icon($resturant);
         return $this->returnData('data', ResturantInfoResource::make($resturant), '');
     }
 
     public function get_reviews($id){
         $restaurant = Restaurant::find($id);
-        // $resturant = $this->review_string_icon($restaurant);
-
         return $this->returnData('data', ResturantInfoResource::make($restaurant));
-
-
-        // return response([
-        //     'restaurant'=> ResturantrevsResource::make(collect($resturant)),
-        //     'reviews'=> RevItemResource::collection($restaurant->review),
-        // ]);
     }
 
     public function searchProduct(Request $request)
