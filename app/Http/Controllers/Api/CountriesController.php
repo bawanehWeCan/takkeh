@@ -14,8 +14,7 @@ class CountriesController extends Controller
 
     public function getCountries()
     {
-        echo 'I am work Fine';
-        return;
+
         try {
             $countries = Countries::all();
                 // ->filter(function ($country) {
