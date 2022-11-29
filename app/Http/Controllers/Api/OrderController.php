@@ -20,10 +20,11 @@ use App\Http\Resources\MyOrdersResource;
 use App\Http\Resources\OrderUpdateResource;
 use App\Models\Address;
 use App\Models\Product;
+use App\Traits\NotificationTrait;
 
 class OrderController extends Controller
 {
-    use ResponseTrait;
+    use ResponseTrait, NotificationTrait;
     public function store(Request $request)
     {
         $order = new Order();
@@ -141,5 +142,9 @@ class OrderController extends Controller
         $product = Product::Find($id);
         $qty = $product->sold_quantity + $qty;
         $product->update(['sold_quantity'=>$qty]);
+    }
+
+    public function updateStatus(){
+        return $this->testSend();
     }
 }

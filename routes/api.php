@@ -245,6 +245,8 @@ Route::get('country-list', [CountriesController::class, 'getCountries']);
 Route::post('make-order',[ OrderController::class, 'store' ]);
 Route::post('update-order',[ OrderController::class, 'update' ]);
 
+Route::post('update-status',[ OrderController::class, 'updateStatus' ]);
+
 
 
 //pages
