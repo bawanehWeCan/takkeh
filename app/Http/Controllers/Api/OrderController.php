@@ -148,19 +148,22 @@ class OrderController extends Controller
     public function updateStatus(Request $request)
     {
 
-        $orederRepo = new Repository(app(Order::class));
-        $user = new Repository(app(User::class));
+        try {
+            $orederRepo = new Repository(app(Order::class));
+            $user = new Repository(app(User::class));
 
-        $order = $orederRepo->getByID($request->order_id);
-        $user = $orederRepo->getByID($order->user_id);
-
-        $order->update($request->except('order_id'));
-
-        dd($order);
-
+            $order = $orederRepo->getByID($request->order_id);
+            $user = $orederRepo->getByID($order->user_id);
+            if ($request->status != $order->status) {
+                $order->update($request->except('order_id'));
 
 
-
-        return $this->testSend('hi', 'hi', $user->name);
+                if ($order->status == 'pending') {
+                    $this->testSend(__('Your Order has been Successfully recived'), $user->name);
+                }
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }
