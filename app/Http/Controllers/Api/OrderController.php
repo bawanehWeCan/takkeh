@@ -45,7 +45,7 @@ class OrderController extends Controller
             $cart_item->note = !empty($product['note']) ? $product['note'] : '';
             $cart_item->price = $product['price'];
             $cart_item->save();
-            $this->updateProductQuantity($product['product_id'],$product['quantity']);
+            $this->updateProductQuantity($product['product_id'], $product['quantity']);
             foreach ($product['groups'] as $group) {
                 $product_item = new ProductItem();
                 $product_item->group_id = $group['group_id'];
@@ -67,19 +67,19 @@ class OrderController extends Controller
 
 
 
-        $address = Address::find( $request->address_id );
+        $address = Address::find($request->address_id);
 
         $g = new GeoHash();
 
-        $user = User::find( $order->user_id );
+        $user = User::find($order->user_id);
 
         $fire = $fireItem = array();
-        foreach( $order->products as $product ){
+        foreach ($order->products as $product) {
             $fireItem['id'] = $product->id;
             $fireItem['name'] = $product->name;
             $fireItem['price'] = $product->price;
             $fireItem['quantity'] = $product->quantity;
-            array_push($fire,$fireItem);
+            array_push($fire, $fireItem);
         }
 
 
@@ -87,73 +87,80 @@ class OrderController extends Controller
         $stuRef->set([
 
             'created_at' => $order->created_at,
-            'delivery_fee'=> 15,
-            'discount'=> 5,
+            'delivery_fee' => 15,
+            'discount' => 5,
 
-            'driver_id'=> 0,
-            'driver_image'=>'',
-            'driver_name'=>'',
-            'driver_phone'=>'',
+            'driver_id' => 0,
+            'driver_image' => '',
+            'driver_name' => '',
+            'driver_phone' => '',
 
-            'drop_point_address'=>$address->name,
-            'drop_point_id'=>$user->id,
-            'drop_point_image'=>(string)$user->image,
-            'drop_point_name'=>$user->name,
-            'drop_point_phone'=>$user->phone,
-            'drop_point_position' => array( 'geohash'=>$g->encode($address->lat,$address->long),'geopoint' =>  new \Google\Cloud\Core\GeoPoint($address->lat,$address->long)),
+            'drop_point_address' => $address->name,
+            'drop_point_id' => $user->id,
+            'drop_point_image' => (string)$user->image,
+            'drop_point_name' => $user->name,
+            'drop_point_phone' => $user->phone,
+            'drop_point_position' => array('geohash' => $g->encode($address->lat, $address->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($address->lat, $address->long)),
 
-            'final_price'=>$order->total,
+            'final_price' => $order->total,
             'note' => $order->note,
 
-            'order_details'=>$fire,
+            'order_details' => $fire,
 
-            'order_id'=>$order->id,
-            'payment_method'=>'cash',
+            'order_id' => $order->id,
+            'payment_method' => 'cash',
 
-            'pickup_point_address'=>$order->restaurant->address,
-            'pickup_point_id'=>$order->restaurant->id,
-            'pickup_point_image'=>$order->restaurant->logo,
-            'pickup_point_name'=>$order->restaurant->name,
-            'pickup_point_phone'=>$order->restaurant->user->phone,
-            'pickup_point_position' => array( 'geohash'=>$g->encode($order->restaurant->lat,$order->restaurant->long),'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat,$order->restaurant->long)),
+            'pickup_point_address' => $order->restaurant->address,
+            'pickup_point_id' => $order->restaurant->id,
+            'pickup_point_image' => $order->restaurant->logo,
+            'pickup_point_name' => $order->restaurant->name,
+            'pickup_point_phone' => $order->restaurant->user->phone,
+            'pickup_point_position' => array('geohash' => $g->encode($order->restaurant->lat, $order->restaurant->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat, $order->restaurant->long)),
 
-            'status'=>'hold',
-            'tax'=>5,
-            'total_price'=>$order->total,
-            'type'=>'restaurant',
-            'user_name'=>$user->name,
+            'status' => 'hold',
+            'tax' => 5,
+            'total_price' => $order->total,
+            'type' => 'restaurant',
+            'user_name' => $user->name,
 
         ]);
 
         return $this->returnData('order', new OrderUpdateResource($order), '');
-
     }
 
-    public function user_orders($length = 10){
-        $orders = Order::where('user_id',Auth::user()->id)->paginate($length);
+    public function user_orders($length = 10)
+    {
+        $orders = Order::where('user_id', Auth::user()->id)->paginate($length);
 
         if (!$orders) {
             return $this->returnError(__('Sorry! Failed to get !'));
         }
-        return $this->returnData('data',  MyOrdersResource::collection( $orders ), __('Get  succesfully'));
+        return $this->returnData('data',  MyOrdersResource::collection($orders), __('Get  succesfully'));
     }
 
-    public function updateProductQuantity($id,$qty)
+    public function updateProductQuantity($id, $qty)
     {
         $product = Product::Find($id);
         $qty = $product->sold_quantity + $qty;
-        $product->update(['sold_quantity'=>$qty]);
+        $product->update(['sold_quantity' => $qty]);
     }
 
-    public function updateStatus( Request $request ){
+    public function updateStatus(Request $request)
+    {
 
-        $orederRepo = new Repository(app( Order::class ));
+        $orederRepo = new Repository(app(Order::class));
+        $user = new Repository(app(User::class));
 
-        $order = $orederRepo->getByID( $request->order_id );
+        $order = $orederRepo->getByID($request->order_id);
+        $user = $orederRepo->getByID($order->user_id);
 
-        dd( $order );
+        $order->edit($request->order_id, $request->status);
+
+        dd($order);
 
 
-        return $this->testSend('hi','hi','alaa');
+
+
+        return $this->testSend('hi', 'hi', $user->name);
     }
 }
