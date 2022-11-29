@@ -88,7 +88,10 @@ class AuthController extends Controller
     {
         $user = $this->userRepositry->saveUser($request);
 
-        $this->sendOTP($request->phone);
+        $otp = $this->sendOTP($request->phone);
+
+        $user->otp = $otp;
+        $user->save();
 
         Auth::login($user);
 
@@ -98,8 +101,8 @@ class AuthController extends Controller
 
             if (Auth::user()->type == 'user') {
                 $user->wallet()->create([
-                    'name'=>rand(0,100000) . "_" . $user->name  . "_" . ($user->lname==null?"wallet":$user->lname) . "_" . Carbon::now()->year,
-                    'user_id'=>$user->id
+                    'name' => rand(0, 100000) . "_" . $user->name  . "_" . ($user->lname == null ? "wallet" : $user->lname) . "_" . Carbon::now()->year,
+                    'user_id' => $user->id
                 ]);
                 return response(['status' => true, 'code' => 200, 'msg' => __('User created succesfully'), 'data' => [
                     'token' => $accessToken,
@@ -115,7 +118,7 @@ class AuthController extends Controller
     public function check(Request $request)
     {
 
-        if ( $this->checkOTP( $request->phone, $request->code ) ) {
+        if ($this->checkOTP($request->phone, $request->code)) {
             return $this->returnSuccessMessage('success');
         } else {
             return $this->returnError('Sorry! code not correct');
@@ -300,8 +303,8 @@ class AuthController extends Controller
         ]);
 
         $user->wallet()->create([
-            'name'=>rand(0,100000) . "_" . $user->name  . "_" . ($user->lname==null?"wallet":$user->lname) . "_" . Carbon::now()->year,
-            'user_id'=>$user->id
+            'name' => rand(0, 100000) . "_" . $user->name  . "_" . ($user->lname == null ? "wallet" : $user->lname) . "_" . Carbon::now()->year,
+            'user_id' => $user->id
         ]);
 
 
@@ -315,7 +318,7 @@ class AuthController extends Controller
         return response(['status' => true, 'code' => 200, 'msg' => 'success', 'data' => [
             'token' => $accessToken,
             'user' => UserResource::make(Auth::user()),
-            'wallet'=>WalletResource::make(Auth::user()->wallet),
+            'wallet' => WalletResource::make(Auth::user()->wallet),
         ]]);
     }
 
@@ -361,10 +364,11 @@ class AuthController extends Controller
         return $otp;
     }
 
-    public function checkOTP( $phone, $otp ){
+    public function checkOTP($phone, $otp)
+    {
         $user = User::where('phone', $phone)->first();
 
-        if( (string)$user->otp == (string)$otp ){
+        if ((string)$user->otp == (string)$otp) {
             return true;
         }
 
