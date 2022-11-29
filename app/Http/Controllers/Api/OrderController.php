@@ -20,6 +20,7 @@ use App\Http\Resources\MyOrdersResource;
 use App\Http\Resources\OrderUpdateResource;
 use App\Models\Address;
 use App\Models\Product;
+use App\Repositories\Repository;
 use App\Traits\NotificationTrait;
 
 class OrderController extends Controller
@@ -144,7 +145,15 @@ class OrderController extends Controller
         $product->update(['sold_quantity'=>$qty]);
     }
 
-    public function updateStatus(){
-        return $this->testSend();
+    public function updateStatus( Request $request ){
+
+        $orederRepo = new Repository(app( Order::class ));
+
+        $order = $orederRepo->getByID( $request->order_id );
+
+        dd( $order );
+
+
+        return $this->testSend('hi','hi','alaa');
     }
 }

@@ -6,14 +6,14 @@ use Illuminate\Http\Response;
 
 trait NotificationTrait
 {
-    function testSend()
+    function testSend($title, $msg, $user)
     {
         $token = "cxghgC8ZSWyCRuXu0Rmj9G:APA91bE8cl9Upb07x4Asdo4TNuH4KbfZtNDzNmmdWB1kxV95SQ5W8eZHvyPmr0DrD-PlIV6Man3oFJuHF6wUk8_msUSL8owEePg_dbX3GKxZCnZPyMB43JTDbeg2h3DB1NGlB_1bSbar";
         $from = "AAAA53N59_0:APA91bF27-YuWlYtfLoFYPDzsTqzL7VZvkTD5VsU3Gz9kh2thHQrn0HLm3lG4oedlPBNsqR61th11zgCkb_zHuJwm96oZzm0UBkHItKKgkcYF5YvawN32URY2lZTLMg8GcYMmccdDJC8";
         $msg = array(
-            'body'  => "Testing Testing",
-            'title' => "Hi, From Wecan",
-            'receiver' => 'Alaa',
+            'body'  => $msg,
+            'title' => $title,
+            'receiver' => $user,
         );
 
         $fields = array(
