@@ -33,15 +33,9 @@ class CountriesController extends Controller
         foreach($all as $k => $country){
             if($country['code'] == 'PS'){
                 $out = array_splice($all, $k,1);
-
             }
 
-            return $countries = array_merge($out, $countries);
-        } catch (\Throwable $th) {
-            dd($th);
         }
-
         return array_merge($out,$all);
-
     }
 }
