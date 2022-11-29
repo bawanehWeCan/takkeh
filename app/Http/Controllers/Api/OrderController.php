@@ -164,6 +164,8 @@ class OrderController extends Controller
             }
         } catch (\Throwable $th) {
             //throw $th;
+
+            dd( $th );
         }
     }
 }
