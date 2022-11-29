@@ -12,33 +12,36 @@ class CountriesController extends Controller
 {
     use ResponseTrait;
 
-    public function getCountries()
-    {
 
-        try {
-            $countries = Countries::all();
-                // ->filter(function ($country) {
-                //     return $country['name_ar'] != null;
-                // })->map(function ($country) {
-
-                //     return [
-                //         'code' => $country->cca2,
-                //         'name' => $country['name_ar'],
-                //         'calling_code' => $country['calling_codes'][0] ?? null,
-                //         'flag' => $country['flag']['svg'],
-                //     ];
-                // })->values()
-                // ->toArray();
-
-            foreach ($countries as $k => $country) {
-                if ($country['code'] == 'PS') {
-                    $out = array_splice($countries, $k, 1);
+    public function getCountries(){
+        $allCountries = Collect(json_decode(file_get_contents(public_path("countries/_all_countries.json")), true));
+        $all=[];
+        foreach ($allCountries as $key => $country) {
+            if(!empty($country["independent"]["name_ar"])){
+                if (is_file(public_path("countries/flags/" .$key.".svg"))) {
+                    $svg = file_get_contents(public_path("countries/flags/" .$key.".svg"))??null;
                 }
+                $data = [
+                    'code'=>$country["independent"]["cca2"],
+                    'name'=>$country["independent"]['name_ar'],
+                    'calling_code'=>$country["independent"]['calling_codes'][0]??null,
+                    'flag'=>$svg,
+                ];
+            }
+        array_push($all,$data);
+        }
+        foreach($all as $k => $country){
+            if($country['code'] == 'PS'){
+                $out = array_splice($all, $k,1);
+
             }
 
             return $countries = array_merge($out, $countries);
         } catch (\Throwable $th) {
             dd($th);
         }
+
+        return array_merge($out,$all);
+
     }
 }
