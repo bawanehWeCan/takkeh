@@ -154,7 +154,7 @@ class OrderController extends Controller
         $order = $orederRepo->getByID($request->order_id);
         $user = $orederRepo->getByID($order->user_id);
 
-        $order->update(['status',$request->status]);
+        $order->update($request->except('order_id'));
 
         dd($order);
 
