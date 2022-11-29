@@ -157,6 +157,8 @@ class OrderController extends Controller
             if ($request->status != $order->status) {
                 $order->update($request->except('order_id'));
 
+                dd( $user->name );
+
 
                 if ($order->status == 'pending') {
                     $this->testSend(__('Your Order has been Successfully recived'), $user->name);
