@@ -19,7 +19,7 @@ use App\Http\Resources\WalletResource;
 use App\Http\Resources\SupplierResource;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\PasswordChangeRequest;
-
+use App\Http\Resources\UserResource2;
 
 class AuthController extends Controller
 {
@@ -78,7 +78,7 @@ class AuthController extends Controller
 
             return response(['status' => true, 'code' => 200, 'msg' => __('Log in success'), 'data' => [
                 'token' => $accessToken,
-                'user' => UserResource::make(Auth::user())
+                'user' => UserResource2::make(Auth::user())
             ]]);
         }
     }
