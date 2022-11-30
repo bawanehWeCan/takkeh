@@ -257,3 +257,10 @@ Route::get('pages/{id}', [PageController::class, 'profile']);
 Route::get('pages/delete/{id}', [PageController::class, 'delete']);
 
 
+
+Route::get('orders', [PageController::class, 'list']);
+Route::post('order-create', [PageController::class, 'save']);
+Route::get('order/{id}', [PageController::class, 'profile']);
+Route::get('order/delete/{id}', [PageController::class, 'delete']);
+
+
