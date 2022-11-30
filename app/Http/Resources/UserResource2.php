@@ -18,7 +18,7 @@ class UserResource2 extends JsonResource
             'id'                => $this->restaurant->id,
             'name'              => $this->restaurant->name,
             'last_name'         => $this->lname,
-            'phone'             => $this->restaurant->phone,
+            'phone'             => $this->phone,
             'email'             => $this->email,
             'device_token'      => $this->device_token,
             'image'             => (string)$this->image,
