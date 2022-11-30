@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CountriesController;
 use App\Http\Controllers\Api\InfoController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\OController;
 use App\Http\Controllers\Api\PromoCodeController;
 
 
@@ -258,9 +259,9 @@ Route::get('pages/delete/{id}', [PageController::class, 'delete']);
 
 
 
-Route::get('orders', [PageController::class, 'list']);
-Route::post('order-create', [PageController::class, 'save']);
-Route::get('order/{id}', [PageController::class, 'profile']);
-Route::get('order/delete/{id}', [PageController::class, 'delete']);
+Route::get('orders', [OController::class, 'list']);
+Route::post('order-create', [OController::class, 'save']);
+Route::get('order/{id}', [OController::class, 'profile']);
+Route::get('order/delete/{id}', [OController::class, 'delete']);
 
 
