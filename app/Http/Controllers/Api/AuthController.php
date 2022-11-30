@@ -41,13 +41,12 @@ class AuthController extends Controller
     }
     public function login(AuthRequest $request)
     {
-        $auth = Auth::attempt(
-            $request->only([
-                'phone',
-                'password',
-            ])
-        );
-        if (!$auth) {
+        $user = User::where('phone', $request->phone)->first();
+        //dd( Hash::make( $request->password ) );
+
+        Auth::login($user);
+
+        if (!$user) {
 
 
             return response()->json([
@@ -56,7 +55,6 @@ class AuthController extends Controller
                 'msg' => __('Invalid credentials!'),
             ], 500);
         }
-
 
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
 
