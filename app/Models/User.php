@@ -75,7 +75,7 @@ class User extends Authenticatable
     }
 
     public function restaurant(){
-        return $this->hasMany(Restaurant::class,"user_id","id");
+        return $this->hasOne(Restaurant::class,"user_id","id");
     }
 
     public function notifications(){
