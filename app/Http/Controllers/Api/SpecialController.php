@@ -50,9 +50,7 @@ class SpecialController extends Controller
      */
     public function store(SpecialRequest $request)
     {
-        if(isset($request->resturant_id) && isset($request->product_id)){
-            return $this->returnError('It\'s not allowed to add both (resturant_id and product_id) Please add only one of them');
-        }
+
         if (isset($request->resturant_id)) {
             $resturant = Restaurant::find($request->resturant_id);
             if (!$resturant) {
