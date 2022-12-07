@@ -58,6 +58,7 @@ class SpecialController extends Controller
             }
             $request['offerable_id'] = $request->resturant_id;
             $request['offerable_type'] = get_class($resturant);
+            unset($request['product_id']);
             unset($request['resturant_id']);
             $special = $this->specialRepositry->saveSpecial($request->all());
 
@@ -74,6 +75,7 @@ class SpecialController extends Controller
             $request['offerable_id'] = $request->product_id;
             $request['offerable_type'] = get_class($product);
             unset($request['product_id']);
+            unset($request['resturant_id']);
             $special = $this->specialRepositry->saveSpecial($request->all());
 
             if ($special) {
