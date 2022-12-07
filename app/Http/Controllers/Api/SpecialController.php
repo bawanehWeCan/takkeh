@@ -51,7 +51,7 @@ class SpecialController extends Controller
     public function store(SpecialRequest $request)
     {
 
-        if (isset($request->resturant_id)) {
+        if (isset($request->resturant_id) && $request->resturant_id > 0) {
             $resturant = Restaurant::find($request->resturant_id);
             if (!$resturant) {
                 return $this->returnError('This resturant is not exists');
@@ -59,7 +59,9 @@ class SpecialController extends Controller
             $request['offerable_id']=$request->resturant_id;
             $request['offerable_type']=get_class($resturant);
             unset($request['resturant_id']);
-        }elseif (isset($request->product_id)) {
+        }
+
+        if (isset($request->product_id) && $request->product_id > 0) {
             $product = Product::find($request->product_id);
             if (!$product) {
                 return $this->returnError('This product is not exists');
