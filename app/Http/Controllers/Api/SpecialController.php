@@ -56,9 +56,14 @@ class SpecialController extends Controller
             if (!$resturant) {
                 return $this->returnError('This resturant is not exists');
             }
-            $request['offerable_id']=$request->resturant_id;
-            $request['offerable_type']=get_class($resturant);
+            $request['offerable_id'] = $request->resturant_id;
+            $request['offerable_type'] = get_class($resturant);
             unset($request['resturant_id']);
+            $special = $this->specialRepositry->saveSpecial($request->all());
+
+            if ($special) {
+                return $this->returnData('Special', SpecialResource::make($special), __('Special created succesfully'));
+            }
         }
 
         if (isset($request->product_id) && $request->product_id > 0) {
@@ -66,15 +71,16 @@ class SpecialController extends Controller
             if (!$product) {
                 return $this->returnError('This product is not exists');
             }
-            $request['offerable_id']=$request->product_id;
-            $request['offerable_type']=get_class($product);
+            $request['offerable_id'] = $request->product_id;
+            $request['offerable_type'] = get_class($product);
             unset($request['product_id']);
-        }
-        $special = $this->specialRepositry->saveSpecial($request->all());
+            $special = $this->specialRepositry->saveSpecial($request->all());
 
-        if ($special) {
-            return $this->returnData('Special', SpecialResource::make($special), __('Special created succesfully'));
+            if ($special) {
+                return $this->returnData('Special', SpecialResource::make($special), __('Special created succesfully'));
+            }
         }
+
 
         return $this->returnError(__('Sorry! Failed to create Special!'));
     }
@@ -108,6 +114,4 @@ class SpecialController extends Controller
 
         return $this->returnSuccessMessage(__('Delete Special succesfully!'));
     }
-
-
 }
