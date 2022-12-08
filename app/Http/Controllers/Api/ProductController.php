@@ -45,15 +45,16 @@ class ProductController extends ApiController
         if (!$resturant) {
             return $this->returnError('This resturant is not exists');
         }
+
         return $this->store($request);
     }
 
-    public function store($data)
+    public function store( $data )
     {
 
-
         DB::beginTransaction();
-
+        $data['name'] = ['en'=>$data['name_en'],'ar'=>$data['name_ar']];
+        $data['content'] = ['en'=>$data['content_en'],'ar'=>$data['content_ar']];
         $product = $this->repositry->save( $data );
 
         $groupRepo      = new Repository( app( Group::class ) );
@@ -61,13 +62,15 @@ class ProductController extends ApiController
 
         foreach ($data['groups'] as $group) {
             $group['product_id'] = $product->id;
-
+            $group['name'] = ['en'=>$group['name_en'],'ar'=>$group['name_ar']];
+            $group['type'] = ['en'=>$group['type_en'],'ar'=>$group['type_ar']];
             $model = $groupRepo->save( $group );
 
             // dd( $model );
 
             foreach ($group['items'] as $item) {
                 $item['group_id'] = $model['id'];
+                $item['name'] = ['en'=>$item['name_en'],'ar'=>$item['name_ar']];
                 $groupItemRepo->save($item);
             }
         }

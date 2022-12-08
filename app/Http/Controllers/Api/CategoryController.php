@@ -48,13 +48,12 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $category = $this->categoryRepositry->saveCategory($request);
+        $request['name'] = ['en'=>$request['name_en'],'ar'=>$request['name_ar']];
 
-        if ($category) {
-            return $this->returnData('Category', CategoryResource::make($category), __('Category created succesfully'));
-        }
+        $category = $this->categoryRepositry->saveCategory($request->except(['name_en','name_ar']));
 
-        return $this->returnError(__('Sorry! Failed to create Category!'));
+        return $this->returnData('Category', CategoryResource::make($category), __('Category created succesfully'));
+
     }
 
     /**

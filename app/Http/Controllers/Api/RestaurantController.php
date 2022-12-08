@@ -6,27 +6,16 @@ use App\Models\Tag;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Restaurant;
-use App\Models\ProductItem;
-use App\Models\Categoryable;
 use Illuminate\Http\Request;
 use App\Repositories\Repository;
 use App\Http\Resources\ResResource;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CatProResource;
 use App\Http\Controllers\ApiController;
-use App\Http\Resources\RevItemResource;
 use App\Http\Requests\RestaurantRequest;
-use App\Repositorys\RestaurantRepository;
 use Illuminate\Database\Eloquent\Builder;
-use App\Http\Resources\RestaurantResource;
-use App\Http\Resources\RestCatProResource;
-use App\Http\Resources\ProductItemResource;
-use App\Http\Resources\CategoryItemResource;
 use App\Http\Resources\ResturantInfoResource;
-use App\Http\Resources\ResturantrevsResource;
 use App\Http\Resources\ResturantRerviewResource;
 use App\Http\Resources\RestaurantProductsResource;
-use App\Models\Product;
 
 class RestaurantController extends ApiController
 {
@@ -48,7 +37,8 @@ class RestaurantController extends ApiController
      * @return void
      */
     public function save( RestaurantRequest $request ){
-        return $this->store( $request->all() );
+        $request['name'] = ['en'=>$request['name_en'],'ar'=>$request['name_ar']];
+        return $this->store( $request->except(['name_en','name_ar']) );
     }
 
     public function getPagination( Request $request )
@@ -89,8 +79,9 @@ class RestaurantController extends ApiController
         return $this->returnData('data', ResturantRerviewResource::collection($data), '');    }
 
     public function addCategory( Request $request ){
+        $request['name'] = ['en'=>$request['name_en'],'ar'=>$request['name_ar']];
 
-        $category   = $category   = new Category($request->except('restaurant_id'));
+        $category   = $category   = new Category($request->except(['restaurant_id','name_en','name_ar']));
         $restaurant = Restaurant::find( $request->restaurant_id );
 
         $restaurant->categories()->save($category);

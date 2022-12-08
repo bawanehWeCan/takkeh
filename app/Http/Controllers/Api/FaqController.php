@@ -20,7 +20,9 @@ class FaqController extends ApiController
     }
 
     public function save( FaqRequest $request ){
-        return $this->store( $request->all() );
+        $request['question'] = ['en'=>$request['question_en'],'ar'=>$request['question_ar']];
+        $request['answer'] = ['en'=>$request['answer_en'],'ar'=>$request['answer_ar']];
+        return $this->store( $request->except(['question_en','question_ar','answer_en','answer_ar']) );
     }
 
 }

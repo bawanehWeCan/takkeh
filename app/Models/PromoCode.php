@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+
 
 class PromoCode extends Model
 {
-    use HasFactory;
+    use HasFactory,HasTranslations;
     public $fillable = [
         'name',
         'code',
@@ -15,6 +17,7 @@ class PromoCode extends Model
         'value',
     ];
 
+    public $translatable = ['name'];
     public $timestamps = true;
 
     protected $table = 'promo_code';
