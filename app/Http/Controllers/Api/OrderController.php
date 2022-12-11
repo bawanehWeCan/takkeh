@@ -96,12 +96,11 @@ class OrderController extends Controller
 
         foreach ($drivers as $driver ) {
             # code...
-            $dis[]['driver_id'] = $driver->id;
-            $dis[]['dis'] = $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
+            $dis[ $driver->id ] = $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
         }
+        dd(  $dis);
 
-
-        echo min( $dis['dis'] );
+        echo min( $dis );
 
 
 
