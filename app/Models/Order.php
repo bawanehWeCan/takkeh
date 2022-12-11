@@ -25,4 +25,5 @@ class Order extends Model
     public function codes(){
         return $this->belongsToMany(PromoCode::class);
     }
+
 }

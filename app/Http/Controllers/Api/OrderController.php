@@ -82,17 +82,20 @@ class OrderController extends Controller
             array_push($fire, $fireItem);
         }
 
-        $driver = User::where('type', 'driver')->first();
+        $drivers = User::where('type', 'driver')->get();
 
-        echo "driver lat:" . $driver->lat . "\n";
-        echo "driver long:" . $driver->long . "\n";
+
         echo "user lat:" . $address->lat . "\n";
         echo "user long:" . $address->long . "\n";
         echo "res lat:" . $order->restaurant->lat . "\n";
         echo "res long:" . $order->restaurant->long . "\n";
 
 
-        echo "des bet driver and user:" . $this->distance($address->lat, $address->long, $driver->lat, $driver->long) . "in M\n";
+
+        foreach ($drivers as $driver ) {
+            # code...
+            print_r( "des bet " . $driver->name . " and res:" . $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long) ."\n");
+        }
 
 
 
