@@ -82,7 +82,7 @@ class OrderController extends Controller
             array_push($fire, $fireItem);
         }
 
-        $driver = User::find( $this->getNearByDriverID() );
+        $driver = User::find( $this->getNearByDriverID($order) );
 
 
         $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
@@ -187,7 +187,7 @@ class OrderController extends Controller
         return ($miles * 1.609344) * 1000;
     }
 
-    public function getNearByDriverID()
+    public function getNearByDriverID($order)
     {
         $drivers = User::where('type', 'driver')->get();
 
