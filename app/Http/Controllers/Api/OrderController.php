@@ -224,6 +224,6 @@ class OrderController extends Controller
                 $minValue = $key;
             }
         }
-        return $key;
+        return $minValue;
     }
 }
