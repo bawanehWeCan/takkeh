@@ -221,6 +221,7 @@ class OrderController extends Controller
         // get lowest or minimum value in array using foreach loop
 
         foreach ($arr as $val) {
+            dd($val);
             if ($minValue > $val['dis']) {
                 $minValue = $val['driver_id'];
             }
