@@ -82,7 +82,7 @@ class OrderController extends Controller
             array_push($fire, $fireItem);
         }
 
-        $driver = User::find( $this->getNearByDriverID );
+        $driver = User::find( $this->getNearByDriverID() );
 
 
         $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
