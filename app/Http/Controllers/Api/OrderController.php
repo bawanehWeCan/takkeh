@@ -198,7 +198,7 @@ class OrderController extends Controller
         $unit = strtoupper($unit);
 
 
-        $des = ($miles * 1.609344) * 1000;
+        return ($miles * 1.609344) * 1000;
 
     }
 }
