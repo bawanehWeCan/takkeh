@@ -96,7 +96,8 @@ class OrderController extends Controller
 
         foreach ($drivers as $driver) {
             # code...
-            $dis[$driver->id] = $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
+            $dis[]['dis'] = $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
+            $dis[]['driver_id'] = $driver->id;
 
             echo $driver->id . "   " . $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
         }
@@ -216,12 +217,12 @@ class OrderController extends Controller
 
     public function getMinValue($arr)
     {
-        $minValue = $arr[0];
+        $minValue = $arr[0]['dis'];
         // get lowest or minimum value in array using foreach loop
 
-        foreach ($arr as $key => $val) {
-            if ($minValue > $val) {
-                $minValue = $key;
+        foreach ($arr as $val) {
+            if ($minValue > $val['dis']) {
+                $minValue = $val['driver_id'];
             }
         }
         return $minValue;
