@@ -82,36 +82,7 @@ class OrderController extends Controller
             array_push($fire, $fireItem);
         }
 
-        $drivers = User::where('type', 'driver')->get();
-
-
-        echo "user lat:" . $address->lat . "\n";
-        echo "user long:" . $address->long . "\n";
-        echo "res lat:" . $order->restaurant->lat . "\n";
-        echo "res long:" . $order->restaurant->long . "\n";
-
-        $des = array();
-
-
-        $i = 0;
-        foreach ($drivers as $driver) {
-            # code...
-            $dis[$i]['dis'] = $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
-            $dis[$i]['driver_id'] = $driver->id;
-
-            echo $driver->id . "   " . $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
-            $i++;
-        }
-
-        $min =  $this->getMinValue($dis);
-
-
-        dd($min);
-
-
-
-
-        return;
+        $driver = User::find( $this->getNearByDriverID );
 
 
         $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
@@ -121,10 +92,10 @@ class OrderController extends Controller
             'delivery_fee' => 15,
             'discount' => 5,
 
-            'driver_id' => 0,
-            'driver_image' => '',
-            'driver_name' => '',
-            'driver_phone' => '',
+            'driver_id' => $driver->id,
+            'driver_image' =>$driver->image,
+            'driver_name' => $driver->name,
+            'driver_phone' => $driver->phone,
 
             'drop_point_address' => $address->name,
             'drop_point_id' => $user->id,
@@ -216,8 +187,23 @@ class OrderController extends Controller
         return ($miles * 1.609344) * 1000;
     }
 
-    public function getMinValue($arr)
+    public function getNearByDriverID()
     {
+        $drivers = User::where('type', 'driver')->get();
+
+        $arr = array();
+
+
+        $i = 0;
+        foreach ($drivers as $driver) {
+            # code...
+            $arr[$i]['dis'] = $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
+            $arr[$i]['driver_id'] = $driver->id;
+
+            echo $driver->id . "   " . $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
+            $i++;
+        }
+
         $minValue = $arr[0]['dis'];
         // get lowest or minimum value in array using foreach loop
 
