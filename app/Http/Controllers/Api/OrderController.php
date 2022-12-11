@@ -98,9 +98,9 @@ class OrderController extends Controller
             # code...
             $dis[ $driver->id ] = $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
         }
-        dd(  $dis);
+        $min =  min( $dis );
+        dd(  $min );
 
-        echo min( $dis );
 
 
 
