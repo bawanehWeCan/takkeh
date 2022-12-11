@@ -82,7 +82,7 @@ class OrderController extends Controller
             array_push($fire, $fireItem);
         }
 
-        $driver = User::where('type','driver')->first();
+        $driver = User::where('type', 'driver')->first();
 
         echo "driver lat:" . $driver->lat . "\n";
         echo "driver long:" . $driver->long . "\n";
@@ -92,7 +92,7 @@ class OrderController extends Controller
         echo "res long:" . $order->restaurant->long . "\n";
 
 
-        echo "des bet driver and user:" . $this->distance($address->lat,$address->long,$driver->lat,$driver->long) . "\n";
+        echo "des bet driver and user:" . $this->distance($address->lat, $address->long, $driver->lat, $driver->long) . "in M\n";
 
 
 
@@ -173,7 +173,7 @@ class OrderController extends Controller
             if ($request->status != $order->status) {
                 $order->update($request->except('order_id'));
 
-                dd( $user->name );
+                dd($user->name);
 
 
                 if ($order->status == 'pending') {
@@ -183,11 +183,12 @@ class OrderController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
 
-            dd( $th );
+            dd($th);
         }
     }
 
-    function distance($lat1, $lon1, $lat2, $lon2, $unit = 'k') {
+    function distance($lat1, $lon1, $lat2, $lon2, $unit = 'k')
+    {
 
         $theta = $lon1 - $lon2;
         $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
@@ -196,12 +197,8 @@ class OrderController extends Controller
         $miles = $dist * 60 * 1.1515;
         $unit = strtoupper($unit);
 
-        if ($unit == "K") {
-          return ($miles * 1.609344);
-        } else if ($unit == "N") {
-            return ($miles * 0.8684);
-          } else {
-              return $miles;
-            }
-      }
+
+        $des = ($miles * 1.609344) * 1000;
+
+    }
 }
