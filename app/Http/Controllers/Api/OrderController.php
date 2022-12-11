@@ -216,7 +216,7 @@ class OrderController extends Controller
 
     public function getMinValue($arr)
     {
-        $minValue = 10000000000000000000000001000000000000000000000000;
+        $minValue = $arr[0];
         // get lowest or minimum value in array using foreach loop
 
         foreach ($arr as $key => $val) {
