@@ -82,7 +82,16 @@ class OrderController extends Controller
             array_push($fire, $fireItem);
         }
 
-        print_r($address->lat, $address->long);
+        $driver = User::where('type','driver')->first();
+
+        echo "driver lat:" . $driver->lat . "\n";
+        echo "driver long:" . $driver->long . "\n";
+        echo "user lat:" . $address->lat . "\n";
+        echo "user long:" . $address->long . "\n";
+        echo "res lat:" . $order->restaurant->lat . "\n";
+        echo "res long:" . $order->restaurant->long . "\n";
+
+
 
         return;
 
