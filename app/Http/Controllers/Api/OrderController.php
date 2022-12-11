@@ -90,12 +90,17 @@ class OrderController extends Controller
         echo "res lat:" . $order->restaurant->lat . "\n";
         echo "res long:" . $order->restaurant->long . "\n";
 
+        $des = array();
+
 
 
         foreach ($drivers as $driver ) {
             # code...
-            print_r( "des bet " . $driver->name . " and res:" . $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long) ."\n");
+            $dis[ $driver->id ] = $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
         }
+
+
+        echo min( $dis );
 
 
 
