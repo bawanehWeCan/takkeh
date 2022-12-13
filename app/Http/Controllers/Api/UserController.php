@@ -12,6 +12,7 @@ use App\Http\Resources\WalletResource;
 use App\Http\Requests\RoleChangeRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -161,5 +162,35 @@ class UserController extends Controller
 
         return $this->returnData('user', UserResource::make($user), 'successful');
     }
+
+   public function updateStatusDriver(Request $request)
+   {
+
+    $driver=User::where('id',$request->driver_id)->first();
+
+    $driver->update([
+        'active' => $request->active_status,
+    ]);
+
+    return $this->returnData('driver', UserResource::make($driver), 'successful');
+
+
+   }
+
+
+   public function updateLatLong(Request $request)
+   {
+
+    $user=User::where('id',$request->user_id)->first();
+
+    $user->update([
+        'lat' => $request->lat,
+        'long' => $request->long,
+    ]);
+
+    return $this->returnData('user', UserResource::make($user), 'successful');
+
+
+   }
 
 }

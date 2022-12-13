@@ -48,6 +48,7 @@ Route::get('/home', [HomeController::class,'home']);
 //Auth
 Route::post('login', [AuthController::class, 'login']);
 
+
 Route::post('sociallogin', [AuthController::class, 'sociallogin']);
 
 Route::post('/user-reg', [AuthController::class, 'store']);
@@ -58,6 +59,12 @@ Route::post('/password-otb', [AuthController::class, 'password']);
 
 Route::post('change-password', [AuthController::class, 'changePassword']);
 
+
+//driver
+Route::post('update-active', [UserController::class, 'updateStatusDriver']);
+
+
+Route::post('update-latlong', [UserController::class, 'updateLatLong']);
 
 
 //Reviews

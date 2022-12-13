@@ -22,6 +22,9 @@ class UserResource extends JsonResource
             'email'             => $this->email,
             'device_token'      => $this->device_token,
             'image'             => (string)$this->image,
+            'active'            => $this->active,
+            'lat'               => $this->lat,
+            'long'              => $this->long,
         ];
     }
 }

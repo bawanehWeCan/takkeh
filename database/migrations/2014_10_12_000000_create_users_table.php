@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('lname')->nullable();
             $table->string('email')->unique();
             $table->string('phone');
+            $table->integer('active');
             $table->string('cover')->nullable();
             $table->string('image')->nullable();
             $table->string('location')->nullable();

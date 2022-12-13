@@ -163,7 +163,7 @@ class OrderController extends Controller
 
 
                 if ($order->status == 'pending') {
-                    $this->testSend(__('Your Order has been Successfully recived'), $user->name);
+                    $this->testSend(__('Your Order has been Successfully recived'), $user->name); //send noti function in trait
                 }
             }
         } catch (\Throwable $th) {
