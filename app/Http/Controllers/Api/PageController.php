@@ -32,7 +32,10 @@ class PageController extends ApiController
      * @return void
      */
     public function save( PageRequest $request ){
-        return $this->store( $request );
+        $request['title'] = ['en'=>$request['title_en'],'ar'=>$request['title_ar']];
+        $request['content'] = ['en'=>$request['content_en'],'ar'=>$request['content_ar']];
+
+        return $this->store( $request->except(['title_en','title_ar','content_en','content_ar']) );
     }
 
 }

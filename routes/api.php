@@ -172,7 +172,7 @@ Route::post('products/category/delete', [ProductController::class, 'deleteCatego
 
 
 
-Route::middleware(['auth:api'])->group(function () {
+// Route::middleware(['auth:api'])->group(function () {
 
 	Route::get('logout', [AuthController::class, 'logout']);
 	Route::post('user/token', [AuthController::class, 'updateDeviceToken']);
@@ -245,7 +245,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('notifications-create', [NotificationController::class, 'save']);
     Route::get('notifications/{id}', [NotificationController::class, 'view']);
     Route::get('notifications/delete/{id}', [NotificationController::class, 'delete']);
-});
+// });
 
 Route::get('country-list', [CountriesController::class, 'getCountries']);
 

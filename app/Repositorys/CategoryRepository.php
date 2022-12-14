@@ -45,11 +45,7 @@ class CategoryRepository
     public function saveCategory($data)
     {
 
-        $category = new $this->category;
-        $category->name = $data['name'];
-        $category->image = $data['image'];
-        $category->save();
-
+        $category = $this->category->create($data);
         return $category->fresh();
     }
 

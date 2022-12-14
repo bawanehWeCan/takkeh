@@ -40,7 +40,9 @@ class PromoCodeController extends ApiController
      * @return void
      */
     public function save( PromoCodeRequest $request ){
-        return $this->store( $request->all() );
+        $request['name'] = ['en'=>$request['name_en'],'ar'=>$request['name_ar']];
+
+        return $this->store( $request->except(['name_en','name_ar']) );
 
     }
 

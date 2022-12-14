@@ -25,9 +25,10 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required | string ',
+            'name_ar' => 'required | string ',
+            'name_en' => 'required | string ',
             'image' => 'required  ',
-            
+
         ];
     }
     protected function failedValidation(Validator $validator)
@@ -35,7 +36,7 @@ class CategoryRequest extends FormRequest
         $errors = (new ValidationException($validator))->errors();
 
         throw new HttpResponseException(
-            
+
             $this->returnValidationError($validator,422)
         );
     }

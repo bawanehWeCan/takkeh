@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class GroupItem extends Model
 {
-    use HasFactory;
+    use HasFactory,HasTranslations;
 
     public $fillable = ['name','price','group_id'];
+    public $translatable = ['name'];
+
 }

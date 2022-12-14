@@ -23,8 +23,8 @@ class TagController extends ApiController
     }
 
     public function save( TagRequest $request ){
-       
-        return $this->store( $request->all() );
+        $request['name'] = ['en'=>$request['name_en'],'ar'=>$request['name_ar']];
+        return $this->store( $request->except(['name_en','name_ar']) );
 
     }
 }

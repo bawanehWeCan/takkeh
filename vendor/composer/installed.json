@@ -1739,17 +1739,17 @@
         },
         {
             "name": "grpc/grpc",
-            "version": "1.38.0",
-            "version_normalized": "1.38.0.0",
+            "version": "1.42.0",
+            "version_normalized": "1.42.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grpc/grpc-php.git",
-                "reference": "e1687963fb0b087d0c70e75d3bfff9062eaeb215"
+                "reference": "9fa44f104cb92e924d4da547323a97f3d8aca6d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grpc/grpc-php/zipball/e1687963fb0b087d0c70e75d3bfff9062eaeb215",
-                "reference": "e1687963fb0b087d0c70e75d3bfff9062eaeb215",
+                "url": "https://api.github.com/repos/grpc/grpc-php/zipball/9fa44f104cb92e924d4da547323a97f3d8aca6d4",
+                "reference": "9fa44f104cb92e924d4da547323a97f3d8aca6d4",
                 "shasum": ""
             },
             "require": {
@@ -1762,7 +1762,7 @@
                 "ext-protobuf": "For better performance, install the protobuf C extension.",
                 "google/protobuf": "To get started using grpc quickly, install the native protobuf library."
             },
-            "time": "2021-05-24T20:45:41+00:00",
+            "time": "2021-11-19T08:13:51+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1780,7 +1780,7 @@
                 "rpc"
             ],
             "support": {
-                "source": "https://github.com/grpc/grpc-php/tree/v1.38.0"
+                "source": "https://github.com/grpc/grpc-php/tree/v1.42.0"
             },
             "install-path": "../grpc/grpc"
         },
@@ -8435,6 +8435,69 @@
             "install-path": "../spatie/laravel-ignition"
         },
         {
+            "name": "spatie/laravel-package-tools",
+            "version": "1.13.7",
+            "version_normalized": "1.13.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-package-tools.git",
+                "reference": "4af8e608184471b5568af6265ebb0ca0025c131a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/4af8e608184471b5568af6265ebb0ca0025c131a",
+                "reference": "4af8e608184471b5568af6265ebb0ca0025c131a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^9.28",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "orchestra/testbench": "^7.7",
+                "pestphp/pest": "^1.22",
+                "phpunit/phpunit": "^9.5.24",
+                "spatie/pest-plugin-test-time": "^1.1"
+            },
+            "time": "2022-11-15T09:10:09+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\LaravelPackageTools\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Tools for creating Laravel packages",
+            "homepage": "https://github.com/spatie/laravel-package-tools",
+            "keywords": [
+                "laravel-package-tools",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-package-tools/issues",
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.13.7"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../spatie/laravel-package-tools"
+        },
+        {
             "name": "spatie/laravel-permission",
             "version": "5.5.16",
             "version_normalized": "5.5.16.0",
@@ -8518,6 +8581,90 @@
                 }
             ],
             "install-path": "../spatie/laravel-permission"
+        },
+        {
+            "name": "spatie/laravel-translatable",
+            "version": "6.1.0",
+            "version_normalized": "6.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-translatable.git",
+                "reference": "b0ee6e06c666dcfb97fb1b4ff141b34e59806f13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-translatable/zipball/b0ee6e06c666dcfb97fb1b4ff141b34e59806f13",
+                "reference": "b0ee6e06c666dcfb97fb1b4ff141b34e59806f13",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.0",
+                "illuminate/support": "^9.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.11"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^7.0",
+                "pestphp/pest": "^1.20"
+            },
+            "time": "2022-10-21T08:44:08+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Translatable\\TranslatableServiceProvider"
+                    ]
+                },
+                "aliases": {
+                    "Translatable": "Spatie\\Translatable\\Facades\\Translatable"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Translatable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A trait to make an Eloquent model hold translations",
+            "homepage": "https://github.com/spatie/laravel-translatable",
+            "keywords": [
+                "eloquent",
+                "i8n",
+                "laravel-translatable",
+                "model",
+                "multilingual",
+                "spatie",
+                "translate"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-translatable/tree/6.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../spatie/laravel-translatable"
         },
         {
             "name": "stella-maris/clock",
