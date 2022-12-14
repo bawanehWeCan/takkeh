@@ -17,7 +17,7 @@ class CatProResource extends JsonResource
         return [
             "id"=>$this->id,
             "name"=>$this->name,
-            "products"=>ResCatProResource::collection($this->products),
+            "products"=>ResCatProResource::collection($this?->products),
         ];
     }
 }
