@@ -11,7 +11,7 @@ class Group extends Model
     use HasFactory,HasTranslations;
 
     public $fillable = ['name','type','product_id'];
-    public $translatable = ['name','type'];
+    public $translatable = ['name'];
 
 
 
