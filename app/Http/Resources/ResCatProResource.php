@@ -16,7 +16,7 @@ class ResCatProResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            // 'name'=>$this->name,
+            'name'=>$this->name,
             'image'=>$this->image,
             'sold_quantity'=>$this->sold_quantity,
             'description'=>$this?->content,
