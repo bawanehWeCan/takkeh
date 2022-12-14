@@ -18,7 +18,7 @@ class GroupResource extends JsonResource
             'id'=> $this->id,
             'name'=> $this->name,
             'type'=> $this->type,
-            'items'=> GroupItemResource::collection( $this->items ) ,
+            // 'items'=> GroupItemResource::collection( $this->items ) ,
         ];
     }
 }
