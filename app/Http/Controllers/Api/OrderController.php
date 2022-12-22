@@ -84,6 +84,10 @@ class OrderController extends Controller
 
         $driver = User::find( $this->getNearByDriverID($order) );
 
+        if( empty( $driver?->id )  ){
+            $driver = User::where('type','driver')->first();
+        }
+
 
         $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
         $stuRef->set([
