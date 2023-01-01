@@ -15,7 +15,7 @@ class RevItemResource extends JsonResource
     public function toArray($request)
     {
         $avg = $this->points;
-        $string = '';
+        $string =  $icon ='';
         if ($avg>=4 && $avg<=5) {
             $string = "خرافي";
             $icon = "5.svg";
