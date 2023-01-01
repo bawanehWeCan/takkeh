@@ -343,7 +343,7 @@ class AuthController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://82.212.81.40:8080/websmpp/websms",
+            CURLOPT_URL => "://82.212.81.40:8080/websmpp/websms",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
