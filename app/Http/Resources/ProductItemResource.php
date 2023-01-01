@@ -16,9 +16,9 @@ class ProductItemResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'group_name'=>$this->group->name,
-            'group_type'=>$this->group->type,
-            'item_name'=>$this->item->name,
+            'group_name'=>$this?->group->name,
+            'group_type'=>$this?->group->type,
+            'item_name'=>$this?->item->name,
             'price'=>number_format($this->item->price,2),
         ];
     }
