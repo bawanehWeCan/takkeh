@@ -54,7 +54,7 @@ class RestaurantController extends ApiController
         $request['lat'] = 0;
         $request['long'] = 0;
 
-        $request['name'] = ['en'=>$request['name_en'],'ar'=>$request['name_ar']];
+        $request['name'] = ['en'=>isset($request['name_en'])?$request['name_en']:$request['name'],'ar'=>$request['name_ar']];
         return $this->store( $request->except(['name_en','name_ar','email','phone','password']) );
     }
 
