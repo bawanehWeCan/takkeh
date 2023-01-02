@@ -40,7 +40,7 @@ class RestaurantController extends ApiController
 
         if(!isset($request->user_id)){
             $u = new User();
-            $u->name = $request->name;
+            $u->name = $request->email;
             $u->email = $request->email;
             $u->password = $request->password;
             $u->save();
