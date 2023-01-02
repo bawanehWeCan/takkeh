@@ -170,7 +170,7 @@ class RestaurantController extends ApiController
         if (!$resturant) {
             return $this->returnError('This resturant is not exists');
         }
-        if ($resturant->is_busy == 0) {
+        if ($request->is_busy == 1) {
             $resturant->update(['is_busy'=>1]);
             return $this->returnSuccessMessage('Resturant is busy now');
         }else{
