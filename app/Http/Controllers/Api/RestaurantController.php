@@ -42,6 +42,8 @@ class RestaurantController extends ApiController
             $u = new User();
             $u->name = $request->email;
             $u->email = $request->email;
+            $u->phone = $request->phone;
+            $u->type = 'restaurant';
             $u->password = $request->password;
             $u->save();
             $request['user_id'] = $u->id;
