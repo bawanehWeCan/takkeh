@@ -28,7 +28,7 @@ class SpecialResource extends JsonResource
                 'title'=>$r->name,
 
                 'logo'=>$r->logo,
-                'cover'=>$thris->cover,
+                'cover'=>$r->cover,
                 'review_icon'=>'img/cats/burger.svg',
                 'cost'=>'توصيل مجاني',
                 'time'=>$r->time,
