@@ -64,6 +64,7 @@ class ProductController extends ApiController
             $group['product_id'] = $product->id;
             $group['name'] = ['en'=>isset($group['name_en'])?$group['name_en']:$group['name'],'ar'=>isset($group['name_en'])?$group['name_en']:$group['name']];
             $group['type'] = ['en'=>isset($group['type_en'])?$group['type_en']:$group['type'],'ar'=>isset($group['type_en'])?$group['type_en']:$group['type']];
+            // $group['type'] = ['en'=>isset($group['type_en'])?$group['type_en']:$group['type'],'ar'=>isset($group['type_en'])?$group['type_en']:$group['type']];
             $model = $groupRepo->save( $group );
 
             // dd( $model );
