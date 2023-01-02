@@ -48,6 +48,12 @@ class RestaurantController extends ApiController
             $u->save();
             $request['user_id'] = $u->id;
         }
+        $request['is_busy'] = 0;
+        $request['description'] = 0;
+        $request['address'] = 0;
+        $request['lat'] = 0;
+        $request['long'] = 0;
+
         $request['name'] = ['en'=>$request['name_en'],'ar'=>$request['name_ar']];
         return $this->store( $request->except(['name_en','name_ar']) );
     }
