@@ -55,7 +55,7 @@ class RestaurantController extends ApiController
         $request['long'] = 0;
 
         $request['name'] = ['en'=>$request['name_en'],'ar'=>$request['name_ar']];
-        return $this->store( $request->except(['name_en','name_ar']) );
+        return $this->store( $request->except(['name_en','name_ar','email','phone','password']) );
     }
 
     public function getPagination( Request $request )
