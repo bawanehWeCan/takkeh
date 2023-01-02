@@ -53,8 +53,8 @@ class ProductController extends ApiController
     {
 
         DB::beginTransaction();
-        $data['name'] = ['en'=>$data['name_en'],'ar'=>$data['name_ar']];
-        $data['content'] = ['en'=>$data['content_en'],'ar'=>$data['content_ar']];
+        $data['name'] = ['en'=>isset($data['name_en'])?$data['name_en']:$data['name'],'ar'=>$data['name_ar']];
+        $data['content'] = ['en'=>isset($data['content_en'])?$data['content_en']:$data['name'],'ar'=>$data['content_ar']];
         $product = $this->repositry->save( $data );
 
         $groupRepo      = new Repository( app( Group::class ) );
@@ -62,15 +62,15 @@ class ProductController extends ApiController
 
         foreach ($data['groups'] as $group) {
             $group['product_id'] = $product->id;
-            $group['name'] = ['en'=>$group['name_en'],'ar'=>$group['name_ar']];
-            $group['type'] = ['en'=>$group['type_en'],'ar'=>$group['type_ar']];
+            $group['name'] = ['en'=>isset($group['name_en'])?$group['name_en']:$group['name'],'ar'=>$group['name_ar']];
+            $group['type'] = ['en'=>isset($group['type_en'])?$group['type_en']:$group['name'],'ar'=>$group['type_ar']];
             $model = $groupRepo->save( $group );
 
             // dd( $model );
 
             foreach ($group['items'] as $item) {
                 $item['group_id'] = $model['id'];
-                $item['name'] = ['en'=>$item['name_en'],'ar'=>$item['name_ar']];
+                $item['name'] = ['en'=>isset($item['name_en'])?$item['name_en']:$item['name'],'ar'=>$item['name_ar']];
                 $groupItemRepo->save($item);
             }
         }
