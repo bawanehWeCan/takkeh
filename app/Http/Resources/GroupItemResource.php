@@ -16,7 +16,7 @@ class GroupItemResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'name '=>$this->name,
+            'name'=>$this->name,
             'price'=>number_format($this->price,2),
         ];
     }
