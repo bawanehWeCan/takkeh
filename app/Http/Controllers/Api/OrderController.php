@@ -150,7 +150,8 @@ class OrderController extends Controller
         ]);
         $snapshot = $orderfire->snapshot();
         if ($snapshot->exists()) {
-           dd( $snapshot->data()->user_name );
+            $s = $snapshot->data();
+           dd( $s['user_name']);
         }
 
 
