@@ -65,9 +65,15 @@ class OrderController extends Controller
         $order->long = $request->long;
         $order->save();
 
+        $discount = 0;
+
         if( $order->codes()->first() ){
             $c = $order->codes()->first();
-            dd($c);
+            if( $c->type == 'Fixed' ){
+                $discount = $c->value;
+            }else{
+                $discount = ( $c->value / 100 ) * $order->total;
+            }
         }
 
 
@@ -90,9 +96,13 @@ class OrderController extends Controller
 
         $driver = User::find( $this->getNearByDriverID($order) );
 
+
+
         if( empty( $driver?->id )  ){
             $driver = User::where('type','driver')->first();
         }
+
+
 
 
         $stuRef = app('firebase.firestore')->database()->collection('orders')->document($order->id);
@@ -100,7 +110,7 @@ class OrderController extends Controller
 
             'created_at' => $order->created_at,
             'delivery_fee' => (double)$order->restaurant->delivery_fees,
-            'discount' => 0,
+            'discount' => $discount,
 
             'driver_id' => $driver->id,
             'driver_image' =>$driver->image,
@@ -114,7 +124,7 @@ class OrderController extends Controller
             'drop_point_phone' => $user->phone,
             'drop_point_position' => array('geohash' => $g->encode($address->lat, $address->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($address->lat, $address->long)),
 
-            'final_price' => $order->total,
+            'final_price' => $order->total - ( $discount + $order->restaurant->delivery_fees ) ,
             'note' => $order->note,
 
             'order_details' => $fire,
