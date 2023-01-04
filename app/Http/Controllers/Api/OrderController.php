@@ -105,8 +105,8 @@ class OrderController extends Controller
 
 
 
-        $stuRef = app('firebase.firestore')->database()->collection('orders')->document($order->id);
-        $stuRef->set([
+        $order = app('firebase.firestore')->database()->collection('orders')->document($order->id);
+        $order->set([
 
             'created_at' => $order->created_at,
             'delivery_fee' => (double)$order->restaurant->delivery_fees,
@@ -143,6 +143,19 @@ class OrderController extends Controller
             'tax' => 5,
             'total_price' => $order->total,
             'type' => 'restaurant',
+            'user_name' => $user->name,
+
+        ]);
+
+
+        $payment = app('firebase.firestore')->database()->collection('payments')->document($order->id);
+        $payment->set([
+
+            'date' => $order->created_at,
+            'order_id' => $order->id,
+            'method' => 'cash',
+            'status' => 'pending',
+            'amount' => $order->total - ( $discount + $order->restaurant->delivery_fees ),
             'user_name' => $user->name,
 
         ]);
