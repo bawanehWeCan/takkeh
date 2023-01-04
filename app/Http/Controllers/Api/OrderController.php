@@ -148,11 +148,11 @@ class OrderController extends Controller
             'user_name' => $user->name,
 
         ]);
-        $snapshot = $orderfire->snapshot();
-        if ($snapshot->exists()) {
-            $s = $snapshot->data();
-           dd( $s['user_name']);
-        }
+        // $snapshot = $orderfire->snapshot();
+        // if ($snapshot->exists()) {
+        //     $s = $snapshot->data();
+        //    dd( $s['user_name']);
+        // }
 
 
         $payment = app('firebase.firestore')->database()->collection('payments')->document($order->id);
@@ -168,6 +168,25 @@ class OrderController extends Controller
         ]);
 
         return $this->returnData('order', new OrderUpdateResource($order), '');
+    }
+
+    public function completeOrder (Request $request){
+        $orderfire = app('firebase.firestore')->database()->collection('orders')->document($request->order_id);
+
+        // $snapshot = $orderfire->snapshot();
+        // if ($snapshot->exists()) {
+        //     $s = $snapshot->data();
+        //    dd( $s['user_name']);
+        // }
+
+
+        $payment = app('firebase.firestore')->database()->collection('payments')->document($request->order_id);
+        $payment->set([
+
+            'status' => 'Paid',
+        ]);
+
+        return $this->returnSuccessMessage('done');
     }
 
     public function user_orders($length = 10)
