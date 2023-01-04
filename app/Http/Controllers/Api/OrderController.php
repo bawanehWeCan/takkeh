@@ -149,7 +149,7 @@ class OrderController extends Controller
 
         ]);
 
-        dd( $orderfire->get('user_name') );
+        dd( $orderfire );
 
 
         $payment = app('firebase.firestore')->database()->collection('payments')->document($order->id);
