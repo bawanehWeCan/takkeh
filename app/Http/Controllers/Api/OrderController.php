@@ -65,8 +65,8 @@ class OrderController extends Controller
         $order->long = $request->long;
         $order->save();
 
-        if( $order->codes ){
-            $c = $order->codes->first();
+        if( $order->codes() ){
+            $c = $order->codes()->first();
             dd($c);
         }
 
