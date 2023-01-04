@@ -148,8 +148,10 @@ class OrderController extends Controller
             'user_name' => $user->name,
 
         ]);
-
-        dd( $orderfire );
+        $snapshot = $orderfire->snapshot();
+        if ($snapshot->exists()) {
+           dd( $snapshot->data() );
+        }
 
 
         $payment = app('firebase.firestore')->database()->collection('payments')->document($order->id);
