@@ -105,8 +105,8 @@ class OrderController extends Controller
 
 
 
-        $order = app('firebase.firestore')->database()->collection('orders')->document($order->id);
-        $order->set([
+        $orderfire = app('firebase.firestore')->database()->collection('orders')->document($order->id);
+        $orderfire->set([
 
             'created_at' => $order->created_at,
             'delivery_fee' => (double)$order->restaurant->delivery_fees,
