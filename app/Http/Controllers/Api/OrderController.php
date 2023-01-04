@@ -87,11 +87,13 @@ class OrderController extends Controller
 
         $fire = $fireItem = array();
         foreach ($order->products as $product) {
+
             $fireItem['id'] = $product->id;
             $fireItem['name'] = $product->name;
             $fireItem['price'] = $product->price;
             $fireItem['quantity'] = $product->quantity;
             array_push($fire, $fireItem);
+
         }
 
         $driver = User::find( $this->getNearByDriverID($order) );
@@ -140,12 +142,14 @@ class OrderController extends Controller
             'pickup_point_position' => array('geohash' => $g->encode($order->restaurant->lat, $order->restaurant->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat, $order->restaurant->long)),
 
             'status' => 'hold',
-            'tax' => 5,
+            'tax' => 0,
             'total_price' => $order->total,
             'type' => 'restaurant',
             'user_name' => $user->name,
 
         ]);
+
+        dd( $orderfire->get('user_name') );
 
 
         $payment = app('firebase.firestore')->database()->collection('payments')->document($order->id);
