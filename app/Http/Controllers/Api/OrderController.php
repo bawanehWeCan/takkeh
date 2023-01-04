@@ -67,6 +67,7 @@ class OrderController extends Controller
 
 
 
+
         $address = Address::find($request->address_id);
 
         $g = new GeoHash();
@@ -89,12 +90,12 @@ class OrderController extends Controller
         }
 
 
-        $stuRef = app('firebase.firestore')->database()->collection('orders')->newDocument();
+        $stuRef = app('firebase.firestore')->database()->collection('orders')->document($order->id);
         $stuRef->set([
 
             'created_at' => $order->created_at,
-            'delivery_fee' => 15,
-            'discount' => 5,
+            'delivery_fee' => (double)$order->restaurant->delivery_fees,
+            'discount' => 0,
 
             'driver_id' => $driver->id,
             'driver_image' =>$driver->image,

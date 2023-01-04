@@ -160,6 +160,7 @@ return array(
     'App\\Models\\Tag' => $baseDir . '/app/Models/Tag.php',
     'App\\Models\\Tagable' => $baseDir . '/app/Models/Tagable.php',
     'App\\Models\\Transaction' => $baseDir . '/app/Models/Transaction.php',
+    'App\\Models\\Transfer' => $baseDir . '/app/Models/Transfer.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\Wallet' => $baseDir . '/app/Models/Wallet.php',
     'App\\Models\\Zone' => $baseDir . '/app/Models/Zone.php',
