@@ -126,7 +126,7 @@ class OrderController extends Controller
             'drop_point_phone' => $user->phone,
             'drop_point_position' => array('geohash' => $g->encode($address->lat, $address->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($address->lat, $address->long)),
 
-            'final_price' => $order->total - ( $discount + $order->restaurant->delivery_fees ) ,
+            'final_price' => $order->total - ( $discount  ) ,
             'note' => $order->note,
 
             'order_details' => $fire,
@@ -162,7 +162,7 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'method' => 'cash',
             'status' => 'pending',
-            'amount' => $order->total - ( $discount + $order->restaurant->delivery_fees ),
+            'amount' => $order->total - ( $discount ),
             'user_name' => $user->name,
 
         ]);
@@ -202,8 +202,20 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'method' => 'cash',
             'status' => 'paid',
-            'amount' => $order->total - ( $discount + $order->restaurant->delivery_fees ),
+            'amount' => $order->total - ( $discount  ),
             'user_name' => $user->name,
+
+        ]);
+
+
+        $respayouts = app('firebase.firestore')->database()->collection('payments')->document($request->order_id);
+        $respayouts->set([
+
+            'date' => $order->created_at,
+            'order_id' => $order->id,
+            'restaurant_name'=>$order->restaurant->name,
+            'status' => 'pending',
+            'amount' => $order->total - ( $discount + $order->restaurant->delivery_fees ),
 
         ]);
 
