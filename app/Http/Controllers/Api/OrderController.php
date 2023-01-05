@@ -171,7 +171,21 @@ class OrderController extends Controller
     }
 
     public function completeOrder (Request $request){
+        $order = Order::find( $request->order_id );
+        $user = User::find($order->user_id);
+
         $orderfire = app('firebase.firestore')->database()->collection('orders')->document($request->order_id);
+
+        $discount = 0;
+
+        if( $order->codes()->first() ){
+            $c = $order->codes()->first();
+            if( $c->type == 'Fixed' ){
+                $discount = $c->value;
+            }else{
+                $discount = ( $c->value / 100 ) * $order->total;
+            }
+        }
 
         // $snapshot = $orderfire->snapshot();
         // if ($snapshot->exists()) {
@@ -180,10 +194,17 @@ class OrderController extends Controller
         // }
 
 
+
         $payment = app('firebase.firestore')->database()->collection('payments')->document($request->order_id);
         $payment->set([
 
-            'status' => 'Paid',
+            'date' => $order->created_at,
+            'order_id' => $order->id,
+            'method' => 'cash',
+            'status' => 'pending',
+            'amount' => $order->total - ( $discount + $order->restaurant->delivery_fees ),
+            'user_name' => $user->name,
+
         ]);
 
         return $this->returnSuccessMessage('done');
