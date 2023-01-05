@@ -208,7 +208,7 @@ class OrderController extends Controller
         ]);
 
 
-        $respayouts = app('firebase.firestore')->database()->collection('payments')->document($request->order_id);
+        $respayouts = app('firebase.firestore')->database()->collection('res_payouts')->document($request->order_id);
         $respayouts->set([
 
             'date' => $order->created_at,
