@@ -107,6 +107,14 @@ class ProductController extends ApiController
 
     }
 
+    public function addImage( Request $request ){
+        $product = Product::find( $request->product_id );
+        $product->image = $request->image;
+        $product->save();
+
+        return $this->returnSuccessMessage('done');
+    }
+
     public function addCategory( Request $request ){
 
         $category   = Category::find( $request->category_id );

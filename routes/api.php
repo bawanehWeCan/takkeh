@@ -169,6 +169,7 @@ Route::get('products/{id}', [ProductController::class, 'view']);
 Route::get('products/delete/{id}', [ProductController::class, 'delete']);
 Route::post('products/category', [ProductController::class, 'addCategory']);
 Route::post('products/category/delete', [ProductController::class, 'deleteCategory']);
+Route::post('product-image', [ProductController::class, 'addImage']);
 
 
 
