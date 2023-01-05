@@ -26,6 +26,8 @@ class RestaurantProductsResource extends JsonResource
             'review_average'=>$this->review->avg('points'),
             'review'=>$this->review_title,
             'review_icon'=>$this->review_icon,
+            'phone'=>(double)$this->user->phone,
+
             "products"=>ResCatProResource::collection($this->products),
         ];
     }

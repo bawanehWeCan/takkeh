@@ -36,6 +36,8 @@ class ResturantInfoResource extends JsonResource
             'delivery_fee'=>(double)$this?->info?->delivery_fee,
             'sales_tax'=>(double)$this?->info?->sales_tax,
             'is_taxable'=>$this?->info?->is_taxable,
+            'phone'=>(double)$this->user->phone,
+
             'reviews' => RevItemResource::collection($this?->review)
 
         ];
