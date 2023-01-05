@@ -192,6 +192,8 @@ class UserController extends Controller
     public function addDriver( UserRequest $request ){
         $request['type'] = 'driver';
         $user = $this->userRepositry->saveUser($request);
+        $user->type = 'driver';
+        $user->save();
         if ($user) {
             $user->wallet()->create([
                 'name' => rand(0, 100000) . "_" . $user->name  . "_" . ($user->lname == null ? "wallet" : $user->lname) . "_" . Carbon::now()->year,
