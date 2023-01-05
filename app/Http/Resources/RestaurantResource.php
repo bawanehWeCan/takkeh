@@ -23,6 +23,7 @@ class RestaurantResource extends JsonResource
             'is_busy'=>$this->is_busy,
             'description'=>$this->description,
             'cost'=>(double)$this->cost,
+            'phone'=>(double)$this->user->phone,
             "reviews"=>ReviewResource::collection($this->review),
         ];
     }
