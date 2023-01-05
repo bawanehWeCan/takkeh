@@ -62,6 +62,8 @@ Route::post('change-password', [AuthController::class, 'changePassword']);
 
 //driver
 Route::post('update-active', [UserController::class, 'updateStatusDriver']);
+Route::post('add-driver', [UserController::class, 'addDriver']);
+Route::get('list-drivers', [UserController::class, 'list_driver']);
 
 
 Route::post('update-latlong', [UserController::class, 'updateLatLong']);

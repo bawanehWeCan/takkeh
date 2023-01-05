@@ -57,8 +57,8 @@ class UserController extends Controller
 
         if ($user) {
             $user->wallet()->create([
-                'name'=>rand(0,100000) . "_" . $user->name  . "_" . ($user->lname==null?"wallet":$user->lname) . "_" . Carbon::now()->year,
-                'user_id'=>$user->id
+                'name' => rand(0, 100000) . "_" . $user->name  . "_" . ($user->lname == null ? "wallet" : $user->lname) . "_" . Carbon::now()->year,
+                'user_id' => $user->id
             ]);
             return response([
                 $this->returnData('user', UserResource::make($user), __('User created succesfully')),
@@ -118,12 +118,12 @@ class UserController extends Controller
     }
 
 
-    public function updateUser(ProfileUpdateRequest $request,$id)
+    public function updateUser(ProfileUpdateRequest $request, $id)
     {
         $user = User::find($id);
         // check unique email except this user
         if (isset($request->email)) {
-            $check = User::where('email', $request->email)->where('email','!=',$user->email)
+            $check = User::where('email', $request->email)->where('email', '!=', $user->email)
                 ->first();
 
             if ($check) {
@@ -132,7 +132,7 @@ class UserController extends Controller
             }
         }
         if (isset($request->phone)) {
-            $check = User::where('phone', $request->phone)->where('phone','!=',$user->phone)
+            $check = User::where('phone', $request->phone)->where('phone', '!=', $user->phone)
                 ->first();
 
             if ($check) {
@@ -163,34 +163,50 @@ class UserController extends Controller
         return $this->returnData('user', UserResource::make($user), 'successful');
     }
 
-   public function updateStatusDriver(Request $request)
-   {
+    public function updateStatusDriver(Request $request)
+    {
 
-    $driver=User::where('id',$request->driver_id)->first();
+        $driver = User::where('id', $request->driver_id)->first();
 
-    $driver->update([
-        'active' => $request->active_status,
-    ]);
+        $driver->update([
+            'active' => $request->active_status,
+        ]);
 
-    return $this->returnData('driver', UserResource::make($driver), 'successful');
-
-
-   }
+        return $this->returnData('driver', UserResource::make($driver), 'successful');
+    }
 
 
-   public function updateLatLong(Request $request)
-   {
+    public function updateLatLong(Request $request)
+    {
 
-    $user=User::where('id',$request->user_id)->first();
+        $user = User::where('id', $request->user_id)->first();
 
-    $user->update([
-        'lat' => $request->lat,
-        'long' => $request->long,
-    ]);
+        $user->update([
+            'lat' => $request->lat,
+            'long' => $request->long,
+        ]);
 
-    return $this->returnData('user', UserResource::make($user), 'successful');
+        return $this->returnData('user', UserResource::make($user), 'successful');
+    }
 
+    public function addDriver( UserRequest $request ){
+        $request['type'] = 'driver';
+        $user = $this->userRepositry->saveUser($request);
+        if ($user) {
+            $user->wallet()->create([
+                'name' => rand(0, 100000) . "_" . $user->name  . "_" . ($user->lname == null ? "wallet" : $user->lname) . "_" . Carbon::now()->year,
+                'user_id' => $user->id
+            ]);
+            return response([
+                $this->returnData('user', UserResource::make($user), __('User created succesfully')),
+                $this->returnData('wallet', WalletResource::make($user->wallet), __('Wallet created succesfully')),
+            ]);
+        }
 
-   }
-
+        return $this->returnError(__('Sorry! Failed to create user!'));
+    }
+    public function list_driver( ){
+        $users = User::where( 'type','driver' )->get();
+        return $this->returnData('users', UserResource::collection($users), __('Succesfully'));
+    }
 }
