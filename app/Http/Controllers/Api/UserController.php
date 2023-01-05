@@ -197,10 +197,8 @@ class UserController extends Controller
                 'name' => rand(0, 100000) . "_" . $user->name  . "_" . ($user->lname == null ? "wallet" : $user->lname) . "_" . Carbon::now()->year,
                 'user_id' => $user->id
             ]);
-            return response([
-                $this->returnData('user', UserResource::make($user), __('User created succesfully')),
-                $this->returnData('wallet', WalletResource::make($user->wallet), __('Wallet created succesfully')),
-            ]);
+            return $this->returnData('user', UserResource::make($user), __('User created succesfully'));
+
         }
 
         return $this->returnError(__('Sorry! Failed to create user!'));
