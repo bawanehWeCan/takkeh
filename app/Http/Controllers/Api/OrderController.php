@@ -201,7 +201,7 @@ class OrderController extends Controller
             'date' => $order->created_at,
             'order_id' => $order->id,
             'method' => 'cash',
-            'status' => 'pending',
+            'status' => 'paid',
             'amount' => $order->total - ( $discount + $order->restaurant->delivery_fees ),
             'user_name' => $user->name,
 
