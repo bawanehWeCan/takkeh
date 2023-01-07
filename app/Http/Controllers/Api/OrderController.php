@@ -178,6 +178,14 @@ class OrderController extends Controller
 
         $discount = 0;
 
+        $driver = User::find( $this->getNearByDriverID($order) );
+
+
+
+        if( empty( $driver?->id )  ){
+            $driver = User::where('type','driver')->first();
+        }
+
         if( $order->codes()->first() ){
             $c = $order->codes()->first();
             if( $c->type == 'Fixed' ){
@@ -215,7 +223,18 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'restaurant_name'=>$order->restaurant->name,
             'status' => 'pending',
-            'amount' => $order->total - ( $discount + $order->restaurant->delivery_fees ),
+            'amount' => $order->total - ( $discount  ),
+
+        ]);
+
+        $respayouts = app('firebase.firestore')->database()->collection('delivery_payouts')->document($request->order_id);
+        $respayouts->set([
+
+            'date' => $order->created_at,
+            'order_id' => $order->id,
+            'driver_name'=>$driver->name,
+            'status' => 'pending',
+            'amount' => (double)$order->restaurant->delivery_fees,
 
         ]);
 

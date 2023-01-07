@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleChangeRequest;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
+use App\Models\Category;
 use App\Repositorys\CategoryRepository;
 use App\Traits\ResponseTrait;
 
@@ -36,7 +37,7 @@ class CategoryController extends Controller
      */
     public function list()
     {
-        $categories = $this->categoryRepositry->allCategorys();
+        $categories = Category::whereBetween('id',[ 1,16 ])->get();
         return $this->returnData('Categorys', CategoryResource::collection($categories), __('Succesfully'));
     }
 
