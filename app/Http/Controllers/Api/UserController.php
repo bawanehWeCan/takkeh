@@ -229,12 +229,12 @@ class UserController extends Controller
 
 
                 $orderfire = app('firebase.firestore')->database()->collection('orders')->document($order->id);
-                $orderfire->update([[
+                $orderfire->set([
                     'driver_id' => Auth::user()->id,
                     'driver_image' => Auth::user()->image,
                     'driver_name' => Auth::user()->name,
                     'driver_phone' => Auth::user()->phone,
-                ]]);
+                ], ['merge' => true]);
             }
         }
 
