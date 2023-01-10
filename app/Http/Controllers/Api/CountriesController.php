@@ -14,6 +14,9 @@ class CountriesController extends Controller
 
 
     public function getCountries(){
+
+        echo 'alaa';
+        return;
         $allCountries = Collect(json_decode(file_get_contents(asset("countries/_all_countries.json")), true));
         return $allCountries;
         $all=[];
