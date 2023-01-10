@@ -349,6 +349,8 @@ class OrderController extends Controller
         $rs = Reject::where('order_id', $order->id)->pluck('driver_id');
         $drivers = User::where('type', 'driver')->where('online', 1)->whereNotIn('id', $rs)->get();
 
+        dd( $drivers );
+
 
         $arr = array();
 
