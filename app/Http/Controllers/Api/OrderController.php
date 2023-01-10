@@ -122,9 +122,9 @@ class OrderController extends Controller
             'discount' => $discount,
 
             'driver_id' => $driver_id,
-            'driver_image' => $driver_id,
-            'driver_name' => $driver_id,
-            'driver_phone' => $driver_id,
+            'driver_image' => 'img/users/16729158931771.jpg',
+            'driver_name' => 'img/users/16729158931771.jpg',
+            'driver_phone' => 'img/users/16729158931771.jpg',
 
             'drop_point_address' => $address->name,
             'drop_point_id' => $user->id,
