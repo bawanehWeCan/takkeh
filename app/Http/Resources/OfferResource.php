@@ -48,27 +48,27 @@ class OfferResource extends JsonResource
         }
 
         $p = Product::find($this->offerable_id);
-        dd( $p );
+        // dd( $p );
         return [
             'id' => $this->id,
             'offerable_id' => $this->offerable_id,
             'offerable_type' => $this->offerable_type,
 
 
-            'restaurant_id' => $p?->r->id,
-            'title' => $p?->r->name,
+            'restaurant_id' => $p?->restaurant->id,
+            'title' => $p?->restaurant->name,
 
 
-            'logo' => $p?->r->logo,
-            'cover' => $p?->r->cover,
+            'logo' => $p?->restaurant->logo,
+            'cover' => $p?->restaurant->cover,
             'review_icon' => 'img/cats/burger.svg',
             'cost' => 'توصيل مجاني',
-            'time' => $p?->r->time,
-            'description' => $p?->r->description,
-            'is_busy' => $p?->r->is_busy,
-            'review_average' => $p?->r->review->avg('points'),
-            'review' => $p?->r->review_title,
-            'review_icon' => $p?->r->review_icon,
+            'time' => $p?->restaurant->time,
+            'description' => $p?->restaurant->description,
+            'is_busy' => $p?->restaurant->is_busy,
+            'review_average' => $p?->restaurant->review->avg('points'),
+            'review' => $p?->restaurant->review_title,
+            'review_icon' => $p?->restaurant->review_icon,
 
             'name' => $p->name,
             'content' => $p->content,
