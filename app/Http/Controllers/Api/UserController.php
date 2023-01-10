@@ -323,4 +323,48 @@ class UserController extends Controller
 
         return $this->returnSuccessMessage(__('Status changed successfully!'));
     }
+    function distance($lat1, $lon1, $lat2, $lon2, $unit = 'k')
+    {
+
+        $theta = $lon1 - $lon2;
+        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
+        $miles = $dist * 60 * 1.1515;
+        $unit = strtoupper($unit);
+
+
+        return ($miles * 1.609344) * 1000;
+    }
+
+    public function getNearByDriverID($order)
+    {
+        $drivers = User::where('type', 'driver')->where('online', 1)->get();
+
+
+        $arr = array();
+
+
+        $i = 0;
+        foreach ($drivers as $driver) {
+            # code...
+            $arr[$i]['dis'] = $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
+            $arr[$i]['driver_id'] = $driver->id;
+
+            // echo $driver->id . "   " . $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
+            $i++;
+        }
+
+        $minValue = $arr[0]['dis'];
+        // get lowest or minimum value in array using foreach loop
+
+        foreach ($arr as $val) {
+
+            if ($minValue > $val['dis']) {
+                $minValue = $val['driver_id'];
+            }
+        }
+
+        return $minValue;
+    }
 }
