@@ -370,7 +370,7 @@ class OrderController extends Controller
 
         foreach ($arr as $val) {
 
-            if ($minValue > $val['dis']) {
+            if ($minValue >= $val['dis']) {
                 $minValue = $val['driver_id'];
             }
         }
@@ -398,7 +398,7 @@ class OrderController extends Controller
             if (count($drivers) > 0) {
                 $driver = User::find($this->getSecoundNearByDriverID($order));
 
-                dd( $driver );
+                // dd( $driver );
 
                 if (!empty($driver?->id)) {
                     $driver_id = $driver->id;
