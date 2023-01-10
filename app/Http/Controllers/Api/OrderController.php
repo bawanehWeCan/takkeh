@@ -302,6 +302,9 @@ class OrderController extends Controller
     {
         $drivers = User::where('type', 'driver')->where('online',1)->get();
 
+        if( count($drivers) <= 0 ){
+            return 0;
+        }
         $arr = array();
 
 
@@ -324,6 +327,7 @@ class OrderController extends Controller
                 $minValue = $val['driver_id'];
             }
         }
+
         return $minValue;
     }
 }
