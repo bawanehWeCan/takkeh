@@ -277,7 +277,7 @@ class UserController extends Controller
                 $order->driver_id = $driver_id;
                 $order->save();
 
-                $orderfire = app('firebase.firestore')->database()->collection('orders')->document('$order->id')
+                $orderfire = app('firebase.firestore')->database()->collection('orders')->document($order->id)
                     ->update([
                         ['path' => 'driver_id', 'value' => Auth::user()->id],
                         ['path' => 'driver_image', 'value' => Auth::user()->image],
