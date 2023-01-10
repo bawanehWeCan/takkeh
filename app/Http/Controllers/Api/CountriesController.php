@@ -30,6 +30,8 @@ class CountriesController extends Controller
             }
         array_push($all,$data);
         }
+
+        return $all;
         foreach($all as $k => $country){
             if($country['code'] == 'PS'){
                 $out = array_splice($all, $k,1);
