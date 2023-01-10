@@ -22,6 +22,7 @@ class OrderResource extends JsonResource
             'driver_name'=>$this->user->name,
             'restaurant_id'=>$this->restaurant_id,
             'restaurant_name'=>$this->restaurant?->name,
+            'is_busy'=>$this->restaurant?->is_busy,
             'note'=>$this->note,
             'status'=>$this->status,
             'total'=>number_format($this->total,2),
