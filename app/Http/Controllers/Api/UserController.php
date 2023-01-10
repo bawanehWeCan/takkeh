@@ -220,7 +220,7 @@ class UserController extends Controller
         if ($request->online == 1) {
             $order = Order::where('driver_id', 0)->orderBy('id', 'desc')->first();
 
-            if (count($order) > 0) {
+            if ($order) {
                 $order->driver_id = Auth::user()->id;
                 $order->save();
 
