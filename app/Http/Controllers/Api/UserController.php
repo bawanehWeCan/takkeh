@@ -216,7 +216,9 @@ class UserController extends Controller
 
     public function updateOnline(Request $request)
     {
-        Auth::user()->online = $request->online;
+        $user = Auth::user();
+        $user->online = $request->online;
+        $user->save();
 
         if ($request->online == 1) {
 
