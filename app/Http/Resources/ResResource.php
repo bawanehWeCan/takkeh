@@ -19,6 +19,7 @@ class ResResource extends JsonResource
             'name'=>$this->name,
             'logo'=>$this->logo,
             'cover'=>$this->cover,
+            'phone'=>$this?->user?->phone,
             'review_icon'=>$this->review_icon,
             'cost'=>(double)$this->cost,
             'time'=>$this->time,
