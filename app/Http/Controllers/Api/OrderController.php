@@ -107,11 +107,8 @@ class OrderController extends Controller
             }
         }
 
-
-
-
-
-
+        $order->driver_id = $driver_id;
+        $order->save();
 
 
         $orderfire = app('firebase.firestore')->database()->collection('orders')->document($order->id);

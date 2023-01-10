@@ -11,8 +11,10 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
 use App\Http\Requests\RoleChangeRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Auth;
 
 class UserController extends Controller
 {
@@ -189,7 +191,8 @@ class UserController extends Controller
         return $this->returnData('user', UserResource::make($user), 'successful');
     }
 
-    public function addDriver( UserRequest $request ){
+    public function addDriver(UserRequest $request)
+    {
         $request['type'] = 'driver';
         $user = $this->userRepositry->saveUser($request);
         $user->type = 'driver';
@@ -200,13 +203,38 @@ class UserController extends Controller
                 'user_id' => $user->id
             ]);
             return $this->returnData('user', UserResource::make($user), __('User created succesfully'));
-
         }
 
         return $this->returnError(__('Sorry! Failed to create user!'));
     }
-    public function list_driver( ){
-        $users = User::where( 'type','driver' )->get();
+    public function list_driver()
+    {
+        $users = User::where('type', 'driver')->get();
         return $this->returnData('users', UserResource::collection($users), __('Succesfully'));
+    }
+
+    public function updateOnline(Request $request)
+    {
+        Auth::user()->online = $request->online;
+
+        if ($request->online == 1) {
+            $order = Order::where('driver_id', 0)->orderBy('id', 'desc')->first();
+
+            if (count($order) > 0) {
+                $order->driver_id = Auth::user()->id;
+                $order->save();
+
+
+                $orderfire = app('firebase.firestore')->database()->collection('orders')->document($order->id);
+                $orderfire->update([
+                    'driver_id' => Auth::user()->id,
+                    'driver_image' => Auth::user()->image,
+                    'driver_name' => Auth::user()->name,
+                    'driver_phone' => Auth::user()->phone,
+                ]);
+            }
+        }
+
+        return $this->returnSuccessMessage(__('Status changed successfully!'));
     }
 }
