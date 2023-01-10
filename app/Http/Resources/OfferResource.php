@@ -48,7 +48,7 @@ class OfferResource extends JsonResource
         }
 
         $p = Product::find($this->offerable_id);
-
+        dd( $p->r );
         return [
             'id' => $this->id,
             'offerable_id' => $this->offerable_id,
