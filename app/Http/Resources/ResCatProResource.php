@@ -21,6 +21,7 @@ class ResCatProResource extends JsonResource
             'sold_quantity'=>$this->sold_quantity,
             'description'=>$this?->content,
             'price'=>number_format($this->price,2),
+            'is_available'=>$this->available,
             'groups' => GroupResource::collection($this?->groups)
         ];
     }
