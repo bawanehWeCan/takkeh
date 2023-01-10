@@ -349,7 +349,7 @@ class OrderController extends Controller
         $rs = Reject::where('order_id', $order->id)->pluck('driver_id');
         $drivers = User::where('type', 'driver')->where('online', 1)->whereNotIn('id', $rs)->get();
 
-        dd( $drivers );
+        // dd( $drivers );
 
 
         $arr = array();
@@ -397,6 +397,8 @@ class OrderController extends Controller
 
             if (count($drivers) > 0) {
                 $driver = User::find($this->getSecoundNearByDriverID($order));
+
+                dd( $driver );
 
                 if (!empty($driver?->id)) {
                     $driver_id = $driver->id;
