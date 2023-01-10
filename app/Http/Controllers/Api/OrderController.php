@@ -63,7 +63,7 @@ class OrderController extends Controller
         $order = Order::find($request->order_id);
         $order->lat = $request->lat;
         $order->long = $request->long;
-        $order->address = $request->address_id;
+        $order->address_id = $request->address_id;
         $order->save();
 
         $discount = 0;
