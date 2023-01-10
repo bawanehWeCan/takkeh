@@ -17,7 +17,7 @@ class CountriesController extends Controller
     public function getCountries(){
 
 
-        $allCountries = Collect(json_decode(file_get_contents('https://takkeh.wecan.jo/public/countries/_all_countries.json'), true));
+        $allCountries = json_decode(file_get_contents('https://takkeh.wecan.jo/public/countries/_all_countries.json'));
         // $allCountries = Collect(json_decode(File::get(storage_path('countries/_all_countries.json')), true));
         return $allCountries;
         $all=[];
