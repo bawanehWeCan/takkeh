@@ -96,12 +96,14 @@ class OrderController extends Controller
 
         }
 
+        $driver_id = 0;
+
         $driver = User::find( $this->getNearByDriverID($order) );
 
 
 
-        if( empty( $driver?->id )  ){
-            return $this->update( $request );
+        if( !empty( $driver?->id )  ){
+            $driver_id = $driver->id;
         }
 
 
@@ -114,10 +116,10 @@ class OrderController extends Controller
             'delivery_fee' => (double)$order->restaurant->delivery_fees,
             'discount' => $discount,
 
-            'driver_id' => $driver->id,
-            'driver_image' =>$driver->image,
-            'driver_name' => $driver->name,
-            'driver_phone' => $driver->phone,
+            'driver_id' => $driver_id,
+            'driver_image' =>$driver_id,
+            'driver_name' => $driver_id,
+            'driver_phone' => $driver_id,
 
             'drop_point_address' => $address->name,
             'drop_point_id' => $user->id,
@@ -302,9 +304,7 @@ class OrderController extends Controller
     {
         $drivers = User::where('type', 'driver')->where('online',1)->get();
 
-        if( count($drivers) <= 0 ){
-            return 0;
-        }
+
         $arr = array();
 
 
