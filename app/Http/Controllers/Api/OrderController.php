@@ -101,7 +101,7 @@ class OrderController extends Controller
 
 
         if( empty( $driver?->id )  ){
-            $driver = User::where('type','driver')->first();
+            return $this->update( $request );
         }
 
 
@@ -300,7 +300,7 @@ class OrderController extends Controller
 
     public function getNearByDriverID($order)
     {
-        $drivers = User::where('type', 'driver')->get();
+        $drivers = User::where('type', 'driver')->where('online',1)->get();
 
         $arr = array();
 
