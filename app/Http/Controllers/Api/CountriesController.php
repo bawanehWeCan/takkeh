@@ -15,6 +15,7 @@ class CountriesController extends Controller
 
     public function getCountries(){
         $allCountries = Collect(json_decode(file_get_contents(public_path("countries/_all_countries.json")), true));
+        return $allCountries;
         $all=[];
         foreach ($allCountries as $key => $country) {
             if(!empty($country["independent"]["name_ar"])){
