@@ -245,7 +245,7 @@ class UserController extends Controller
 
 
 
-                $address = Address::find($request->address_id);
+                $address = Address::find($order->address_id);
 
                 $g = new GeoHash();
 
