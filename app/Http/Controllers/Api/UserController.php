@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use App\Helpers\GeoHash;
+
 class UserController extends Controller
 {
 
@@ -276,48 +277,53 @@ class UserController extends Controller
                 $order->driver_id = $driver_id;
                 $order->save();
 
+                $orderfire = app('firebase.firestore')->database()->collection('orders')->document('$order->id')
+                    ->update([
+                        ['driver_id' => Auth::user()->id, 'driver_image' => Auth::user()->image]
+                    ]);
 
-                $orderfire = app('firebase.firestore')->database()->collection('orders')->document($order->id);
-                $orderfire->set([
 
-                    'created_at' => $order->created_at,
-                    'delivery_fee' => (float)$order->restaurant->delivery_fees,
-                    'discount' => $discount,
+                // $orderfire = app('firebase.firestore')->database()->collection('orders')->document($order->id);
+                // $orderfire->set([
 
-                    'driver_id' => Auth::user()->id,
-                    'driver_image' => Auth::user()->image,
-                    'driver_name' => Auth::user()->name,
-                    'driver_phone' => Auth::user()->phone,
+                //     'created_at' => $order->created_at,
+                //     'delivery_fee' => (float)$order->restaurant->delivery_fees,
+                //     'discount' => $discount,
 
-                    'drop_point_address' => $address->name,
-                    'drop_point_id' => $user->id,
-                    'drop_point_image' => (string)$user->image,
-                    'drop_point_name' => $user->name,
-                    'drop_point_phone' => $user->phone,
-                    'drop_point_position' => array('geohash' => $g->encode($address->lat, $address->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($address->lat, $address->long)),
+                //     'driver_id' => Auth::user()->id,
+                //     'driver_image' => Auth::user()->image,
+                //     'driver_name' => Auth::user()->name,
+                //     'driver_phone' => Auth::user()->phone,
 
-                    'final_price' => $order->total - ($discount),
-                    'note' => $order->note,
+                //     'drop_point_address' => $address->name,
+                //     'drop_point_id' => $user->id,
+                //     'drop_point_image' => (string)$user->image,
+                //     'drop_point_name' => $user->name,
+                //     'drop_point_phone' => $user->phone,
+                //     'drop_point_position' => array('geohash' => $g->encode($address->lat, $address->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($address->lat, $address->long)),
 
-                    'order_details' => $fire,
+                //     'final_price' => $order->total - ($discount),
+                //     'note' => $order->note,
 
-                    'order_id' => $order->id,
-                    'payment_method' => 'cash',
+                //     'order_details' => $fire,
 
-                    'pickup_point_address' => $order->restaurant->address,
-                    'pickup_point_id' => $order->restaurant->id,
-                    'pickup_point_image' => $order->restaurant->logo,
-                    'pickup_point_name' => $order->restaurant->name,
-                    'pickup_point_phone' => $order->restaurant->user->phone,
-                    'pickup_point_position' => array('geohash' => $g->encode($order->restaurant->lat, $order->restaurant->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat, $order->restaurant->long)),
+                //     'order_id' => $order->id,
+                //     'payment_method' => 'cash',
 
-                    'status' => 'hold',
-                    'tax' => 0,
-                    'total_price' => $order->total,
-                    'type' => 'restaurant',
-                    'user_name' => $user->name,
+                //     'pickup_point_address' => $order->restaurant->address,
+                //     'pickup_point_id' => $order->restaurant->id,
+                //     'pickup_point_image' => $order->restaurant->logo,
+                //     'pickup_point_name' => $order->restaurant->name,
+                //     'pickup_point_phone' => $order->restaurant->user->phone,
+                //     'pickup_point_position' => array('geohash' => $g->encode($order->restaurant->lat, $order->restaurant->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat, $order->restaurant->long)),
 
-                ]);
+                //     'status' => 'hold',
+                //     'tax' => 0,
+                //     'total_price' => $order->total,
+                //     'type' => 'restaurant',
+                //     'user_name' => $user->name,
+
+                // ]);
             }
         }
 
