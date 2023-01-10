@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Product;
+use App\Models\Restaurant;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SpecialResource extends JsonResource
@@ -43,11 +45,36 @@ class SpecialResource extends JsonResource
             ];
         }
 
+        $p = Product::find($this->offerable_id);
+        // dd( $p );
         return [
-            'id'=>$this->id,
-            'image'=>$this->image,
-            'offerable_id'=>$this->offerable_id,
-            'offerable_type'=>$this->offerable_type,
+            'id' => $this->id,
+            'offerable_id' => $this->offerable_id,
+            'offerable_type' => $this->offerable_type,
+
+
+            'restaurant_id' => $p?->restaurant->id,
+            'title' => $p?->restaurant->name,
+
+
+            'logo' => $p?->restaurant->logo,
+            'cover' => $p?->restaurant->cover,
+            'review_icon' => 'img/cats/burger.svg',
+            'cost' => 'توصيل مجاني',
+            'time' => $p?->restaurant->time,
+            'description' => $p?->restaurant->description,
+            'is_busy' => $p?->restaurant->is_busy,
+            'review_average' => $p?->restaurant->review->avg('points'),
+            'review' => $p?->restaurant->review_title,
+            'review_icon' => $p?->restaurant->review_icon,
+
+            'name' => $p->name,
+            'content' => $p->content,
+            'image' => $p->image,
+            'is_available' => 1,
+            'price' => number_format($p->price, 2),
+            'categorise' => CategoryItemResource::collection($p->categories),
+            'groups' => GroupResource::collection($p->groups)
         ];
     }
 }
