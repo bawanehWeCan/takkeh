@@ -67,12 +67,12 @@ class OrderController extends Controller
 
         $discount = 0;
 
-        if( $order->codes()->first() ){
+        if ($order->codes()->first()) {
             $c = $order->codes()->first();
-            if( $c->type == 'Fixed' ){
+            if ($c->type == 'Fixed') {
                 $discount = $c->value;
-            }else{
-                $discount = ( $c->value / 100 ) * $order->total;
+            } else {
+                $discount = ($c->value / 100) * $order->total;
             }
         }
 
@@ -93,18 +93,23 @@ class OrderController extends Controller
             $fireItem['price'] = $product->price;
             $fireItem['quantity'] = $product->quantity;
             array_push($fire, $fireItem);
-
         }
 
         $driver_id = 0;
 
-        $driver = User::find( $this->getNearByDriverID($order) );
+        $drivers = User::where('type', 'driver')->where('online', 1)->get();
+
+        if (count($drivers) > 0) {
+            $driver = User::find($this->getNearByDriverID($order));
 
 
 
-        if( !empty( $driver?->id )  ){
-            $driver_id = $driver->id;
+            if (!empty($driver?->id)) {
+                $driver_id = $driver->id;
+            }
         }
+
+
 
 
 
@@ -113,11 +118,11 @@ class OrderController extends Controller
         $orderfire->set([
 
             'created_at' => $order->created_at,
-            'delivery_fee' => (double)$order->restaurant->delivery_fees,
+            'delivery_fee' => (float)$order->restaurant->delivery_fees,
             'discount' => $discount,
 
             'driver_id' => $driver_id,
-            'driver_image' =>$driver_id,
+            'driver_image' => $driver_id,
             'driver_name' => $driver_id,
             'driver_phone' => $driver_id,
 
@@ -128,7 +133,7 @@ class OrderController extends Controller
             'drop_point_phone' => $user->phone,
             'drop_point_position' => array('geohash' => $g->encode($address->lat, $address->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($address->lat, $address->long)),
 
-            'final_price' => $order->total - ( $discount  ) ,
+            'final_price' => $order->total - ($discount),
             'note' => $order->note,
 
             'order_details' => $fire,
@@ -150,6 +155,7 @@ class OrderController extends Controller
             'user_name' => $user->name,
 
         ]);
+
         // $snapshot = $orderfire->snapshot();
         // if ($snapshot->exists()) {
         //     $s = $snapshot->data();
@@ -164,7 +170,7 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'method' => 'cash',
             'status' => 'pending',
-            'amount' => $order->total - ( $discount ),
+            'amount' => $order->total - ($discount),
             'user_name' => $user->name,
 
         ]);
@@ -172,28 +178,29 @@ class OrderController extends Controller
         return $this->returnData('order', new OrderUpdateResource($order), '');
     }
 
-    public function completeOrder (Request $request){
-        $order = Order::find( $request->order_id );
+    public function completeOrder(Request $request)
+    {
+        $order = Order::find($request->order_id);
         $user = User::find($order->user_id);
 
         $orderfire = app('firebase.firestore')->database()->collection('orders')->document($request->order_id);
 
         $discount = 0;
 
-        $driver = User::find( $this->getNearByDriverID($order) );
+        $driver = User::find($this->getNearByDriverID($order));
 
 
 
-        if( empty( $driver?->id )  ){
-            $driver = User::where('type','driver')->first();
+        if (empty($driver?->id)) {
+            $driver = User::where('type', 'driver')->first();
         }
 
-        if( $order->codes()->first() ){
+        if ($order->codes()->first()) {
             $c = $order->codes()->first();
-            if( $c->type == 'Fixed' ){
+            if ($c->type == 'Fixed') {
                 $discount = $c->value;
-            }else{
-                $discount = ( $c->value / 100 ) * $order->total;
+            } else {
+                $discount = ($c->value / 100) * $order->total;
             }
         }
 
@@ -212,7 +219,7 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'method' => 'cash',
             'status' => 'paid',
-            'amount' => $order->total - ( $discount  ),
+            'amount' => $order->total - ($discount),
             'user_name' => $user->name,
 
         ]);
@@ -223,9 +230,9 @@ class OrderController extends Controller
 
             'date' => $order->created_at,
             'order_id' => $order->id,
-            'restaurant_name'=>$order->restaurant->name,
+            'restaurant_name' => $order->restaurant->name,
             'status' => 'pending',
-            'amount' => $order->total - ( $discount  ),
+            'amount' => $order->total - ($discount),
 
         ]);
 
@@ -234,9 +241,9 @@ class OrderController extends Controller
 
             'date' => $order->created_at,
             'order_id' => $order->id,
-            'driver_name'=>$driver->name,
+            'driver_name' => $driver->name,
             'status' => 'pending',
-            'amount' => (double)$order->restaurant->delivery_fees,
+            'amount' => (float)$order->restaurant->delivery_fees,
 
         ]);
 
@@ -302,7 +309,7 @@ class OrderController extends Controller
 
     public function getNearByDriverID($order)
     {
-        $drivers = User::where('type', 'driver')->where('online',1)->get();
+        $drivers = User::where('type', 'driver')->where('online', 1)->get();
 
 
         $arr = array();
