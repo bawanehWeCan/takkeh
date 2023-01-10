@@ -11,11 +11,12 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
 use App\Http\Requests\RoleChangeRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Address;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
-
+use App\Helpers\GeoHash;
 class UserController extends Controller
 {
 
@@ -222,19 +223,99 @@ class UserController extends Controller
             $order = Order::where('driver_id', 0)->orderBy('id', 'desc')->first();
 
 
-            if ( $order ) {
+            if ($order) {
 
                 $order->driver_id = Auth::user()->id;
                 $order->save();
 
 
+                $discount = 0;
+
+                if ($order->codes()->first()) {
+                    $c = $order->codes()->first();
+                    if ($c->type == 'Fixed') {
+                        $discount = $c->value;
+                    } else {
+                        $discount = ($c->value / 100) * $order->total;
+                    }
+                }
+
+
+
+
+                $address = Address::find($request->address_id);
+
+                $g = new GeoHash();
+
+                $user = User::find($order->user_id);
+
+                $fire = $fireItem = array();
+                foreach ($order->products as $product) {
+
+                    $fireItem['id'] = $product->id;
+                    $fireItem['name'] = $product->name;
+                    $fireItem['price'] = $product->price;
+                    $fireItem['quantity'] = $product->quantity;
+                    array_push($fire, $fireItem);
+                }
+
+                $driver_id = 0;
+
+                $drivers = User::where('type', 'driver')->where('online', 1)->get();
+
+                if (count($drivers) > 0) {
+                    $driver = User::find($this->getNearByDriverID($order));
+
+                    if (!empty($driver?->id)) {
+                        $driver_id = $driver->id;
+                    }
+                }
+
+                $order->driver_id = $driver_id;
+                $order->save();
+
+
                 $orderfire = app('firebase.firestore')->database()->collection('orders')->document($order->id);
                 $orderfire->set([
+
+                    'created_at' => $order->created_at,
+                    'delivery_fee' => (float)$order->restaurant->delivery_fees,
+                    'discount' => $discount,
+
                     'driver_id' => Auth::user()->id,
                     'driver_image' => Auth::user()->image,
                     'driver_name' => Auth::user()->name,
                     'driver_phone' => Auth::user()->phone,
-                ], ['merge' => true]);
+
+                    'drop_point_address' => $address->name,
+                    'drop_point_id' => $user->id,
+                    'drop_point_image' => (string)$user->image,
+                    'drop_point_name' => $user->name,
+                    'drop_point_phone' => $user->phone,
+                    'drop_point_position' => array('geohash' => $g->encode($address->lat, $address->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($address->lat, $address->long)),
+
+                    'final_price' => $order->total - ($discount),
+                    'note' => $order->note,
+
+                    'order_details' => $fire,
+
+                    'order_id' => $order->id,
+                    'payment_method' => 'cash',
+
+                    'pickup_point_address' => $order->restaurant->address,
+                    'pickup_point_id' => $order->restaurant->id,
+                    'pickup_point_image' => $order->restaurant->logo,
+                    'pickup_point_name' => $order->restaurant->name,
+                    'pickup_point_phone' => $order->restaurant->user->phone,
+                    'pickup_point_position' => array('geohash' => $g->encode($order->restaurant->lat, $order->restaurant->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat, $order->restaurant->long)),
+
+                    'status' => 'hold',
+                    'tax' => 0,
+                    'total_price' => $order->total,
+                    'type' => 'restaurant',
+                    'user_name' => $user->name,
+
+                ]);
             }
         }
 
