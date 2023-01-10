@@ -17,7 +17,7 @@ class OrderUpdateResource extends JsonResource
         return [
             'id'=>$this->id,
             'user_id'=>$this->user_id,
-            'driver_id'=>$this->user_id,
+            'driver_id'=>$this->driver_id,
             'user_name'=>$this->user->name,
             'driver_name'=>$this->user->name,
             'restaurant_id'=>$this->restaurant_id,

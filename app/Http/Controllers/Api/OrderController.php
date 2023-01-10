@@ -102,14 +102,12 @@ class OrderController extends Controller
         if (count($drivers) > 0) {
             $driver = User::find($this->getNearByDriverID($order));
 
-
-
             if (!empty($driver?->id)) {
                 $driver_id = $driver->id;
             }
         }
 
-        dd( $driver_id );
+
 
 
 
@@ -176,6 +174,9 @@ class OrderController extends Controller
             'user_name' => $user->name,
 
         ]);
+
+
+        $order['driver_id'] = $driver_id;
 
         return $this->returnData('order', new OrderUpdateResource($order), '');
     }
