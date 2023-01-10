@@ -40,8 +40,8 @@ class Product extends Model
         return $this->morphToMany( Category::class, 'categoryable' );
     }
 
-    public function r(){
-        return $this->belongsTo(Restaurant::class);
+    public function restaurant(){
+        return $this->belongsTo(Restaurant::class, 'restaurant_id');
     }
 
 }
