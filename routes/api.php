@@ -180,7 +180,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('update-online',[UserController::class,'updateOnline']);
 
 	Route::get('logout', [AuthController::class, 'logout']);
-	Route::post('user/token', [AuthController::class, 'updateDeviceToken']);
+	Route::post('user-token', [AuthController::class, 'updateDeviceToken']);
 
 	Route::get('profile', [AuthController::class, 'profile']);
 
