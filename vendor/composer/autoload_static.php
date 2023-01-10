@@ -1043,6 +1043,7 @@ class ComposerStaticInit19cee2b460902135a1a57057e41a7f9f
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
         'App\\Models\\ProductItem' => __DIR__ . '/../..' . '/app/Models/ProductItem.php',
         'App\\Models\\PromoCode' => __DIR__ . '/../..' . '/app/Models/PromoCode.php',
+        'App\\Models\\Reject' => __DIR__ . '/../..' . '/app/Models/Reject.php',
         'App\\Models\\Restaurant' => __DIR__ . '/../..' . '/app/Models/Restaurant.php',
         'App\\Models\\Review' => __DIR__ . '/../..' . '/app/Models/Review.php',
         'App\\Models\\Service' => __DIR__ . '/../..' . '/app/Models/Service.php',

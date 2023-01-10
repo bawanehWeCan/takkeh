@@ -152,6 +152,7 @@ return array(
     'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
     'App\\Models\\ProductItem' => $baseDir . '/app/Models/ProductItem.php',
     'App\\Models\\PromoCode' => $baseDir . '/app/Models/PromoCode.php',
+    'App\\Models\\Reject' => $baseDir . '/app/Models/Reject.php',
     'App\\Models\\Restaurant' => $baseDir . '/app/Models/Restaurant.php',
     'App\\Models\\Review' => $baseDir . '/app/Models/Review.php',
     'App\\Models\\Service' => $baseDir . '/app/Models/Service.php',

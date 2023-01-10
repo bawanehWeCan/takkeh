@@ -20,6 +20,7 @@ use App\Http\Resources\MyOrdersResource;
 use App\Http\Resources\OrderUpdateResource;
 use App\Models\Address;
 use App\Models\Product;
+use App\Models\Reject;
 use App\Repositories\Repository;
 use App\Traits\NotificationTrait;
 
@@ -64,9 +65,9 @@ class OrderController extends Controller
         $order->lat = $request->lat;
         $order->long = $request->long;
 
-         $order->address_id =  $request->address_id ;
+        $order->address_id =  $request->address_id;
 
-         $order->save();
+        $order->save();
 
 
         $discount = 0;
@@ -148,7 +149,7 @@ class OrderController extends Controller
             'pickup_point_name' => $order->restaurant->name,
             'pickup_point_phone' => $order->restaurant->user->phone,
             'pickup_point_position' => array('geohash' => $g->encode($order->restaurant->lat, $order->restaurant->long), 'geopoint' =>  new \Google\Cloud\Core\GeoPoint($order->restaurant->lat, $order->restaurant->long)),
-            'estimated_time'=>$order->restaurant->time,
+            'estimated_time' => $order->restaurant->time,
             'status' => 'hold',
             'tax' => 0,
             'total_price' => $order->total,
@@ -340,5 +341,79 @@ class OrderController extends Controller
         }
 
         return $minValue;
+    }
+
+
+    public function getSecoundNearByDriverID($order)
+    {
+        $rs = Reject::where('order_id', $order->id)->pluck('driver_id');
+        $drivers = User::where('type', 'driver')->where('online', 1)->whereNotIn('id', $rs)->get();
+
+
+        $arr = array();
+
+
+        $i = 0;
+        foreach ($drivers as $driver) {
+            # code...
+            $arr[$i]['dis'] = $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
+            $arr[$i]['driver_id'] = $driver->id;
+
+            // echo $driver->id . "   " . $this->distance($order->restaurant->lat, $order->restaurant->long, $driver->lat, $driver->long);
+            $i++;
+        }
+
+        $minValue = $arr[0]['dis'];
+        // get lowest or minimum value in array using foreach loop
+
+        foreach ($arr as $val) {
+
+            if ($minValue > $val['dis']) {
+                $minValue = $val['driver_id'];
+            }
+        }
+
+        return $minValue;
+    }
+
+    public function changeDriver(Request $request)
+    {
+        $r = new Reject();
+        $r->order_id = $request->order_id;
+        $r->driver_id = $request->driver_id;
+        $r->save();
+
+
+        $order = Order::find($request->order_id);
+
+
+        if ($order) {
+
+            $driver_id = 0;
+
+            $drivers = User::where('type', 'driver')->where('online', 1)->get();
+
+            if (count($drivers) > 0) {
+                $driver = User::find($this->getSecoundNearByDriverID($order));
+
+                if (!empty($driver?->id)) {
+                    $driver_id = $driver->id;
+                    $order->driver_id = $driver_id;
+                    $order->save();
+
+                    $orderfire = app('firebase.firestore')->database()->collection('orders')->document($order->id)
+                        ->update([
+                            ['path' => 'driver_id', 'value' => $driver?->id],
+                            ['path' => 'driver_image', 'value' => $driver?->image],
+                            ['path' => 'driver_name', 'value' => $driver?->name],
+                            ['path' => 'driver_phone', 'value' => $driver?->phone]
+                        ]);
+
+                        return $this->returnSuccessMessage('done');
+                } else {
+                    return $this->changeDriver($request);
+                }
+            }
+        }
     }
 }
