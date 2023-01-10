@@ -175,6 +175,8 @@ Route::post('product-image', [ProductController::class, 'addImage']);
 
 
 
+Route::post('change-driver',[UserController::class,'changeDriver']);
+
 Route::middleware(['auth:api'])->group(function () {
 
     Route::post('update-online',[UserController::class,'updateOnline']);
