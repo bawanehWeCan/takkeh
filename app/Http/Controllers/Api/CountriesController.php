@@ -7,6 +7,7 @@ use App\Traits\ResponseTrait;
 use PragmaRX\Countries\Package\Countries;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class CountriesController extends Controller
 {
@@ -16,7 +17,8 @@ class CountriesController extends Controller
     public function getCountries(){
 
 
-        $allCountries = Collect(json_decode((asset("countries/_all_countries.json")), true));
+        $allCountries = Collect(json_decode(file_get_contents(asset("countries/_all_countries.json")), true));
+        $allCountries = Collect(json_decode(File::get(asset('countries/_all_countries.json')), true));
         return $allCountries;
         $all=[];
         foreach ($allCountries as $key => $country) {
