@@ -17,8 +17,8 @@ class CountriesController extends Controller
     public function getCountries(){
 
 
-        $allCountries = Collect(json_decode(file_get_contents(asset("countries/_all_countries.json")), true));
-        $allCountries = Collect(json_decode(File::get(asset('countries/_all_countries.json')), true));
+        // $allCountries = Collect(json_decode(file_get_contents(asset("countries/_all_countries.json")), true));
+        $allCountries = Collect(json_decode(File::get(storage_path('countries/_all_countries.json')), true));
         return $allCountries;
         $all=[];
         foreach ($allCountries as $key => $country) {
