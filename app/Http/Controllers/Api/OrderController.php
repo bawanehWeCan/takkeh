@@ -123,7 +123,7 @@ class OrderController extends Controller
 
             'driver_id' => $driver_id,
             'driver_image' => 'img/users/16729158931771.jpg',
-            'driver_name' => 'img/users/16729158931771.jpg',
+            'driver_name' => 'Searching ...',
             'driver_phone' => 'img/users/16729158931771.jpg',
 
             'drop_point_address' => $address->name,
