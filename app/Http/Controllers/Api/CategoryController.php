@@ -9,7 +9,7 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Repositorys\CategoryRepository;
 use App\Traits\ResponseTrait;
-use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
