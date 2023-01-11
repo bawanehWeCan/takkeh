@@ -138,6 +138,9 @@ Route::post('restaurants-create', [RestaurantController::class, 'save']);
 Route::get('restaurants/{id}', [RestaurantController::class, 'view']);
 Route::get('restaurants/delete/{id}', [RestaurantController::class, 'delete']);
 
+Route::post('restaurants-edit/{id}', [RestaurantController::class, 'edit']);
+
+
 Route::post('restaurants/category', [RestaurantController::class, 'addCategory']);
 Route::post('restaurants/category/delete', [RestaurantController::class, 'deleteCategory']);
 
