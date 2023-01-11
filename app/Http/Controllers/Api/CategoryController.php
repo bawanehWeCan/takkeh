@@ -78,7 +78,9 @@ class CategoryController extends Controller
     public function edit( Request $request, $id ){
         $category = Category::find( $id );
 
-        $category->update( $request->all() );
+        $request['name'] = ['en'=>$request['name_en'],'ar'=>$request['name_ar']];
+
+        $category->update( $request->except(['name_en','name_ar']) );
 
         if ($category) {
             return $this->returnData('Category', CategoryResource::make($category), __('Get Category succesfully'));
