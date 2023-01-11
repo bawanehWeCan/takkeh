@@ -13,4 +13,9 @@ class GroupItem extends Model
     public $fillable = ['name','price','group_id'];
     public $translatable = ['name'];
 
+
+    public function group(){
+        return $this->belongsTo(Group::class);
+    }
+
 }
