@@ -58,6 +58,31 @@ class RestaurantController extends ApiController
         return $this->store( $request->except(['name_en','name_ar','email','phone','password']) );
     }
 
+    public function edit( Request $request, $id ){
+        $r = Restaurant::find( $id );
+
+
+        if(!isset($r->user_id)){
+            $u = User::find( $r->user_id );
+            $u->name = $request->email;
+            $u->email = $request->email;
+            $u->phone = $request->phone;
+            $u->type = 'restaurant';
+            $u->password = $request->password;
+            $u->save();
+        }
+        $request['is_busy'] = 0;
+        $request['description'] = 0;
+        $request['address'] = 0;
+        $request['lat'] = 0;
+        $request['long'] = 0;
+
+        $request['name'] = ['en'=>isset($request['name_en'])?$request['name_en']:$request['name'],'ar'=>$request['name_ar']];
+
+        $r->update( $request->except(['name_en','name_ar','email','phone','password']) );
+
+    }
+
     public function getPagination( Request $request )
     {
         $data =  $this->repositry->pagination(10);
