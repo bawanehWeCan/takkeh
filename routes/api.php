@@ -89,6 +89,9 @@ Route::post('category-create', [CategoryController::class, 'store']);
 Route::get('category/{id}', [CategoryController::class, 'profile']);
 Route::get('category/delete/{id}', [CategoryController::class, 'delete']);
 
+Route::post('category/{id}', [CategoryController::class, 'edit']);
+
+
 
 
 

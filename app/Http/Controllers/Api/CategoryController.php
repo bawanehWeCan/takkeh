@@ -9,6 +9,7 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Repositorys\CategoryRepository;
 use App\Traits\ResponseTrait;
+use GuzzleHttp\Psr7\Request;
 
 class CategoryController extends Controller
 {
@@ -66,6 +67,18 @@ class CategoryController extends Controller
     public function profile($id)
     {
         $category = $this->categoryRepositry->getCategoryByID($id);
+
+        if ($category) {
+            return $this->returnData('Category', CategoryResource::make($category), __('Get Category succesfully'));
+        }
+
+        return $this->returnError(__('Sorry! Failed to get Category!'));
+    }
+
+    public function edit( Request $request, $id ){
+        $category = Category::find( $id );
+
+        $category->update( $request->all() );
 
         if ($category) {
             return $this->returnData('Category', CategoryResource::make($category), __('Get Category succesfully'));
