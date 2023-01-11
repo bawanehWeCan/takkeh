@@ -13,6 +13,7 @@ use App\Http\Requests\AddressRequest;
 use App\Repositorys\AddressRepository;
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\AddressResource;
+use App\Models\User;
 use Exception;
 
 class AddressController extends ApiController
@@ -47,6 +48,16 @@ class AddressController extends ApiController
 
     public function user_address(){
         $address = Auth::user()?->addresses;
+
+        if (!$address) {
+            return $this->returnError(__('Sorry! Failed to get !'));
+        }
+        return $this->returnData('data',  $this->resource::collection( $address ), __('Get  succesfully'));
+    }
+
+
+    public function user_addresses( $user_id ){
+        $address = User::find($user_id)?->addresses;
 
         if (!$address) {
             return $this->returnError(__('Sorry! Failed to get !'));

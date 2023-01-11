@@ -219,12 +219,15 @@ Route::middleware(['auth:api'])->group(function () {
 		Route::get('/permission/delete/{id}', [PermissionController::class, 'delete']);
 	});
 
+
+
     // Address
     Route::get('address', [AddressController::class, 'pagination']);
     Route::post('address-create', [AddressController::class, 'save']);
     Route::get('address/{id}', [AddressController::class, 'view']);
     Route::get('address/delete/{id}', [AddressController::class, 'delete']);
     Route::get('my-address', [AddressController::class, 'user_address']);
+    Route::get('user-address/{user_id}', [AddressController::class, 'user_addresses']);
 
     //only those have manage_user permission will get access
     Route::get('promo-code', [PromoCodeController::class, 'list']);
