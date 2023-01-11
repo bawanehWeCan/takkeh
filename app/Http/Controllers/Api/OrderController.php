@@ -186,8 +186,8 @@ class OrderController extends Controller
     public function completeOrder(Request $request)
     {
         $order = Order::find($request->order_id);
-        $order->status= 'complete';
-        if( $order->driver_id == 0 ){
+        $order->status = 'completed';
+        if ($order->driver_id == 0) {
             $order->driver_id = 15415551;
         }
         $order->save();
@@ -219,6 +219,11 @@ class OrderController extends Controller
         //     $s = $snapshot->data();
         //    dd( $s['user_name']);
         // }
+
+        $orderfire = app('firebase.firestore')->database()->collection('orders')->document($order->id)
+            ->update([
+                ['path' => 'status', 'value' => 'completed'],
+            ]);
 
 
 
@@ -418,7 +423,7 @@ class OrderController extends Controller
                             ['path' => 'driver_phone', 'value' => $driver?->phone]
                         ]);
 
-                        return $this->returnSuccessMessage('done');
+                    return $this->returnSuccessMessage('done');
                 } else {
                     return $this->returnSuccessMessage('No avilable driver');
                 }
