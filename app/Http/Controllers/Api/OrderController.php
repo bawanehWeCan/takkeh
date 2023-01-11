@@ -335,7 +335,7 @@ class OrderController extends Controller
 
         foreach ($arr as $val) {
 
-            if ($minValue > $val['dis']) {
+            if ($minValue >= $val['dis']) {
                 $minValue = $val['driver_id'];
             }
         }
