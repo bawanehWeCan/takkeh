@@ -101,6 +101,9 @@ class OrderController extends Controller
         }
 
         $driver_id = 0;
+        $driver_name = '';
+        $driver_image = '';
+        $driver_phone = '';
 
         $drivers = User::where('type', 'driver')->where('online', 1)->get();
 
@@ -109,6 +112,9 @@ class OrderController extends Controller
 
             if (!empty($driver?->id)) {
                 $driver_id = $driver->id;
+                $driver_name = $driver->name;
+                $driver_image = $driver->image;
+                $driver_phone = $driver->phone;
             }
         }
 
@@ -124,9 +130,9 @@ class OrderController extends Controller
             'discount' => $discount,
 
             'driver_id' => $driver_id,
-            'driver_image' => 'img/users/16729158931771.jpg',
-            'driver_name' => 'Searching ...',
-            'driver_phone' => 'img/users/16729158931771.jpg',
+            'driver_image' => $driver_image,
+            'driver_name' => $driver_name,
+            'driver_phone' => $driver_phone,
 
             'drop_point_address' => $address->name,
             'drop_point_id' => $user->id,
