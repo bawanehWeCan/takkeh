@@ -81,6 +81,8 @@ class RestaurantController extends ApiController
 
         $r->update( $request->except(['name_en','name_ar','email','phone','password']) );
 
+        return $this->returnData( 'data' , new $this->resource( $r ), __('Succesfully'));
+
     }
 
     public function getPagination( Request $request )
