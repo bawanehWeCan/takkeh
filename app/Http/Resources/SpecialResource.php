@@ -28,7 +28,7 @@ class SpecialResource extends JsonResource
 
                 'restaurant_id'=>$r->id,
                 'title'=>$r->name,
-
+                'phone'=>$r?->user?->phone,
                 'logo'=>$r->logo,
                 'cover'=>$r->cover,
                 'review_icon'=>'img/cats/burger.svg',
@@ -55,8 +55,8 @@ class SpecialResource extends JsonResource
 
             'restaurant_id' => $p?->restaurant->id,
             'title' => $p?->restaurant->name,
-
-
+            'phone'=>$p?->restaurant?->user?->phone,
+            'route'=>'restaurant_product',
             'logo' => $p?->restaurant->logo,
             'cover' => $p?->restaurant->cover,
             'review_icon' => 'img/cats/burger.svg',

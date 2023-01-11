@@ -22,7 +22,7 @@ class CartItemResource extends JsonResource
             'quantity'=>$this->quantity,
             // 'size_id'=>$this->size_id,
             // 'size'=>$this->size->name,
-             'items'=> ProductItemResource::collection($this->items) ,
+            'items'=> ProductItemResource::collection($this->items) ,
             'note'=>$this->note,
             'area'=>$this->area,
             'price'=>number_format($this->price,2),

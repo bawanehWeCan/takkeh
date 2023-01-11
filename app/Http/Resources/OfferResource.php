@@ -30,7 +30,7 @@ class OfferResource extends JsonResource
 
                 'restaurant_id' => $r->id,
                 'title' => $r->name,
-
+                'phone'=>$r?->user?->phone,
                 'logo' => $r->logo,
                 'cover' => $r->cover,
                 'review_icon' => 'img/cats/burger.svg',
@@ -57,7 +57,7 @@ class OfferResource extends JsonResource
 
             'restaurant_id' => $p?->restaurant->id,
             'title' => $p?->restaurant->name,
-
+            'route'=> 'restaurant_product',
 
             'logo' => $p?->restaurant->logo,
             'cover' => $p?->restaurant->cover,
@@ -69,7 +69,7 @@ class OfferResource extends JsonResource
             'review_average' => $p?->restaurant->review->avg('points'),
             'review' => $p?->restaurant->review_title,
             'review_icon' => $p?->restaurant->review_icon,
-
+            'phone'=>$p?->restaurant?->user?->phone,
             'name' => $p->name,
             'content' => $p->content,
             'image' => $p->image,
