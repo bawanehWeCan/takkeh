@@ -39,6 +39,7 @@ class SpecialResource extends JsonResource
             'id' => $this->id,
             'offerable_id' => $this->offerable_id,
             'offerable_type' => $this->offerable_type,
+            'image' => $this->image,
 
 
             'restaurant_id' => $p?->restaurant->id,
