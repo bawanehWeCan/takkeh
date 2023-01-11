@@ -48,13 +48,7 @@ class OfferResource extends JsonResource
             'route'=> 'restaurant_product',
 
 
-            'name' => $p->name,
-            'content' => $p->content,
-            'image' => $p->image,
-            'is_available' => 1,
-            'price' => number_format($p->price, 2),
-            'categorise' => CategoryItemResource::collection($p->categories),
-            'groups' => GroupResource::collection($p->groups)
+            'product'=> new ProductResource( $p )
         ];
     }
 }
