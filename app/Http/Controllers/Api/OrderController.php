@@ -186,6 +186,11 @@ class OrderController extends Controller
     public function completeOrder(Request $request)
     {
         $order = Order::find($request->order_id);
+        $order->status= 'complete';
+        if( $order->driver_id == 0 ){
+            $order->driver_id = 15415551;
+        }
+        $order->save();
         $user = User::find($order->user_id);
 
         $orderfire = app('firebase.firestore')->database()->collection('orders')->document($request->order_id);
