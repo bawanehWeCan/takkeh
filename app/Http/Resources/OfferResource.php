@@ -28,19 +28,7 @@ class OfferResource extends JsonResource
                 'offerable_id' => $this->offerable_id,
                 'offerable_type' => $this->offerable_type,
 
-                'restaurant_id' => $r->id,
-                'title' => $r->name,
-                'phone'=>$r?->user?->phone,
-                'logo' => $r->logo,
-                'cover' => $r->cover,
-                'review_icon' => 'img/cats/burger.svg',
-                'cost' => 'توصيل مجاني',
-                'time' => $r->time,
-                'description' => $r->description,
-                'is_busy' => $r->is_busy,
-                'review_average' => $r->review->avg('points'),
-                'review' => $r->review_title,
-                'review_icon' => $r->review_icon,
+                'restaurant'=> new ResturantInfoResource( $r ),
 
                 'route' => 'restaurant',
 
@@ -56,20 +44,10 @@ class OfferResource extends JsonResource
 
 
             'restaurant_id' => $p?->restaurant->id,
-            'title' => $p?->restaurant->name,
+            'restaurant'=> new ResturantInfoResource( $p?->restaurant ),
             'route'=> 'restaurant_product',
 
-            'logo' => $p?->restaurant->logo,
-            'cover' => $p?->restaurant->cover,
-            'review_icon' => 'img/cats/burger.svg',
-            'cost' => 'توصيل مجاني',
-            'time' => $p?->restaurant->time,
-            'description' => $p?->restaurant->description,
-            'is_busy' => $p?->restaurant->is_busy,
-            'review_average' => $p?->restaurant->review->avg('points'),
-            'review' => $p?->restaurant->review_title,
-            'review_icon' => $p?->restaurant->review_icon,
-            'phone'=>$p?->restaurant?->user?->phone,
+
             'name' => $p->name,
             'content' => $p->content,
             'image' => $p->image,
